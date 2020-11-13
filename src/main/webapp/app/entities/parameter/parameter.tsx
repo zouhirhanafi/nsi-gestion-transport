@@ -107,6 +107,12 @@ export const Parameter = (props: IParameterProps) => {
                 <th className="hand" onClick={sort('ordre')}>
                   <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th>
+                  <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -126,6 +132,8 @@ export const Parameter = (props: IParameterProps) => {
                   <td>{parameter.val2}</td>
                   <td>{parameter.val3}</td>
                   <td>{parameter.ordre}</td>
+                  <td>{parameter.type ? <Link to={`parameter/${parameter.type.id}`}>{parameter.type.id}</Link> : ''}</td>
+                  <td>{parameter.paraent ? <Link to={`parameter/${parameter.paraent.id}`}>{parameter.paraent.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${parameter.id}`} color="info" size="sm">

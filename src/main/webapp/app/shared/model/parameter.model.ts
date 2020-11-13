@@ -8,6 +8,8 @@ export interface IParameter {
   val2?: string;
   val3?: string;
   ordre?: number;
+  type?: IParameter;
+  paraent?: IParameter;
 }
 
 export const defaultValue: Readonly<IParameter> = {};

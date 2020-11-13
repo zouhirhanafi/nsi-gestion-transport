@@ -42,6 +42,10 @@ public class ParameterCriteria implements Serializable, Criteria {
 
     private IntegerFilter ordre;
 
+    private LongFilter typeId;
+
+    private LongFilter paraentId;
+
     public ParameterCriteria() {
     }
 
@@ -55,6 +59,8 @@ public class ParameterCriteria implements Serializable, Criteria {
         this.val2 = other.val2 == null ? null : other.val2.copy();
         this.val3 = other.val3 == null ? null : other.val3.copy();
         this.ordre = other.ordre == null ? null : other.ordre.copy();
+        this.typeId = other.typeId == null ? null : other.typeId.copy();
+        this.paraentId = other.paraentId == null ? null : other.paraentId.copy();
     }
 
     @Override
@@ -134,6 +140,22 @@ public class ParameterCriteria implements Serializable, Criteria {
         this.ordre = ordre;
     }
 
+    public LongFilter getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(LongFilter typeId) {
+        this.typeId = typeId;
+    }
+
+    public LongFilter getParaentId() {
+        return paraentId;
+    }
+
+    public void setParaentId(LongFilter paraentId) {
+        this.paraentId = paraentId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -153,7 +175,9 @@ public class ParameterCriteria implements Serializable, Criteria {
             Objects.equals(val1, that.val1) &&
             Objects.equals(val2, that.val2) &&
             Objects.equals(val3, that.val3) &&
-            Objects.equals(ordre, that.ordre);
+            Objects.equals(ordre, that.ordre) &&
+            Objects.equals(typeId, that.typeId) &&
+            Objects.equals(paraentId, that.paraentId);
     }
 
     @Override
@@ -167,7 +191,9 @@ public class ParameterCriteria implements Serializable, Criteria {
         val1,
         val2,
         val3,
-        ordre
+        ordre,
+        typeId,
+        paraentId
         );
     }
 
@@ -184,6 +210,8 @@ public class ParameterCriteria implements Serializable, Criteria {
                 (val2 != null ? "val2=" + val2 + ", " : "") +
                 (val3 != null ? "val3=" + val3 + ", " : "") +
                 (ordre != null ? "ordre=" + ordre + ", " : "") +
+                (typeId != null ? "typeId=" + typeId + ", " : "") +
+                (paraentId != null ? "paraentId=" + paraentId + ", " : "") +
             "}";
     }
 

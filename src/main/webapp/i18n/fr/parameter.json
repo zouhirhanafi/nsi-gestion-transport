@@ -23,7 +23,9 @@
       "val1": "Val 1",
       "val2": "Val 2",
       "val3": "Val 3",
-      "ordre": "Ordre"
+      "ordre": "Ordre",
+      "type": "Type",
+      "paraent": "Paraent"
     }
   }
 }

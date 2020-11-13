@@ -2,6 +2,7 @@ package ma.nsi.web.rest;
 
 import ma.nsi.GestionTransportApp;
 import ma.nsi.domain.Parameter;
+import ma.nsi.domain.Parameter;
 import ma.nsi.repository.ParameterRepository;
 import ma.nsi.service.ParameterService;
 import ma.nsi.service.dto.ParameterCriteria;
@@ -870,6 +871,46 @@ public class ParameterResourceIT {
 
         // Get all the parameterList where ordre is greater than SMALLER_ORDRE
         defaultParameterShouldBeFound("ordre.greaterThan=" + SMALLER_ORDRE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllParametersByTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        parameterRepository.saveAndFlush(parameter);
+        Parameter type = ParameterResourceIT.createEntity(em);
+        em.persist(type);
+        em.flush();
+        parameter.setType(type);
+        parameterRepository.saveAndFlush(parameter);
+        Long typeId = type.getId();
+
+        // Get all the parameterList where type equals to typeId
+        defaultParameterShouldBeFound("typeId.equals=" + typeId);
+
+        // Get all the parameterList where type equals to typeId + 1
+        defaultParameterShouldNotBeFound("typeId.equals=" + (typeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllParametersByParaentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        parameterRepository.saveAndFlush(parameter);
+        Parameter paraent = ParameterResourceIT.createEntity(em);
+        em.persist(paraent);
+        em.flush();
+        parameter.setParaent(paraent);
+        parameterRepository.saveAndFlush(parameter);
+        Long paraentId = paraent.getId();
+
+        // Get all the parameterList where paraent equals to paraentId
+        defaultParameterShouldBeFound("paraentId.equals=" + paraentId);
+
+        // Get all the parameterList where paraent equals to paraentId + 1
+        defaultParameterShouldNotBeFound("paraentId.equals=" + (paraentId + 1));
     }
 
     /**
