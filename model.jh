@@ -41,6 +41,8 @@ relationship ManyToOne {
     Affectation{attributeur} to User
     Affectation{engin} to Engin
     Affectation{agent} to Conducteur
+	Parameter{type} to Parameter
+	Parameter{paraent} to Parameter
 }
 
 // =======
