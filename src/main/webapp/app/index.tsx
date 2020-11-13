@@ -11,14 +11,16 @@ import { clearAuthentication } from './shared/reducers/authentication';
 import ErrorBoundary from './shared/error/error-boundary';
 import AppComponent from './app';
 import { loadIcons } from './config/icon-loader';
+import { loadEntities } from './entities/parameter/params.reducer';
 
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
 
 const store = initStore();
 registerLocale(store);
 
-const actions = bindActionCreators({ clearAuthentication }, store.dispatch);
+const actions = bindActionCreators({ clearAuthentication, loadEntities }, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
+actions.loadEntities();
 
 loadIcons();
 

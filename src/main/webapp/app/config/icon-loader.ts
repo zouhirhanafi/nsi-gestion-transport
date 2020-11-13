@@ -25,11 +25,17 @@ import { faFlag } from '@fortawesome/free-solid-svg-icons/faFlag';
 import { faBell } from '@fortawesome/free-solid-svg-icons/faBell';
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { faRoad } from '@fortawesome/free-solid-svg-icons/faRoad';
 import { faCloud } from '@fortawesome/free-solid-svg-icons/faCloud';
-
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons/faAddressCard';
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons/faStethoscope';
+import { faPenSquare } from '@fortawesome/free-solid-svg-icons/faPenSquare';
+import { faFolder, faLaptopMedical, faNotesMedical, faFileMedicalAlt } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { format } from 'url';
+import { faCheck, faHospitalUser, faTv, faClock, faPrint } from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
   library.add(
@@ -62,6 +68,19 @@ export const loadIcons = () => {
     faRoad,
     faCloud,
     faTimesCircle,
-    faSearch
+    faTimes,
+    faSearch,
+    faAddressCard,
+    faStethoscope,
+    faPenSquare,
+    faCheck,
+    faHospitalUser,
+    faTv,
+    faClock,
+    faPrint,
+    faFolder,
+    faLaptopMedical,
+    faNotesMedical,
+    faFileMedicalAlt
   );
 };

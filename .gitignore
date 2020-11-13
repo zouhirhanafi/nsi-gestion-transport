@@ -147,3 +147,4 @@ Desktop.ini
 ######################
 .eslintcache
 /package-lock.json
+/yarn.lock
