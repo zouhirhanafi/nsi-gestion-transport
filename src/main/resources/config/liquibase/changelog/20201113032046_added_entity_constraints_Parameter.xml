@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Parameter.
+    -->
+    <changeSet id="20201113032046-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="parameter"
+                                 constraintName="fk_parameter_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="parameter"/>
+
+        <addForeignKeyConstraint baseColumnNames="paraent_id"
+                                 baseTableName="parameter"
+                                 constraintName="fk_parameter_paraent_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="parameter"/>
+
+    </changeSet>
+</databaseChangeLog>

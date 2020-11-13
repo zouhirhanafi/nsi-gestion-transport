@@ -73,6 +73,14 @@ export const ParameterDetail = (props: IParameterDetailProps) => {
             </span>
           </dt>
           <dd>{parameterEntity.ordre}</dd>
+          <dt>
+            <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate>
+          </dt>
+          <dd>{parameterEntity.type ? parameterEntity.type.id : ''}</dd>
+          <dt>
+            <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate>
+          </dt>
+          <dd>{parameterEntity.paraent ? parameterEntity.paraent.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/parameter" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

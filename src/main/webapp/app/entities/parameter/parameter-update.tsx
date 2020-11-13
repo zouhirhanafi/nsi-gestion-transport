@@ -7,6 +7,7 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { getEntities as getParameters } from 'app/entities/parameter/parameter.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './parameter.reducer';
 import { IParameter } from 'app/shared/model/parameter.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -15,9 +16,11 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IParameterUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const ParameterUpdate = (props: IParameterUpdateProps) => {
+  const [typeId, setTypeId] = useState('0');
+  const [paraentId, setParaentId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { parameterEntity, loading, updating } = props;
+  const { parameterEntity, parameters, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/parameter' + props.location.search);
@@ -29,6 +32,8 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    props.getParameters();
   }, []);
 
   useEffect(() => {
@@ -123,6 +128,36 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                 </Label>
                 <AvField id="parameter-ordre" type="string" className="form-control" name="ordre" />
               </AvGroup>
+              <AvGroup>
+                <Label for="parameter-type">
+                  <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate>
+                </Label>
+                <AvInput id="parameter-type" type="select" className="form-control" name="type.id">
+                  <option value="" key="0" />
+                  {parameters
+                    ? parameters.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
+              <AvGroup>
+                <Label for="parameter-paraent">
+                  <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate>
+                </Label>
+                <AvInput id="parameter-paraent" type="select" className="form-control" name="paraent.id">
+                  <option value="" key="0" />
+                  {parameters
+                    ? parameters.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
               <Button tag={Link} id="cancel-save" to="/parameter" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -145,6 +180,7 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  parameters: storeState.parameter.entities,
   parameterEntity: storeState.parameter.entity,
   loading: storeState.parameter.loading,
   updating: storeState.parameter.updating,
@@ -152,6 +188,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getParameters,
   getEntity,
   updateEntity,
   createEntity,

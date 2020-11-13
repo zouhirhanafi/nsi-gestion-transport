@@ -34,7 +34,22 @@
       "fieldType": "Integer"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "parameter",
+      "otherEntityRelationshipName": "parameter",
+      "relationshipName": "type",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "parameter",
+      "otherEntityRelationshipName": "parameter",
+      "relationshipName": "paraent",
+      "otherEntityField": "id"
+    }
+  ],
   "changelogDate": "20201113032046",
   "entityTableName": "parameter",
   "dto": "no",

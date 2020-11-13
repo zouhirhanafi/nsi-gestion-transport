@@ -1,5 +1,6 @@
 package ma.nsi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -44,6 +45,14 @@ public class Parameter implements Serializable {
 
     @Column(name = "ordre")
     private Integer ordre;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "parameters", allowSetters = true)
+    private Parameter type;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "parameters", allowSetters = true)
+    private Parameter paraent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -156,6 +165,32 @@ public class Parameter implements Serializable {
 
     public void setOrdre(Integer ordre) {
         this.ordre = ordre;
+    }
+
+    public Parameter getType() {
+        return type;
+    }
+
+    public Parameter type(Parameter parameter) {
+        this.type = parameter;
+        return this;
+    }
+
+    public void setType(Parameter parameter) {
+        this.type = parameter;
+    }
+
+    public Parameter getParaent() {
+        return paraent;
+    }
+
+    public Parameter paraent(Parameter parameter) {
+        this.paraent = parameter;
+        return this;
+    }
+
+    public void setParaent(Parameter parameter) {
+        this.paraent = parameter;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

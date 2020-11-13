@@ -109,6 +109,14 @@ public class ParameterQueryService extends QueryService<Parameter> {
             if (criteria.getOrdre() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getOrdre(), Parameter_.ordre));
             }
+            if (criteria.getTypeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getTypeId(),
+                    root -> root.join(Parameter_.type, JoinType.LEFT).get(Parameter_.id)));
+            }
+            if (criteria.getParaentId() != null) {
+                specification = specification.and(buildSpecification(criteria.getParaentId(),
+                    root -> root.join(Parameter_.paraent, JoinType.LEFT).get(Parameter_.id)));
+            }
         }
         return specification;
     }

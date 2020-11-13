@@ -15,6 +15,8 @@ export default class ParameterUpdatePage {
   val2Input: ElementFinder = element(by.css('input#parameter-val2'));
   val3Input: ElementFinder = element(by.css('input#parameter-val3'));
   ordreInput: ElementFinder = element(by.css('input#parameter-ordre'));
+  typeSelect: ElementFinder = element(by.css('select#parameter-type'));
+  paraentSelect: ElementFinder = element(by.css('select#parameter-paraent'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -84,6 +86,38 @@ export default class ParameterUpdatePage {
     return this.ordreInput.getAttribute('value');
   }
 
+  async typeSelectLastOption() {
+    await this.typeSelect.all(by.tagName('option')).last().click();
+  }
+
+  async typeSelectOption(option) {
+    await this.typeSelect.sendKeys(option);
+  }
+
+  getTypeSelect() {
+    return this.typeSelect;
+  }
+
+  async getTypeSelectedOption() {
+    return this.typeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async paraentSelectLastOption() {
+    await this.paraentSelect.all(by.tagName('option')).last().click();
+  }
+
+  async paraentSelectOption(option) {
+    await this.paraentSelect.sendKeys(option);
+  }
+
+  getParaentSelect() {
+    return this.paraentSelect;
+  }
+
+  async getParaentSelectedOption() {
+    return this.paraentSelect.element(by.css('option:checked')).getText();
+  }
+
   async save() {
     await this.saveButton.click();
   }
@@ -121,6 +155,8 @@ export default class ParameterUpdatePage {
     await waitUntilDisplayed(this.saveButton);
     await this.setOrdreInput('5');
     expect(await this.getOrdreInput()).to.eq('5');
+    await this.typeSelectLastOption();
+    await this.paraentSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
     expect(await isVisible(this.saveButton)).to.be.false;
