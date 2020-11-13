@@ -1,12 +1,24 @@
 package ma.nsi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.time.Instant;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * A Parameter.
@@ -14,6 +26,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "parameter")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@EntityListeners(AuditingEntityListener.class)
 public class Parameter implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +66,11 @@ public class Parameter implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "parameters", allowSetters = true)
     private Parameter paraent;
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    @JsonIgnore
+    private Instant lastModifiedDate = Instant.now();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -192,9 +210,18 @@ public class Parameter implements Serializable {
     public void setParaent(Parameter parameter) {
         this.paraent = parameter;
     }
+    
+    public Instant getLastModifiedDate() {
+    	return lastModifiedDate;
+    }
+    
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+    	this.lastModifiedDate = lastModifiedDate;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

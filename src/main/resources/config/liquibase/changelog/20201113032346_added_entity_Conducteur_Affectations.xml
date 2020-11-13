@@ -16,6 +16,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <addPrimaryKey columnNames="conducteur_id, indications" tableName="conducteur_affectations"/>
     </changeSet>
 
 
