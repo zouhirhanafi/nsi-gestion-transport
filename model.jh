@@ -1,0 +1,58 @@
+
+entity Parameter {
+    label String
+	lib2 String
+	lib3 String
+
+	refExterne String
+
+	val1 String
+    val2 String
+	
+    val3 String
+	
+	ordre Integer
+//	lastUpdatedDate ZonedDateTime     //TODO
+}
+entity Engin {
+	type Integer required
+    reference String required unique
+	libelle String required
+}
+entity Conducteur {
+	nom String required
+    affectation Integer
+}
+entity Operation {
+    description String
+}
+entity Affectation {
+    dateAffectation ZonedDateTime
+	dateCreation ZonedDateTime
+	statut StatutAffectation
+	motifAnnulation String
+}
+
+enum StatutAffectation {
+    C ("Confirmée"),
+    S ("Supprimée"), 
+    N ("Non confirmée")
+}
+
+relationship ManyToOne {
+    Affectation{attributeur} to User
+    Affectation{engin} to Engin
+    Affectation{agent} to Conducteur
+    Affectation{operation} to Operation
+}
+
+// =======
+// Options
+// =======
+paginate Parameter, Engin, Conducteur, Surveillance, Operation with pagination
+paginate Affectation with infinite-scroll
+filter Parameter, Engin, Conducteur, Surveillance, Affectation, Operation
+//search DossierPatient with elasticsearch
+// dto DossierPatient, Prescription, Surveillance with mapstruct
+// Set service options to all 
+service all with serviceClass
