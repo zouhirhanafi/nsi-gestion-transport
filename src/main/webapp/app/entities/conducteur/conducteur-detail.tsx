@@ -10,7 +10,7 @@ import { getEntity } from './conducteur.reducer';
 import { IConducteur } from 'app/shared/model/conducteur.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
-export interface IConducteurDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IConducteurDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const ConducteurDetail = (props: IConducteurDetailProps) => {
   useEffect(() => {
@@ -36,7 +36,7 @@ export const ConducteurDetail = (props: IConducteurDetailProps) => {
               <Translate contentKey="gestionTransportApp.conducteur.affectation">Affectation</Translate>
             </span>
           </dt>
-          <dd>{conducteurEntity.affectation}</dd>
+          <dd>{conducteurEntity.affectations}</dd>
         </dl>
         <Button tag={Link} to="/conducteur" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

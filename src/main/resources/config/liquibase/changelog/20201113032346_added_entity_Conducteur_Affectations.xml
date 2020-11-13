@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the entity conducteur_affectations.
+    -->
+    <changeSet id="20201113032346-3" author="jhipster">
+        <createTable tableName="conducteur_affectations">
+            <column name="conducteur_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="indications" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>

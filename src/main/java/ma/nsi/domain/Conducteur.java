@@ -1,12 +1,20 @@
 package ma.nsi.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import java.io.Serializable;
 
 /**
  * A Conducteur.
@@ -26,8 +34,10 @@ public class Conducteur implements Serializable {
     @Column(name = "nom", nullable = false)
     private String nom;
 
-    @Column(name = "affectation")
-    private Integer affectation;
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@ElementCollection
+	@CollectionTable(name = "conducteur_affectations")
+	private Set<String> affectations;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -51,17 +61,17 @@ public class Conducteur implements Serializable {
         this.nom = nom;
     }
 
-    public Integer getAffectation() {
-        return affectation;
+    public Set<String> getAffectation() {
+        return affectations;
     }
 
-    public Conducteur affectation(Integer affectation) {
-        this.affectation = affectation;
+    public Conducteur affectation(Set<String> affectations) {
+        this.affectations = affectations;
         return this;
     }
 
-    public void setAffectation(Integer affectation) {
-        this.affectation = affectation;
+    public void setAffectation(Set<String> affectations) {
+        this.affectations = affectations;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

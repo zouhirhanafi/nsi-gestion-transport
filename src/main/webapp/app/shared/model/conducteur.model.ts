@@ -1,7 +1,7 @@
 export interface IConducteur {
   id?: number;
   nom?: string;
-  affectation?: number;
+  affectations?: string[];
 }
 
 export const defaultValue: Readonly<IConducteur> = {};

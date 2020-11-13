@@ -88,9 +88,9 @@ public class ConducteurQueryService extends QueryService<Conducteur> {
             if (criteria.getNom() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNom(), Conducteur_.nom));
             }
-            if (criteria.getAffectation() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAffectation(), Conducteur_.affectation));
-            }
+//            if (criteria.getAffectation() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getAffectation(), Conducteur_.affectation));
+//            }
         }
         return specification;
     }

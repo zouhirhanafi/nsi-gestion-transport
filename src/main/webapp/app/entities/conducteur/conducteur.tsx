@@ -12,7 +12,7 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
-export interface IConducteurProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IConducteurProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
 export const Conducteur = (props: IConducteurProps) => {
   const [paginationState, setPaginationState] = useState(
@@ -101,7 +101,7 @@ export const Conducteur = (props: IConducteurProps) => {
                     </Button>
                   </td>
                   <td>{conducteur.nom}</td>
-                  <td>{conducteur.affectation}</td>
+                  <td>{conducteur.affectations}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${conducteur.id}`} color="info" size="sm">
@@ -139,12 +139,12 @@ export const Conducteur = (props: IConducteurProps) => {
             </tbody>
           </Table>
         ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="gestionTransportApp.conducteur.home.notFound">No Conducteurs found</Translate>
-            </div>
-          )
-        )}
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="gestionTransportApp.conducteur.home.notFound">No Conducteurs found</Translate>
+              </div>
+            )
+          )}
       </div>
       {props.totalItems ? (
         <div className={conducteurList && conducteurList.length > 0 ? '' : 'd-none'}>
@@ -162,8 +162,8 @@ export const Conducteur = (props: IConducteurProps) => {
           </Row>
         </div>
       ) : (
-        ''
-      )}
+          ''
+        )}
     </div>
   );
 };

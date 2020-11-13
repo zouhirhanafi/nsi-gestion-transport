@@ -12,7 +12,7 @@ import { IConducteur } from 'app/shared/model/conducteur.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
-export interface IConducteurUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IConducteurUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const ConducteurUpdate = (props: IConducteurUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
@@ -66,49 +66,49 @@ export const ConducteurUpdate = (props: IConducteurUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : conducteurEntity} onSubmit={saveEntity}>
-              {!isNew ? (
+              <AvForm model={isNew ? {} : conducteurEntity} onSubmit={saveEntity}>
+                {!isNew ? (
+                  <AvGroup>
+                    <Label for="conducteur-id">
+                      <Translate contentKey="global.field.id">ID</Translate>
+                    </Label>
+                    <AvInput id="conducteur-id" type="text" className="form-control" name="id" required readOnly />
+                  </AvGroup>
+                ) : null}
                 <AvGroup>
-                  <Label for="conducteur-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
+                  <Label id="nomLabel" for="conducteur-nom">
+                    <Translate contentKey="gestionTransportApp.conducteur.nom">Nom</Translate>
                   </Label>
-                  <AvInput id="conducteur-id" type="text" className="form-control" name="id" required readOnly />
+                  <AvField
+                    id="conducteur-nom"
+                    type="text"
+                    name="nom"
+                    validate={{
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                    }}
+                  />
                 </AvGroup>
-              ) : null}
-              <AvGroup>
-                <Label id="nomLabel" for="conducteur-nom">
-                  <Translate contentKey="gestionTransportApp.conducteur.nom">Nom</Translate>
-                </Label>
-                <AvField
-                  id="conducteur-nom"
-                  type="text"
-                  name="nom"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="affectationLabel" for="conducteur-affectation">
-                  <Translate contentKey="gestionTransportApp.conducteur.affectation">Affectation</Translate>
-                </Label>
-                <AvField id="conducteur-affectation" type="string" className="form-control" name="affectation" />
-              </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/conducteur" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
+                <AvGroup>
+                  <Label id="affectationLabel" for="conducteur-affectation">
+                    <Translate contentKey="gestionTransportApp.conducteur.affectation">Affectation</Translate>
+                  </Label>
+                  <AvField id="conducteur-affectation" type="string" className="form-control" name="affectations" />
+                </AvGroup>
+                <Button tag={Link} id="cancel-save" to="/conducteur" replace color="info">
+                  <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button>
               &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
+                <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                  <FontAwesomeIcon icon="save" />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
-            </AvForm>
-          )}
+                </Button>
+              </AvForm>
+            )}
         </Col>
       </Row>
     </div>

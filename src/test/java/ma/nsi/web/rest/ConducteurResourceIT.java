@@ -1,11 +1,18 @@
 package ma.nsi.web.rest;
 
-import ma.nsi.GestionTransportApp;
-import ma.nsi.domain.Conducteur;
-import ma.nsi.repository.ConducteurRepository;
-import ma.nsi.service.ConducteurService;
-import ma.nsi.service.dto.ConducteurCriteria;
-import ma.nsi.service.ConducteurQueryService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +23,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import ma.nsi.GestionTransportApp;
+import ma.nsi.domain.Conducteur;
+import ma.nsi.repository.ConducteurRepository;
+import ma.nsi.service.ConducteurQueryService;
+import ma.nsi.service.ConducteurService;
 
 /**
  * Integration tests for the {@link ConducteurResource} REST controller.
@@ -65,7 +71,7 @@ public class ConducteurResourceIT {
     public static Conducteur createEntity(EntityManager em) {
         Conducteur conducteur = new Conducteur()
             .nom(DEFAULT_NOM)
-            .affectation(DEFAULT_AFFECTATION);
+            ;
         return conducteur;
     }
     /**
@@ -77,7 +83,7 @@ public class ConducteurResourceIT {
     public static Conducteur createUpdatedEntity(EntityManager em) {
         Conducteur conducteur = new Conducteur()
             .nom(UPDATED_NOM)
-            .affectation(UPDATED_AFFECTATION);
+            ;
         return conducteur;
     }
 
@@ -432,7 +438,7 @@ public class ConducteurResourceIT {
         em.detach(updatedConducteur);
         updatedConducteur
             .nom(UPDATED_NOM)
-            .affectation(UPDATED_AFFECTATION);
+            ;
 
         restConducteurMockMvc.perform(put("/api/conducteurs")
             .contentType(MediaType.APPLICATION_JSON)
