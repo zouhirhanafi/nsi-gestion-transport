@@ -1,0 +1,60 @@
+{
+  "name": "Affectation",
+  "fields": [
+    {
+      "fieldName": "dateAffectation",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "dateCreation",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "statut",
+      "fieldType": "StatutAffectation",
+      "fieldValues": "C (Confirmée),S (Supprimée),N (Non confirmée)"
+    },
+    {
+      "fieldName": "motifAnnulation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "operation",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "affectation",
+      "relationshipName": "attributeur",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "engin",
+      "otherEntityRelationshipName": "affectation",
+      "relationshipName": "engin",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "conducteur",
+      "otherEntityRelationshipName": "affectation",
+      "relationshipName": "agent",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201113032346",
+  "entityTableName": "affectation",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

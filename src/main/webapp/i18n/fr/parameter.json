@@ -1,0 +1,29 @@
+{
+  "gestionTransportApp": {
+    "parameter": {
+      "home": {
+        "title": "Parameters",
+        "createLabel": "Créer un nouveau Parameter",
+        "createOrEditLabel": "Créer ou éditer un Parameter",
+        "notFound": "Aucun Parameter trouvé"
+      },
+      "created": "Un nouveau Parameter a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Parameter avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Parameter avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Parameter {{ id }} ?"
+      },
+      "detail": {
+        "title": "Parameter"
+      },
+      "label": "Label",
+      "lib2": "Lib 2",
+      "lib3": "Lib 3",
+      "refExterne": "Ref Externe",
+      "val1": "Val 1",
+      "val2": "Val 2",
+      "val3": "Val 3",
+      "ordre": "Ordre"
+    }
+  }
+}

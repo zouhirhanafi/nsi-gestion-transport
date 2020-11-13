@@ -1,0 +1,23 @@
+{
+  "gestionTransportApp": {
+    "conducteur": {
+      "home": {
+        "title": "Conducteurs",
+        "createLabel": "Create a new Conducteur",
+        "createOrEditLabel": "Create or edit a Conducteur",
+        "notFound": "No Conducteurs found"
+      },
+      "created": "A new Conducteur is created with identifier {{ param }}",
+      "updated": "A Conducteur is updated with identifier {{ param }}",
+      "deleted": "A Conducteur is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Conducteur {{ id }}?"
+      },
+      "detail": {
+        "title": "Conducteur"
+      },
+      "nom": "Nom",
+      "affectation": "Affectation"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "gestionTransportApp": {
+    "affectation": {
+      "home": {
+        "title": "Affectations",
+        "createLabel": "Create a new Affectation",
+        "createOrEditLabel": "Create or edit a Affectation",
+        "notFound": "No Affectations found"
+      },
+      "created": "A new Affectation is created with identifier {{ param }}",
+      "updated": "A Affectation is updated with identifier {{ param }}",
+      "deleted": "A Affectation is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Affectation {{ id }}?"
+      },
+      "detail": {
+        "title": "Affectation"
+      },
+      "dateAffectation": "Date Affectation",
+      "dateCreation": "Date Creation",
+      "statut": "Statut",
+      "motifAnnulation": "Motif Annulation",
+      "operation": "Operation",
+      "attributeur": "Attributeur",
+      "engin": "Engin",
+      "agent": "Agent"
+    }
+  }
+}
