@@ -10,7 +10,7 @@ import { getEntity } from './parameter.reducer';
 import { IParameter } from 'app/shared/model/parameter.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
-export interface IParameterDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IParameterDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const ParameterDetail = (props: IParameterDetailProps) => {
   useEffect(() => {
@@ -43,7 +43,7 @@ export const ParameterDetail = (props: IParameterDetailProps) => {
             </span>
           </dt>
           <dd>{parameterEntity.lib3}</dd>
-          <dt>
+          {/* <dt>
             <span id="refExterne">
               <Translate contentKey="gestionTransportApp.parameter.refExterne">Ref Externe</Translate>
             </span>
@@ -66,7 +66,7 @@ export const ParameterDetail = (props: IParameterDetailProps) => {
               <Translate contentKey="gestionTransportApp.parameter.val3">Val 3</Translate>
             </span>
           </dt>
-          <dd>{parameterEntity.val3}</dd>
+          <dd>{parameterEntity.val3}</dd> */}
           <dt>
             <span id="ordre">
               <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate>
@@ -77,10 +77,10 @@ export const ParameterDetail = (props: IParameterDetailProps) => {
             <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate>
           </dt>
           <dd>{parameterEntity.type ? parameterEntity.type.id : ''}</dd>
-          <dt>
+          {/* <dt>
             <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate>
           </dt>
-          <dd>{parameterEntity.paraent ? parameterEntity.paraent.id : ''}</dd>
+          <dd>{parameterEntity.paraent ? parameterEntity.paraent.id : ''}</dd> */}
         </dl>
         <Button tag={Link} to="/parameter" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

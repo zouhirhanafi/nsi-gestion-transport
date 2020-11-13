@@ -13,7 +13,7 @@ import { IParameter } from 'app/shared/model/parameter.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
-export interface IParameterUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IParameterUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const ParameterUpdate = (props: IParameterUpdateProps) => {
   const [typeId, setTypeId] = useState('0');
@@ -71,34 +71,34 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : parameterEntity} onSubmit={saveEntity}>
-              {!isNew ? (
+              <AvForm model={isNew ? {} : parameterEntity} onSubmit={saveEntity}>
+                {!isNew ? (
+                  <AvGroup>
+                    <Label for="parameter-id">
+                      <Translate contentKey="global.field.id">ID</Translate>
+                    </Label>
+                    <AvInput id="parameter-id" type="text" className="form-control" name="id" required readOnly />
+                  </AvGroup>
+                ) : null}
                 <AvGroup>
-                  <Label for="parameter-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
+                  <Label id="labelLabel" for="parameter-label">
+                    <Translate contentKey="gestionTransportApp.parameter.label">Label</Translate>
                   </Label>
-                  <AvInput id="parameter-id" type="text" className="form-control" name="id" required readOnly />
+                  <AvField id="parameter-label" type="text" name="label" />
                 </AvGroup>
-              ) : null}
-              <AvGroup>
-                <Label id="labelLabel" for="parameter-label">
-                  <Translate contentKey="gestionTransportApp.parameter.label">Label</Translate>
-                </Label>
-                <AvField id="parameter-label" type="text" name="label" />
-              </AvGroup>
-              <AvGroup>
-                <Label id="lib2Label" for="parameter-lib2">
-                  <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate>
-                </Label>
-                <AvField id="parameter-lib2" type="text" name="lib2" />
-              </AvGroup>
-              <AvGroup>
-                <Label id="lib3Label" for="parameter-lib3">
-                  <Translate contentKey="gestionTransportApp.parameter.lib3">Lib 3</Translate>
-                </Label>
-                <AvField id="parameter-lib3" type="text" name="lib3" />
-              </AvGroup>
-              <AvGroup>
+                <AvGroup>
+                  <Label id="lib2Label" for="parameter-lib2">
+                    <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate>
+                  </Label>
+                  <AvField id="parameter-lib2" type="text" name="lib2" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="lib3Label" for="parameter-lib3">
+                    <Translate contentKey="gestionTransportApp.parameter.lib3">Lib 3</Translate>
+                  </Label>
+                  <AvField id="parameter-lib3" type="text" name="lib3" />
+                </AvGroup>
+                {/* <AvGroup>
                 <Label id="refExterneLabel" for="parameter-refExterne">
                   <Translate contentKey="gestionTransportApp.parameter.refExterne">Ref Externe</Translate>
                 </Label>
@@ -121,58 +121,58 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                   <Translate contentKey="gestionTransportApp.parameter.val3">Val 3</Translate>
                 </Label>
                 <AvField id="parameter-val3" type="text" name="val3" />
-              </AvGroup>
-              <AvGroup>
-                <Label id="ordreLabel" for="parameter-ordre">
-                  <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate>
-                </Label>
-                <AvField id="parameter-ordre" type="string" className="form-control" name="ordre" />
-              </AvGroup>
-              <AvGroup>
-                <Label for="parameter-type">
-                  <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate>
-                </Label>
-                <AvInput id="parameter-type" type="select" className="form-control" name="type.id">
-                  <option value="" key="0" />
-                  {parameters
-                    ? parameters.map(otherEntity => (
+              </AvGroup> */}
+                <AvGroup>
+                  <Label id="ordreLabel" for="parameter-ordre">
+                    <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate>
+                  </Label>
+                  <AvField id="parameter-ordre" type="string" className="form-control" name="ordre" />
+                </AvGroup>
+                <AvGroup>
+                  <Label for="parameter-type">
+                    <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate>
+                  </Label>
+                  <AvInput id="parameter-type" type="select" className="form-control" name="type.id">
+                    <option value="" key="0" />
+                    {parameters
+                      ? parameters.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.label}
+                        </option>
+                      ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                {/* <AvGroup>
+                  <Label for="parameter-paraent">
+                    <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate>
+                  </Label>
+                  <AvInput id="parameter-paraent" type="select" className="form-control" name="paraent.id">
+                    <option value="" key="0" />
+                    {parameters
+                      ? parameters.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
                           {otherEntity.id}
                         </option>
                       ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <AvGroup>
-                <Label for="parameter-paraent">
-                  <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate>
-                </Label>
-                <AvInput id="parameter-paraent" type="select" className="form-control" name="paraent.id">
-                  <option value="" key="0" />
-                  {parameters
-                    ? parameters.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/parameter" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
+                      : null}
+                  </AvInput>
+                </AvGroup> */}
+                <Button tag={Link} id="cancel-save" to="/parameter" replace color="info">
+                  <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button>
               &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
+                <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                  <FontAwesomeIcon icon="save" />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
-            </AvForm>
-          )}
+                </Button>
+              </AvForm>
+            )}
         </Col>
       </Row>
     </div>

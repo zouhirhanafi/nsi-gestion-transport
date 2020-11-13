@@ -12,7 +12,7 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
-export interface IParameterProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IParameterProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
 export const Parameter = (props: IParameterProps) => {
   const [paginationState, setPaginationState] = useState(
@@ -92,7 +92,7 @@ export const Parameter = (props: IParameterProps) => {
                 <th className="hand" onClick={sort('lib3')}>
                   <Translate contentKey="gestionTransportApp.parameter.lib3">Lib 3</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('refExterne')}>
+                {/* <th className="hand" onClick={sort('refExterne')}>
                   <Translate contentKey="gestionTransportApp.parameter.refExterne">Ref Externe</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('val1')}>
@@ -103,16 +103,16 @@ export const Parameter = (props: IParameterProps) => {
                 </th>
                 <th className="hand" onClick={sort('val3')}>
                   <Translate contentKey="gestionTransportApp.parameter.val3">Val 3</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
+                </th> */}
                 <th className="hand" onClick={sort('ordre')}>
                   <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
                   <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
+                {/* <th>
                   <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
+                </th> */}
                 <th />
               </tr>
             </thead>
@@ -127,13 +127,13 @@ export const Parameter = (props: IParameterProps) => {
                   <td>{parameter.label}</td>
                   <td>{parameter.lib2}</td>
                   <td>{parameter.lib3}</td>
-                  <td>{parameter.refExterne}</td>
+                  {/* <td>{parameter.refExterne}</td>
                   <td>{parameter.val1}</td>
                   <td>{parameter.val2}</td>
-                  <td>{parameter.val3}</td>
+                  <td>{parameter.val3}</td> */}
                   <td>{parameter.ordre}</td>
                   <td>{parameter.type ? <Link to={`parameter/${parameter.type.id}`}>{parameter.type.id}</Link> : ''}</td>
-                  <td>{parameter.paraent ? <Link to={`parameter/${parameter.paraent.id}`}>{parameter.paraent.id}</Link> : ''}</td>
+                  {/* <td>{parameter.paraent ? <Link to={`parameter/${parameter.paraent.id}`}>{parameter.paraent.id}</Link> : ''}</td> */}
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${parameter.id}`} color="info" size="sm">
@@ -171,12 +171,12 @@ export const Parameter = (props: IParameterProps) => {
             </tbody>
           </Table>
         ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="gestionTransportApp.parameter.home.notFound">No Parameters found</Translate>
-            </div>
-          )
-        )}
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="gestionTransportApp.parameter.home.notFound">No Parameters found</Translate>
+              </div>
+            )
+          )}
       </div>
       {props.totalItems ? (
         <div className={parameterList && parameterList.length > 0 ? '' : 'd-none'}>
@@ -194,8 +194,8 @@ export const Parameter = (props: IParameterProps) => {
           </Row>
         </div>
       ) : (
-        ''
-      )}
+          ''
+        )}
     </div>
   );
 };
