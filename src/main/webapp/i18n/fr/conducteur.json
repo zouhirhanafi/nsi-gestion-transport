@@ -1,0 +1,23 @@
+{
+  "gestionTransportApp": {
+    "conducteur": {
+      "home": {
+        "title": "Conducteurs",
+        "createLabel": "Créer un nouveau Conducteur",
+        "createOrEditLabel": "Créer ou éditer un Conducteur",
+        "notFound": "Aucun Conducteur trouvé"
+      },
+      "created": "Un nouveau Conducteur a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Conducteur avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Conducteur avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Conducteur {{ id }} ?"
+      },
+      "detail": {
+        "title": "Conducteur"
+      },
+      "nom": "Nom",
+      "affectation": "Affectation"
+    }
+  }
+}

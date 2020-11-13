@@ -1,0 +1,24 @@
+{
+  "gestionTransportApp": {
+    "engin": {
+      "home": {
+        "title": "Engins",
+        "createLabel": "Créer un nouveau Engin",
+        "createOrEditLabel": "Créer ou éditer un Engin",
+        "notFound": "Aucun Engin trouvé"
+      },
+      "created": "Un nouveau Engin a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Engin avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Engin avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Engin {{ id }} ?"
+      },
+      "detail": {
+        "title": "Engin"
+      },
+      "type": "Type",
+      "reference": "Reference",
+      "libelle": "Libelle"
+    }
+  }
+}

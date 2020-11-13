@@ -1,0 +1,10 @@
+{
+  "gestionTransportApp": {
+    "StatutAffectation": {
+      "null": "",
+      "C": "Confirmée",
+      "S": "Supprimée",
+      "N": "Non confirmée"
+    }
+  }
+}

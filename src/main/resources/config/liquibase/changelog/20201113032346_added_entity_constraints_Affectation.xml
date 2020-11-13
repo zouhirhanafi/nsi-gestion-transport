@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Affectation.
+    -->
+    <changeSet id="20201113032346-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="attributeur_id"
+                                 baseTableName="affectation"
+                                 constraintName="fk_affectation_attributeur_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="engin_id"
+                                 baseTableName="affectation"
+                                 constraintName="fk_affectation_engin_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="engin"/>
+
+        <addForeignKeyConstraint baseColumnNames="agent_id"
+                                 baseTableName="affectation"
+                                 constraintName="fk_affectation_agent_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="conducteur"/>
+
+    </changeSet>
+</databaseChangeLog>
