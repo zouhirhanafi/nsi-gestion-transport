@@ -23,14 +23,12 @@ entity Conducteur {
 	nom String required
     affectation Integer
 }
-entity Operation {
-    description String
-}
 entity Affectation {
     dateAffectation ZonedDateTime
 	dateCreation ZonedDateTime
 	statut StatutAffectation
 	motifAnnulation String
+    operation Integer
 }
 
 enum StatutAffectation {
@@ -43,15 +41,14 @@ relationship ManyToOne {
     Affectation{attributeur} to User
     Affectation{engin} to Engin
     Affectation{agent} to Conducteur
-    Affectation{operation} to Operation
 }
 
 // =======
 // Options
 // =======
-paginate Parameter, Engin, Conducteur, Surveillance, Operation with pagination
+paginate Parameter, Engin, Conducteur with pagination
 paginate Affectation with infinite-scroll
-filter Parameter, Engin, Conducteur, Surveillance, Affectation, Operation
+filter Parameter, Engin, Conducteur, Affectation
 //search DossierPatient with elasticsearch
 // dto DossierPatient, Prescription, Surveillance with mapstruct
 // Set service options to all 
