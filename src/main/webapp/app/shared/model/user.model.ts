@@ -1,3 +1,5 @@
+import { AUTHORITIES } from 'app/config/constants';
+
 export interface IUser {
   id?: any;
   login?: string;
@@ -22,7 +24,7 @@ export const defaultValue: Readonly<IUser> = {
   email: '',
   activated: true,
   langKey: '',
-  authorities: [],
+  authorities: [AUTHORITIES.USER],
   createdBy: '',
   createdDate: null,
   lastModifiedBy: '',

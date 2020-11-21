@@ -9,11 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { locales, languages } from 'app/config/translation';
 import { getUser, getRoles, updateUser, createUser, reset } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
+import { useFormInput } from 'app/shared/hooks';
+import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 
 export interface IUserManagementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> { }
 
 export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.login);
+  const password = useFormInput('');
 
   useEffect(() => {
     if (isNew) {
@@ -162,7 +165,7 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                     <Translate contentKey="userManagement.activated">Activated</Translate>
                   </Label>
                 </AvGroup>
-                <AvGroup>
+                {/* <AvGroup>
                   <Label for="langKey">
                     <Translate contentKey="userManagement.langKey">Language Key</Translate>
                   </Label>
@@ -173,7 +176,7 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                       </option>
                     ))}
                   </AvField>
-                </AvGroup>
+                </AvGroup> */}
                 <AvGroup>
                   <Label for="authorities">
                     <Translate contentKey="userManagement.profiles">Profiles</Translate>
@@ -186,6 +189,35 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                     ))}
                   </AvInput>
                 </AvGroup>
+                {isNew && (
+                  <>
+                    <AvField
+                      name="password"
+                      label={translate('global.form.newpassword.label')}
+                      placeholder={translate('global.form.newpassword.placeholder')}
+                      type="password"
+                      {...password}
+                      validate={{
+                        required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
+                        minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
+                        maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
+                      }}
+                    />
+                    <PasswordStrengthBar password={password.value} />
+                    <AvField
+                      name="secondPassword"
+                      label={translate('global.form.confirmpassword.label')}
+                      placeholder={translate('global.form.confirmpassword.placeholder')}
+                      type="password"
+                      validate={{
+                        required: { value: true, errorMessage: translate('global.messages.validate.confirmpassword.required') },
+                        minLength: { value: 4, errorMessage: translate('global.messages.validate.confirmpassword.minlength') },
+                        maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
+                        match: { value: 'password', errorMessage: translate('global.messages.error.dontmatch') },
+                      }}
+                    />
+                  </>
+                )}
                 <Button tag={Link} to="/user-management" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

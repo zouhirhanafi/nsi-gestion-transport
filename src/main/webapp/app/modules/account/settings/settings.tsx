@@ -9,7 +9,7 @@ import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
 
-export interface IUserSettingsProps extends StateProps, DispatchProps {}
+export interface IUserSettingsProps extends StateProps, DispatchProps { }
 
 export const SettingsPage = (props: IUserSettingsProps) => {
   useEffect(() => {
@@ -81,7 +81,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               value={props.account.email}
             />
             {/* Language key */}
-            <AvField
+            {/* <AvField
               type="select"
               id="langKey"
               name="langKey"
@@ -94,7 +94,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                   {languages[locale].name}
                 </option>
               ))}
-            </AvField>
+            </AvField> */}
             <Button color="primary" type="submit">
               <Translate contentKey="settings.form.button">Save</Translate>
             </Button>

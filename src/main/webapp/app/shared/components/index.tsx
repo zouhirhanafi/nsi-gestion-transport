@@ -191,7 +191,7 @@ export const ParamValue = connect(paramOptionMapStateToProps)(Span);
 export const ParamsValues = ({ values }) => (
   <>
     {values.map(value => (
-      <ParamValue value={value} key={value} className="box" />
+      <ParamValue value={value} key={value} className="badge badge-info m-1" />
     ))}
   </>
 );

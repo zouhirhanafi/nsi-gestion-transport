@@ -31,12 +31,13 @@ const Routes = () => (
     <Switch>
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />
-      <ErrorBoundaryRoute path="/account/register" component={Register} />
+      {/* <ErrorBoundaryRoute path="/account/register" component={Register} /> */}
       <ErrorBoundaryRoute path="/account/activate/:key?" component={Activate} />
       <ErrorBoundaryRoute path="/account/reset/request" component={PasswordResetInit} />
       <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.SYSTEM]} />
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+      <PrivateRoute path="/affectation" component={Affectation} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/" exact component={Home} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN]} />
       <ErrorBoundaryRoute component={PageNotFound} />
