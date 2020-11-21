@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,6 +11,7 @@ import { IParameter } from 'app/shared/model/parameter.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { CTable } from 'app/shared/components';
 
 export interface IParameterProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
@@ -77,21 +78,24 @@ export const Parameter = (props: IParameterProps) => {
       </h2>
       <div className="table-responsive">
         {parameterList && parameterList.length > 0 ? (
-          <Table responsive>
+          <CTable>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th className="hand" onClick={sort('label')}>
                   <Translate contentKey="gestionTransportApp.parameter.label">Label</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('lib2')}>
+                {/* <th className="hand" onClick={sort('lib2')}>
                   <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('lib3')}>
                   <Translate contentKey="gestionTransportApp.parameter.lib3">Lib 3</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
+                </th> */}
                 {/* <th className="hand" onClick={sort('refExterne')}>
                   <Translate contentKey="gestionTransportApp.parameter.refExterne">Ref Externe</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -107,9 +111,6 @@ export const Parameter = (props: IParameterProps) => {
                 <th className="hand" onClick={sort('ordre')}>
                   <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
-                  <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 {/* <th>
                   <Translate contentKey="gestionTransportApp.parameter.paraent">Paraent</Translate> <FontAwesomeIcon icon="sort" />
                 </th> */}
@@ -124,24 +125,24 @@ export const Parameter = (props: IParameterProps) => {
                       {parameter.id}
                     </Button>
                   </td>
+                  <td>{parameter.type ? parameter.type.label : ''}</td>
                   <td>{parameter.label}</td>
-                  <td>{parameter.lib2}</td>
-                  <td>{parameter.lib3}</td>
+                  {/* <td>{parameter.lib2}</td>
+                  <td>{parameter.lib3}</td> */}
                   {/* <td>{parameter.refExterne}</td>
                   <td>{parameter.val1}</td>
                   <td>{parameter.val2}</td>
                   <td>{parameter.val3}</td> */}
                   <td>{parameter.ordre}</td>
-                  <td>{parameter.type ? <Link to={`parameter/${parameter.type.id}`}>{parameter.type.id}</Link> : ''}</td>
                   {/* <td>{parameter.paraent ? <Link to={`parameter/${parameter.paraent.id}`}>{parameter.paraent.id}</Link> : ''}</td> */}
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${parameter.id}`} color="info" size="sm">
+                      {/* <Button tag={Link} to={`${match.url}/${parameter.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
-                      </Button>
+                      </Button> */}
                       <Button
                         tag={Link}
                         to={`${match.url}/${parameter.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
@@ -169,7 +170,7 @@ export const Parameter = (props: IParameterProps) => {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </CTable>
         ) : (
             !loading && (
               <div className="alert alert-warning">

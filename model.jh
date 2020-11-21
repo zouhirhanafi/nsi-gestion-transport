@@ -16,7 +16,6 @@ entity Parameter {
 }
 entity Engin {
 	type Integer required
-    reference String required unique
 	libelle String required
 }
 entity Conducteur {

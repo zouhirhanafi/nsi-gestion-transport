@@ -6,13 +6,13 @@ TranslatorContext.setDefaultLocale('fr');
 TranslatorContext.setRenderInnerTextForMissingKeys(false);
 
 export const languages: any = {
+  fr: { name: 'Français' },
   'ar-ly': { name: 'العربية', rtl: true },
   en: { name: 'English' },
-  fr: { name: 'Français' },
   // jhipster-needle-i18n-language-key-pipe - JHipster will add/remove languages in this object
 };
 
-export const locales = Object.keys(languages).sort();
+export const locales = Object.keys(languages);
 
 export const isRTL = (lang: string): boolean => languages[lang] && languages[lang].rtl;
 

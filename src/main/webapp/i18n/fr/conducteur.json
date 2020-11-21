@@ -17,7 +17,7 @@
         "title": "Conducteur"
       },
       "nom": "Nom",
-      "affectation": "Affectation"
+      "affectations": "Affectations"
     }
   }
 }

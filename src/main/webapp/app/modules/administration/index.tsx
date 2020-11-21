@@ -12,7 +12,6 @@ import Tracker from './tracker/tracker';
 
 const Routes = ({ match }) => (
   <div>
-    <ErrorBoundaryRoute path={`${match.url}/user-management`} component={UserManagement} />
     <ErrorBoundaryRoute exact path={`${match.url}/tracker`} component={Tracker} />
     <ErrorBoundaryRoute exact path={`${match.url}/health`} component={Health} />
     <ErrorBoundaryRoute exact path={`${match.url}/metrics`} component={Metrics} />

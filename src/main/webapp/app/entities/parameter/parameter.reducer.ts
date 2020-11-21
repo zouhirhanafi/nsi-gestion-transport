@@ -102,10 +102,10 @@ const apiUrl = 'api/parameters';
 // Actions
 
 export const getEntities: ICrudGetAllAction<IParameter> = (page, size, sort) => {
-  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  const requestUrl = `${apiUrl}?typeId.specified=true${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`;
   return {
     type: ACTION_TYPES.FETCH_PARAMETER_LIST,
-    payload: axios.get<IParameter>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+    payload: axios.get<IParameter>(`${requestUrl}&cacheBuster=${new Date().getTime()}`),
   };
 };
 

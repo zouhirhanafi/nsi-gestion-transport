@@ -12,6 +12,7 @@ import { getEntity, updateEntity, createEntity, reset } from './parameter.reduce
 import { IParameter } from 'app/shared/model/parameter.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import { ParamsSelectContainer } from 'app/shared/components';
 
 export interface IParameterUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
@@ -80,13 +81,14 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                     <AvInput id="parameter-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
+                <ParamsSelectContainer id="parameter-type" name="type.id" labelKey="gestionTransportApp.parameter.type" paramName="typeParametre" />
                 <AvGroup>
                   <Label id="labelLabel" for="parameter-label">
                     <Translate contentKey="gestionTransportApp.parameter.label">Label</Translate>
                   </Label>
                   <AvField id="parameter-label" type="text" name="label" />
                 </AvGroup>
-                <AvGroup>
+                {/* <AvGroup>
                   <Label id="lib2Label" for="parameter-lib2">
                     <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate>
                   </Label>
@@ -97,7 +99,7 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                     <Translate contentKey="gestionTransportApp.parameter.lib3">Lib 3</Translate>
                   </Label>
                   <AvField id="parameter-lib3" type="text" name="lib3" />
-                </AvGroup>
+                </AvGroup> */}
                 {/* <AvGroup>
                 <Label id="refExterneLabel" for="parameter-refExterne">
                   <Translate contentKey="gestionTransportApp.parameter.refExterne">Ref Externe</Translate>
@@ -127,21 +129,6 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                     <Translate contentKey="gestionTransportApp.parameter.ordre">Ordre</Translate>
                   </Label>
                   <AvField id="parameter-ordre" type="string" className="form-control" name="ordre" />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="parameter-type">
-                    <Translate contentKey="gestionTransportApp.parameter.type">Type</Translate>
-                  </Label>
-                  <AvInput id="parameter-type" type="select" className="form-control" name="type.id">
-                    <option value="" key="0" />
-                    {parameters
-                      ? parameters.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.label}
-                        </option>
-                      ))
-                      : null}
-                  </AvInput>
                 </AvGroup>
                 {/* <AvGroup>
                   <Label for="parameter-paraent">

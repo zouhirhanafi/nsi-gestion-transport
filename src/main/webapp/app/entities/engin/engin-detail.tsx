@@ -9,8 +9,9 @@ import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './engin.reducer';
 import { IEngin } from 'app/shared/model/engin.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { ParamValue } from 'app/shared/components';
 
-export interface IEnginDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IEnginDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const EnginDetail = (props: IEnginDetailProps) => {
   useEffect(() => {
@@ -30,13 +31,7 @@ export const EnginDetail = (props: IEnginDetailProps) => {
               <Translate contentKey="gestionTransportApp.engin.type">Type</Translate>
             </span>
           </dt>
-          <dd>{enginEntity.type}</dd>
-          <dt>
-            <span id="reference">
-              <Translate contentKey="gestionTransportApp.engin.reference">Reference</Translate>
-            </span>
-          </dt>
-          <dd>{enginEntity.reference}</dd>
+          <dd><ParamValue value={enginEntity.type} /></dd>
           <dt>
             <span id="libelle">
               <Translate contentKey="gestionTransportApp.engin.libelle">Libelle</Translate>

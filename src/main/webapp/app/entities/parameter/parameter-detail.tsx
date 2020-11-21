@@ -31,7 +31,7 @@ export const ParameterDetail = (props: IParameterDetailProps) => {
             </span>
           </dt>
           <dd>{parameterEntity.label}</dd>
-          <dt>
+          {/* <dt>
             <span id="lib2">
               <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate>
             </span>
@@ -42,7 +42,7 @@ export const ParameterDetail = (props: IParameterDetailProps) => {
               <Translate contentKey="gestionTransportApp.parameter.lib3">Lib 3</Translate>
             </span>
           </dt>
-          <dd>{parameterEntity.lib3}</dd>
+          <dd>{parameterEntity.lib3}</dd> */}
           {/* <dt>
             <span id="refExterne">
               <Translate contentKey="gestionTransportApp.parameter.refExterne">Ref Externe</Translate>

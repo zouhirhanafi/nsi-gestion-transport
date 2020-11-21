@@ -15,6 +15,7 @@ import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
+  isSystem: boolean;
   isAdmin: boolean;
   ribbonEnv: string;
   isInProduction: boolean;
@@ -58,10 +59,10 @@ const Header = (props: IHeaderProps) => {
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
             {props.isAuthenticated && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && (
+            {props.isAuthenticated && props.isSystem && (
               <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
             )}
-            <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
+            {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} /> */}
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
         </Collapse>

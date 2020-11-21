@@ -17,8 +17,9 @@ import { getEntity, updateEntity, createEntity, reset } from './affectation.redu
 import { IAffectation } from 'app/shared/model/affectation.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import { ParamsSelectContainer } from 'app/shared/components';
 
-export interface IAffectationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IAffectationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const AffectationUpdate = (props: IAffectationUpdateProps) => {
   const [attributeurId, setAttributeurId] = useState('0');
@@ -26,7 +27,7 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
   const [agentId, setAgentId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { affectationEntity, users, engins, conducteurs, loading, updating } = props;
+  const { affectationEntity, users, engins, conducteurs, loading, updating, account } = props;
 
   const handleClose = () => {
     props.history.push('/affectation');
@@ -80,42 +81,76 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : affectationEntity} onSubmit={saveEntity}>
-              {!isNew ? (
+              <AvForm model={isNew ? {} : affectationEntity} onSubmit={saveEntity}>
+                {isNew ? (
+                  <>
+                    <AvInput
+                      type="hidden"
+                      name="dateCreation"
+                      value={displayDefaultDateTime()}
+                    />
+                    <AvInput
+                      type="hidden"
+                      name="attributeur.id"
+                      value={account.id}
+                    />
+                    <AvInput
+                      type="hidden"
+                      name="statut"
+                      value="C"
+                    />
+                  </>
+                ) : <AvGroup>
+                    <Label for="affectation-id">
+                      <Translate contentKey="global.field.id">ID</Translate>
+                    </Label>
+                    <AvInput id="affectation-id" type="text" className="form-control" name="id" required readOnly />
+                  </AvGroup>}
                 <AvGroup>
-                  <Label for="affectation-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
+                  <Label id="dateAffectationLabel" for="affectation-dateAffectation">
+                    <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>
                   </Label>
-                  <AvInput id="affectation-id" type="text" className="form-control" name="id" required readOnly />
+                  <AvInput
+                    id="affectation-dateAffectation"
+                    type="datetime-local"
+                    className="form-control"
+                    name="dateAffectation"
+                    placeholder={'YYYY-MM-DD HH:mm'}
+                    value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.affectationEntity.dateAffectation)}
+                  />
                 </AvGroup>
-              ) : null}
-              <AvGroup>
-                <Label id="dateAffectationLabel" for="affectation-dateAffectation">
-                  <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>
-                </Label>
-                <AvInput
-                  id="affectation-dateAffectation"
-                  type="datetime-local"
-                  className="form-control"
-                  name="dateAffectation"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.affectationEntity.dateAffectation)}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="dateCreationLabel" for="affectation-dateCreation">
-                  <Translate contentKey="gestionTransportApp.affectation.dateCreation">Date Creation</Translate>
-                </Label>
-                <AvInput
-                  id="affectation-dateCreation"
-                  type="datetime-local"
-                  className="form-control"
-                  name="dateCreation"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.affectationEntity.dateCreation)}
-                />
-              </AvGroup>
-              <AvGroup>
+                <AvGroup>
+                  <Label for="affectation-agent">
+                    <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate>
+                  </Label>
+                  <AvInput id="affectation-agent" type="select" className="form-control" name="agent.id">
+                    <option value="" key="0" />
+                    {conducteurs
+                      ? conducteurs.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.nom}
+                        </option>
+                      ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
+                  <Label for="affectation-engin">
+                    <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
+                  </Label>
+                  <AvInput id="affectation-engin" type="select" className="form-control" name="engin.id">
+                    <option value="" key="0" />
+                    {engins
+                      ? engins.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.libelle}
+                        </option>
+                      ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <ParamsSelectContainer id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" />
+                {/* <AvGroup>
                 <Label id="statutLabel" for="affectation-statut">
                   <Translate contentKey="gestionTransportApp.affectation.statut">Statut</Translate>
                 </Label>
@@ -130,20 +165,8 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                   <option value="S">{translate('gestionTransportApp.StatutAffectation.S')}</option>
                   <option value="N">{translate('gestionTransportApp.StatutAffectation.N')}</option>
                 </AvInput>
-              </AvGroup>
-              <AvGroup>
-                <Label id="motifAnnulationLabel" for="affectation-motifAnnulation">
-                  <Translate contentKey="gestionTransportApp.affectation.motifAnnulation">Motif Annulation</Translate>
-                </Label>
-                <AvField id="affectation-motifAnnulation" type="text" name="motifAnnulation" />
-              </AvGroup>
-              <AvGroup>
-                <Label id="operationLabel" for="affectation-operation">
-                  <Translate contentKey="gestionTransportApp.affectation.operation">Operation</Translate>
-                </Label>
-                <AvField id="affectation-operation" type="string" className="form-control" name="operation" />
-              </AvGroup>
-              <AvGroup>
+              </AvGroup> */}
+                {/* <AvGroup>
                 <Label for="affectation-attributeur">
                   <Translate contentKey="gestionTransportApp.affectation.attributeur">Attributeur</Translate>
                 </Label>
@@ -157,52 +180,22 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                       ))
                     : null}
                 </AvInput>
-              </AvGroup>
-              <AvGroup>
-                <Label for="affectation-engin">
-                  <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
-                </Label>
-                <AvInput id="affectation-engin" type="select" className="form-control" name="engin.id">
-                  <option value="" key="0" />
-                  {engins
-                    ? engins.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <AvGroup>
-                <Label for="affectation-agent">
-                  <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate>
-                </Label>
-                <AvInput id="affectation-agent" type="select" className="form-control" name="agent.id">
-                  <option value="" key="0" />
-                  {conducteurs
-                    ? conducteurs.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/affectation" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
+              </AvGroup> */}
+                <Button tag={Link} id="cancel-save" to="/affectation" replace color="info">
+                  <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button>
               &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
+                <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                  <FontAwesomeIcon icon="save" />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
-            </AvForm>
-          )}
+                </Button>
+              </AvForm>
+            )}
         </Col>
       </Row>
     </div>
@@ -217,6 +210,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   loading: storeState.affectation.loading,
   updating: storeState.affectation.updating,
   updateSuccess: storeState.affectation.updateSuccess,
+  account: storeState.authentication.account,
 });
 
 const mapDispatchToProps = {

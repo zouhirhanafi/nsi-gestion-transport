@@ -21,7 +21,7 @@ import AppRoutes from 'app/routes';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
-export interface IAppProps extends StateProps, DispatchProps {}
+export interface IAppProps extends StateProps, DispatchProps { }
 
 export const App = (props: IAppProps) => {
   useEffect(() => {
@@ -37,6 +37,7 @@ export const App = (props: IAppProps) => {
         <ErrorBoundary>
           <Header
             isAuthenticated={props.isAuthenticated}
+            isSystem={props.isSystem}
             isAdmin={props.isAdmin}
             currentLocale={props.currentLocale}
             onLocaleChange={props.setLocale}
@@ -61,6 +62,7 @@ export const App = (props: IAppProps) => {
 const mapStateToProps = ({ authentication, applicationProfile, locale }: IRootState) => ({
   currentLocale: locale.currentLocale,
   isAuthenticated: authentication.isAuthenticated,
+  isSystem: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.SYSTEM]),
   isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
   ribbonEnv: applicationProfile.ribbonEnv,
   isInProduction: applicationProfile.inProduction,

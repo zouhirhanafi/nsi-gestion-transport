@@ -32,10 +32,10 @@ import { faCloud } from '@fortawesome/free-solid-svg-icons/faCloud';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons/faAddressCard';
 import { faStethoscope } from '@fortawesome/free-solid-svg-icons/faStethoscope';
 import { faPenSquare } from '@fortawesome/free-solid-svg-icons/faPenSquare';
-import { faFolder, faLaptopMedical, faNotesMedical, faFileMedicalAlt } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faLaptopMedical, faNotesMedical, faFileMedicalAlt, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { format } from 'url';
-import { faCheck, faHospitalUser, faTv, faClock, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faHospitalUser, faTv, faClock, faPrint, faUserCog, faTruckMoving } from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
   library.add(
@@ -81,6 +81,9 @@ export const loadIcons = () => {
     faFolder,
     faLaptopMedical,
     faNotesMedical,
-    faFileMedicalAlt
+    faFileMedicalAlt,
+    faUserCog,
+    faUsers,
+    faTruckMoving
   );
 };

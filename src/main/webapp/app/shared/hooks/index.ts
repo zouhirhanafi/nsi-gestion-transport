@@ -76,3 +76,16 @@ export const useCrudReducer = (entities = []) => {
   const get = () => (state.currentIndex !== undefined ? state.entities[state.currentIndex] : null);
   return { state, create, read, update, remove, reset, get };
 };
+
+export const useFormInput = (initialValue = undefined) => {
+  const [value, setValue] = useState(initialValue);
+
+  const onChange = e => {
+    setValue(e.target.value);
+  };
+
+  return {
+    value,
+    onChange,
+  };
+};

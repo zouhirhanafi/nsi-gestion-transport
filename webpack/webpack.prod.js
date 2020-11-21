@@ -16,19 +16,19 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
   // devtool: 'source-map', // Enable source maps. Please note that this will slow down the build
   mode: ENV,
   entry: {
-    main: './src/main/webapp/app/index'
+    main: './src/main/webapp/app/index',
   },
   output: {
     path: utils.root('build/resources/main/static/'),
     filename: 'app/[name].[hash].bundle.js',
-    chunkFilename: 'app/[name].[hash].chunk.js'
+    chunkFilename: 'app/[name].[hash].chunk.js',
   },
   module: {
     rules: [
       {
         enforce: 'pre',
         test: /\.s?css$/,
-        loader: 'stripcomment-loader'
+        loader: 'stripcomment-loader',
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -36,18 +36,18 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: '../'
-            }
+              publicPath: '../',
+            },
           },
           'css-loader',
           'postcss-loader',
           {
             loader: 'sass-loader',
-            options: { implementation: sass }
-          }
-        ]
-      }
-    ]
+            options: { implementation: sass },
+          },
+        ],
+      },
+    ],
   },
   optimization: {
     runtimeChunk: false,
@@ -66,46 +66,71 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             warnings: false,
             ecma: 6,
             module: true,
-            toplevel: true
+            toplevel: true,
           },
           output: {
-              comments: false,
-              beautify: false,
-              indent_level: 2,
-              ecma: 6
+            comments: false,
+            beautify: false,
+            indent_level: 2,
+            ecma: 6,
           },
           mangle: {
             keep_fnames: true,
             module: true,
-            toplevel: true
-          }
-        }
+            toplevel: true,
+          },
+        },
       }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       filename: 'content/[name].[hash].css',
-      chunkFilename: 'content/[name].[hash].css'
+      chunkFilename: 'content/[name].[hash].css',
     }),
     new MomentLocalesPlugin({
       localesToKeep: [
+        'fr',
         'ar-ly',
         'en',
-        'fr'
         // jhipster-needle-i18n-language-moment-webpack - JHipster will add/remove languages in this array
-      ]
+      ],
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
-      debug: false
+      debug: false,
     }),
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
-      exclude: [/swagger-ui/]
-    })
-  ]
+      runtimeCaching: [
+        {
+          urlPattern: /\.(?:css|js|html)$/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'myCache',
+            expiration: {
+              maxAgeSeconds: 60 * 60 * 24,
+            },
+            broadcastUpdate: {
+              channelName: 'update-myCache',
+            },
+          },
+        },
+        {
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|eot|ttf|woff|woff2)$/,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'assetCache',
+            broadcastUpdate: {
+              channelName: 'update-assetCache',
+            },
+          },
+        },
+      ],
+      exclude: [/swagger-ui/],
+    }),
+  ],
 });

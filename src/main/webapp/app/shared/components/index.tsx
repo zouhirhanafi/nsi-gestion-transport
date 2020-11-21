@@ -188,6 +188,14 @@ export const ParamCheckbox = connect(paramOptionMapStateToProps)(AvCheckbox);
 
 export const Span = ({ value, label = value, dispatch = undefined, ...props }) => <span {...props}>{label}</span>;
 export const ParamValue = connect(paramOptionMapStateToProps)(Span);
+export const ParamsValues = ({ values }) => (
+  <>
+    {values.map(value => (
+      <ParamValue value={value} key={value} className="box" />
+    ))}
+  </>
+);
+
 
 export const Button = ReactButton;
 export const CButton = ({ confirm = undefined, confirmArgs = {}, confirmTitle = 'entity.confirm.title', onClick, ...props }) => {

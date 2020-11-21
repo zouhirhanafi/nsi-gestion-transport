@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
 
 import locale, { LocaleState } from './locale';
+import entities, { EntitiesState } from './entities.reducer';
 import authentication, { AuthenticationState } from './authentication';
 import applicationProfile, { ApplicationProfileState } from './application-profile';
 
@@ -17,6 +18,10 @@ import parameter, {
   ParameterState
 } from 'app/entities/parameter/parameter.reducer';
 // prettier-ignore
+import params, {
+  ParamsState
+} from 'app/entities/parameter/params.reducer';
+// prettier-ignore
 import engin, {
   EnginState
 } from 'app/entities/engin/engin.reducer';
@@ -31,6 +36,8 @@ import affectation, {
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
+  readonly entities: EntitiesState;
+  readonly params: ParamsState;
   readonly authentication: AuthenticationState;
   readonly locale: LocaleState;
   readonly applicationProfile: ApplicationProfileState;
@@ -50,6 +57,8 @@ export interface IRootState {
 }
 
 const rootReducer = combineReducers<IRootState>({
+  entities,
+  params,
   authentication,
   locale,
   applicationProfile,

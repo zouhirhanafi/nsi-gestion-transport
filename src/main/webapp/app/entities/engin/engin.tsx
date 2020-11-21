@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,8 +11,9 @@ import { IEngin } from 'app/shared/model/engin.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ParamValue, CTable } from 'app/shared/components';
 
-export interface IEnginProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IEnginProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
 export const Engin = (props: IEnginProps) => {
   const [paginationState, setPaginationState] = useState(
@@ -77,7 +78,7 @@ export const Engin = (props: IEnginProps) => {
       </h2>
       <div className="table-responsive">
         {enginList && enginList.length > 0 ? (
-          <Table responsive>
+          <CTable>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
@@ -85,9 +86,6 @@ export const Engin = (props: IEnginProps) => {
                 </th>
                 <th className="hand" onClick={sort('type')}>
                   <Translate contentKey="gestionTransportApp.engin.type">Type</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('reference')}>
-                  <Translate contentKey="gestionTransportApp.engin.reference">Reference</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('libelle')}>
                   <Translate contentKey="gestionTransportApp.engin.libelle">Libelle</Translate> <FontAwesomeIcon icon="sort" />
@@ -103,17 +101,16 @@ export const Engin = (props: IEnginProps) => {
                       {engin.id}
                     </Button>
                   </td>
-                  <td>{engin.type}</td>
-                  <td>{engin.reference}</td>
+                  <td><ParamValue value={engin.type} /></td>
                   <td>{engin.libelle}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${engin.id}`} color="info" size="sm">
+                      {/* <Button tag={Link} to={`${match.url}/${engin.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
-                      </Button>
+                      </Button> */}
                       <Button
                         tag={Link}
                         to={`${match.url}/${engin.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
@@ -141,14 +138,14 @@ export const Engin = (props: IEnginProps) => {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </CTable>
         ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="gestionTransportApp.engin.home.notFound">No Engins found</Translate>
-            </div>
-          )
-        )}
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="gestionTransportApp.engin.home.notFound">No Engins found</Translate>
+              </div>
+            )
+          )}
       </div>
       {props.totalItems ? (
         <div className={enginList && enginList.length > 0 ? '' : 'd-none'}>
@@ -166,8 +163,8 @@ export const Engin = (props: IEnginProps) => {
           </Row>
         </div>
       ) : (
-        ''
-      )}
+          ''
+        )}
     </div>
   );
 };

@@ -19,6 +19,7 @@ export const ACTION_TYPES = {
   CREATE_AFFECTATION: 'affectation/CREATE_AFFECTATION',
   UPDATE_AFFECTATION: 'affectation/UPDATE_AFFECTATION',
   DELETE_AFFECTATION: 'affectation/DELETE_AFFECTATION',
+  CANCEL_AFFECTATION: 'affectation/CANCEL_AFFECTATION',
   RESET: 'affectation/RESET',
 };
 
@@ -50,6 +51,7 @@ export default (state: AffectationState = initialState, action): AffectationStat
     case REQUEST(ACTION_TYPES.CREATE_AFFECTATION):
     case REQUEST(ACTION_TYPES.UPDATE_AFFECTATION):
     case REQUEST(ACTION_TYPES.DELETE_AFFECTATION):
+    case REQUEST(ACTION_TYPES.CANCEL_AFFECTATION):
       return {
         ...state,
         errorMessage: null,
@@ -61,6 +63,7 @@ export default (state: AffectationState = initialState, action): AffectationStat
     case FAILURE(ACTION_TYPES.CREATE_AFFECTATION):
     case FAILURE(ACTION_TYPES.UPDATE_AFFECTATION):
     case FAILURE(ACTION_TYPES.DELETE_AFFECTATION):
+    case FAILURE(ACTION_TYPES.CANCEL_AFFECTATION):
       return {
         ...state,
         loading: false,
@@ -93,6 +96,7 @@ export default (state: AffectationState = initialState, action): AffectationStat
         updateSuccess: true,
         entity: action.payload.data,
       };
+    case SUCCESS(ACTION_TYPES.CANCEL_AFFECTATION):
     case SUCCESS(ACTION_TYPES.DELETE_AFFECTATION):
       return {
         ...state,
@@ -150,6 +154,15 @@ export const deleteEntity: ICrudDeleteAction<IAffectation> = id => async dispatc
   const result = await dispatch({
     type: ACTION_TYPES.DELETE_AFFECTATION,
     payload: axios.delete(requestUrl),
+  });
+  return result;
+};
+
+export const cancelEntity: ICrudPutAction<IAffectation> = ({ id, motifAnnulation: value }) => async dispatch => {
+  const requestUrl = `${apiUrl}/${id}/cancel`;
+  const result = await dispatch({
+    type: ACTION_TYPES.CANCEL_AFFECTATION,
+    payload: axios.put(requestUrl, { value }),
   });
   return result;
 };

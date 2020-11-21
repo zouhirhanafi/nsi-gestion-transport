@@ -3,15 +3,18 @@
     "affectation": {
       "home": {
         "title": "Affectations",
-        "createLabel": "Créer un nouveau Affectation",
-        "createOrEditLabel": "Créer ou éditer un Affectation",
-        "notFound": "Aucun Affectation trouvé"
+        "createLabel": "Créer une Affectation",
+        "createOrEditLabel": "Créer ou éditer une Affectation",
+        "notFound": "Aucune Affectation trouvée"
       },
       "created": "Un nouveau Affectation a été créé avec l'identifiant {{ param }}",
       "updated": "Le Affectation avec l'identifiant {{ param }} a été mis à jour",
       "deleted": "Le Affectation avec l'identifiant {{ param }} a été supprimé",
       "delete": {
-        "question": "Etes-vous certain de vouloir supprimer le Affectation {{ id }} ?"
+        "question": "Etes-vous certain de vouloir supprimer l'Affectation {{ id }} ?"
+      },
+      "cancel": {
+        "question": "Etes-vous certain de vouloir annuler l'Affectation {{ id }} ?"
       },
       "detail": {
         "title": "Affectation"
@@ -23,7 +26,7 @@
       "operation": "Operation",
       "attributeur": "Attributeur",
       "engin": "Engin",
-      "agent": "Agent"
+      "agent": "Conducteur"
     }
   }
 }

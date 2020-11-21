@@ -5,6 +5,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 import { Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames/bind';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities, reset } from './affectation.reducer';
@@ -12,8 +13,10 @@ import { IAffectation } from 'app/shared/model/affectation.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { StatutAffectation } from 'app/shared/model/enumerations/statut-affectation.model';
+import { CTable, ParamValue } from 'app/shared/components';
 
-export interface IAffectationProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IAffectationProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
 export const Affectation = (props: IAffectationProps) => {
   const [paginationState, setPaginationState] = useState(
@@ -96,102 +99,106 @@ export const Affectation = (props: IAffectationProps) => {
           initialLoad={false}
         >
           {affectationList && affectationList.length > 0 ? (
-            <Table responsive>
+            <CTable>
               <thead>
                 <tr>
+                  <th />
                   <th className="hand" onClick={sort('id')}>
                     <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
+                    <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
+                    <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th className="hand" onClick={sort('operation')}>
+                    <Translate contentKey="gestionTransportApp.affectation.operation">Operation</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('dateAffectation')}>
                     <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={sort('dateCreation')}>
+                  {/* <th className="hand" onClick={sort('dateCreation')}>
                     <Translate contentKey="gestionTransportApp.affectation.dateCreation">Date Creation</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('statut')}>
+                  </th> */}
+                  {/* <th className="hand" onClick={sort('statut')}>
                     <Translate contentKey="gestionTransportApp.affectation.statut">Statut</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('motifAnnulation')}>
                     <Translate contentKey="gestionTransportApp.affectation.motifAnnulation">Motif Annulation</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('operation')}>
-                    <Translate contentKey="gestionTransportApp.affectation.operation">Operation</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
+                  </th> */}
+                  {/* <th>
                     <Translate contentKey="gestionTransportApp.affectation.attributeur">Attributeur</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th />
+                  </th> */}
                 </tr>
               </thead>
               <tbody>
                 {affectationList.map((affectation, i) => (
-                  <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${affectation.id}`} color="link" size="sm">
-                        {affectation.id}
-                      </Button>
+                  <tr className={classNames(
+                    { 'text-warning': StatutAffectation.N === affectation.statut }
+                  )} key={`entity-${i}`}>
+                    <td className="text-right">
+                      {
+                        StatutAffectation.C === affectation.statut && (
+
+                          <div className="btn-group flex-btn-group-container">
+                            <Button tag={Link} to={`${match.url}/${affectation.id}/cancel`} color="warning" size="sm">
+                              <FontAwesomeIcon icon="ban" />{' '}
+                              <span className="d-none d-md-inline">
+                                <Translate contentKey="entity.action.cancel">Cancel</Translate>
+                              </span>
+                            </Button>
+                            {/* <Button tag={Link} to={`${match.url}/${affectation.id}/edit`} color="primary" size="sm">
+                              <FontAwesomeIcon icon="pencil-alt" />{' '}
+                              <span className="d-none d-md-inline">
+                                <Translate contentKey="entity.action.edit">Edit</Translate>
+                              </span>
+                            </Button> */}
+                            <Button tag={Link} to={`${match.url}/${affectation.id}/delete`} color="danger" size="sm">
+                              <FontAwesomeIcon icon="trash" />{' '}
+                              <span className="d-none d-md-inline">
+                                <Translate contentKey="entity.action.delete">Delete</Translate>
+                              </span>
+                            </Button>
+                          </div>
+                        )}
                     </td>
+                    <td>
+                      {affectation.id}
+                    </td>
+                    <td>{affectation.agent ? affectation.agent.nom : ''}</td>
+                    <td>{affectation.engin ? affectation.engin.libelle : ''}</td>
+                    <td><ParamValue value={affectation.operation} /></td>
                     <td>
                       {affectation.dateAffectation ? (
                         <TextFormat type="date" value={affectation.dateAffectation} format={APP_DATE_FORMAT} />
                       ) : null}
                     </td>
-                    <td>
+                    {/* <td>
                       {affectation.dateCreation ? (
                         <TextFormat type="date" value={affectation.dateCreation} format={APP_DATE_FORMAT} />
                       ) : null}
-                    </td>
-                    <td>
+                    </td> */}
+                    {/* <td>
                       <Translate contentKey={`gestionTransportApp.StatutAffectation.${affectation.statut}`} />
                     </td>
-                    <td>{affectation.motifAnnulation}</td>
-                    <td>{affectation.operation}</td>
-                    <td>{affectation.attributeur ? affectation.attributeur.id : ''}</td>
-                    <td>{affectation.engin ? <Link to={`engin/${affectation.engin.id}`}>{affectation.engin.id}</Link> : ''}</td>
-                    <td>{affectation.agent ? <Link to={`conducteur/${affectation.agent.id}`}>{affectation.agent.id}</Link> : ''}</td>
-                    <td className="text-right">
-                      <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${affectation.id}`} color="info" size="sm">
-                          <FontAwesomeIcon icon="eye" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
-                          </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${affectation.id}/edit`} color="primary" size="sm">
-                          <FontAwesomeIcon icon="pencil-alt" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.edit">Edit</Translate>
-                          </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${affectation.id}/delete`} color="danger" size="sm">
-                          <FontAwesomeIcon icon="trash" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.delete">Delete</Translate>
-                          </span>
-                        </Button>
-                      </div>
-                    </td>
+                    <td>{affectation.motifAnnulation}</td> */}
+                    {/* <td>{affectation.attributeur ? affectation.attributeur.id : ''}</td> */}
                   </tr>
                 ))}
               </tbody>
-            </Table>
+            </CTable>
           ) : (
-            !loading && (
-              <div className="alert alert-warning">
-                <Translate contentKey="gestionTransportApp.affectation.home.notFound">No Affectations found</Translate>
-              </div>
-            )
-          )}
+              !loading && (
+                <div className="alert alert-warning">
+                  <Translate contentKey="gestionTransportApp.affectation.home.notFound">No Affectations found</Translate>
+                </div>
+              )
+            )}
         </InfiniteScroll>
       </div>
     </div>

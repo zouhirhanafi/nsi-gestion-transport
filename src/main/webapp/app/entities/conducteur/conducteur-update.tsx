@@ -11,6 +11,7 @@ import { getEntity, updateEntity, createEntity, reset } from './conducteur.reduc
 import { IConducteur } from 'app/shared/model/conducteur.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import { ParamsWidget } from 'app/shared/components';
 
 export interface IConducteurUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
@@ -88,11 +89,12 @@ export const ConducteurUpdate = (props: IConducteurUpdateProps) => {
                     }}
                   />
                 </AvGroup>
+
                 <AvGroup>
-                  <Label id="affectationLabel" for="conducteur-affectation">
-                    <Translate contentKey="gestionTransportApp.conducteur.affectation">Affectation</Translate>
+                  <Label id="affectationLabel">
+                    <Translate contentKey="gestionTransportApp.conducteur.affectations">Affectation</Translate>
                   </Label>
-                  <AvField id="conducteur-affectation" type="string" className="form-control" name="affectations" />
+                  <ParamsWidget name="affectations" paramName="typeEngin" />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/conducteur" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />

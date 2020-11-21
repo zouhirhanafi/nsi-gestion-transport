@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,6 +11,7 @@ import { IConducteur } from 'app/shared/model/conducteur.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ParamsValues, CTable } from 'app/shared/components';
 
 export interface IConducteurProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> { }
 
@@ -77,7 +78,7 @@ export const Conducteur = (props: IConducteurProps) => {
       </h2>
       <div className="table-responsive">
         {conducteurList && conducteurList.length > 0 ? (
-          <Table responsive>
+          <CTable>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
@@ -86,30 +87,30 @@ export const Conducteur = (props: IConducteurProps) => {
                 <th className="hand" onClick={sort('nom')}>
                   <Translate contentKey="gestionTransportApp.conducteur.nom">Nom</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('affectation')}>
-                  <Translate contentKey="gestionTransportApp.conducteur.affectation">Affectation</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('affectations')}>
+                  <Translate contentKey="gestionTransportApp.conducteur.affectations">Affectation</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
             </thead>
             <tbody>
               {conducteurList.map((conducteur, i) => (
-                <tr key={`entity-${i}`}>
+                <tr key={`entity-${i}`} >
                   <td>
                     <Button tag={Link} to={`${match.url}/${conducteur.id}`} color="link" size="sm">
                       {conducteur.id}
                     </Button>
                   </td>
                   <td>{conducteur.nom}</td>
-                  <td>{conducteur.affectations}</td>
+                  <td><ParamsValues values={conducteur.affectations} /></td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${conducteur.id}`} color="info" size="sm">
+                      {/* <Button tag={Link} to={`${match.url}/${conducteur.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
-                      </Button>
+                      </Button> */}
                       <Button
                         tag={Link}
                         to={`${match.url}/${conducteur.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
@@ -137,7 +138,7 @@ export const Conducteur = (props: IConducteurProps) => {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </CTable>
         ) : (
             !loading && (
               <div className="alert alert-warning">

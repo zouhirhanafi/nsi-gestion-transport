@@ -7,6 +7,7 @@ import Affectation from './affectation';
 import AffectationDetail from './affectation-detail';
 import AffectationUpdate from './affectation-update';
 import AffectationDeleteDialog from './affectation-delete-dialog';
+import AffectationCancelDialog from './affectation-cancel-dialog';
 
 const Routes = ({ match }) => (
   <>
@@ -17,6 +18,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={match.url} component={Affectation} />
     </Switch>
     <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={AffectationDeleteDialog} />
+    <ErrorBoundaryRoute exact path={`${match.url}/:id/cancel`} component={AffectationCancelDialog} />
   </>
 );
 

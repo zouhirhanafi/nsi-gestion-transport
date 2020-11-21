@@ -9,6 +9,7 @@ import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './conducteur.reducer';
 import { IConducteur } from 'app/shared/model/conducteur.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { ParamsValues } from 'app/shared/components';
 
 export interface IConducteurDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
@@ -33,10 +34,10 @@ export const ConducteurDetail = (props: IConducteurDetailProps) => {
           <dd>{conducteurEntity.nom}</dd>
           <dt>
             <span id="affectation">
-              <Translate contentKey="gestionTransportApp.conducteur.affectation">Affectation</Translate>
+              <Translate contentKey="gestionTransportApp.conducteur.affectations">Affectation</Translate>
             </span>
           </dt>
-          <dd>{conducteurEntity.affectations}</dd>
+          <dd><ParamsValues values={conducteurEntity.affectations} /></dd>
         </dl>
         <Button tag={Link} to="/conducteur" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}
