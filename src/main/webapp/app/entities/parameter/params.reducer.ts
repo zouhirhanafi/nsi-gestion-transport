@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, IPayload } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -86,20 +86,13 @@ export const paramSelector = id => state => {
   return entitySelector('parameters', id)(state);
 };
 
-export const loadEntities = () => async dispatch => {
-  // console.log('load entities ');
-  dispatch({ type: REQUEST(ACTION_TYPES.FETCH_PARAMETER_FORM_LIST) });
-  try {
-    const requestUrl = `${apiUrl}/forms?cacheBuster=${new Date().getTime()}`;
-    const { data } = await axios.get(requestUrl);
-    // console.log('load entities ', data);
-    // dispatch(getParametresSuccess({ result: { popularite } }));
-    const { entities, result } = normalize(data, parameterValuesSchema);
-    // console.log('normalized entities ', entities, result);
-    dispatch(getEntities({ entities, data: result }));
-
-    return result;
-  } catch (error) {
-    dispatch({ type: FAILURE(ACTION_TYPES.FETCH_PARAMETER_FORM_LIST) });
-  }
+export const loadEntities = () => {
+  const requestUrl = `${apiUrl}/forms?cacheBuster=${new Date().getTime()}`;
+  return {
+    type: ACTION_TYPES.FETCH_PARAMETER_FORM_LIST,
+    payload: axios.get<IParameter>(`${requestUrl}`).then(({ data }) => {
+      const { entities, result } = normalize(data, parameterValuesSchema);
+      return { entities, data: result };
+    }),
+  };
 };

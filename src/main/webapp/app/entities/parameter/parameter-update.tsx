@@ -9,6 +9,7 @@ import { IRootState } from 'app/shared/reducers';
 
 import { getEntities as getParameters } from 'app/entities/parameter/parameter.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './parameter.reducer';
+import { loadEntities } from './params.reducer';
 import { IParameter } from 'app/shared/model/parameter.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
@@ -35,6 +36,7 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
     }
 
     props.getParameters();
+    props.loadEntities();
   }, []);
 
   useEffect(() => {
@@ -175,6 +177,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  loadEntities,
   getParameters,
   getEntity,
   updateEntity,

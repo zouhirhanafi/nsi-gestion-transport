@@ -12,6 +12,7 @@ import { IConducteur } from 'app/shared/model/conducteur.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { ParamsWidget } from 'app/shared/components';
+import { loadEntities } from 'app/entities/parameter/params.reducer';
 
 export interface IConducteurUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
@@ -30,6 +31,7 @@ export const ConducteurUpdate = (props: IConducteurUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+    props.loadEntities();
   }, []);
 
   useEffect(() => {
@@ -125,6 +127,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  loadEntities,
   getEntity,
   updateEntity,
   createEntity,

@@ -12,6 +12,7 @@ import { IEngin } from 'app/shared/model/engin.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { ParamsSelectContainer } from 'app/shared/components';
+import { loadEntities } from 'app/entities/parameter/params.reducer';
 
 export interface IEnginUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
@@ -30,6 +31,7 @@ export const EnginUpdate = (props: IEnginUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+    props.loadEntities();
   }, []);
 
   useEffect(() => {
@@ -119,6 +121,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  loadEntities,
   getEntity,
   updateEntity,
   createEntity,
