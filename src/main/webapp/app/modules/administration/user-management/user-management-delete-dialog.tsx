@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getUser, deleteUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 
-export interface IUserManagementDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> {}
+export interface IUserManagementDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> { }
 
 export const UserManagementDeleteDialog = (props: IUserManagementDeleteDialogProps) => {
   useEffect(() => {
@@ -17,7 +17,7 @@ export const UserManagementDeleteDialog = (props: IUserManagementDeleteDialogPro
 
   const handleClose = event => {
     event.stopPropagation();
-    props.history.push('/admin/user-management');
+    props.history.push('/user-management');
   };
 
   const confirmDelete = event => {

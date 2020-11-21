@@ -10,7 +10,7 @@ import { languages } from 'app/config/translation';
 import { getUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 
-export interface IUserManagementDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> {}
+export interface IUserManagementDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> { }
 
 export const UserManagementDetail = (props: IUserManagementDetailProps) => {
   useEffect(() => {
@@ -36,10 +36,10 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
                 <Translate contentKey="userManagement.activated">Activated</Translate>
               </Badge>
             ) : (
-              <Badge color="danger">
-                <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
-              </Badge>
-            )}
+                <Badge color="danger">
+                  <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                </Badge>
+              )}
           </dd>
           <dt>
             <Translate contentKey="userManagement.firstName">First Name</Translate>
@@ -84,16 +84,16 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
             <ul className="list-unstyled">
               {user.authorities
                 ? user.authorities.map((authority, i) => (
-                    <li key={`user-auth-${i}`}>
-                      <Badge color="info">{authority}</Badge>
-                    </li>
-                  ))
+                  <li key={`user-auth-${i}`}>
+                    <Badge color="info">{authority}</Badge>
+                  </li>
+                ))
                 : null}
             </ul>
           </dd>
         </dl>
       </Row>
-      <Button tag={Link} to="/admin/user-management" replace color="info">
+      <Button tag={Link} to="/user-management" replace color="info">
         <FontAwesomeIcon icon="arrow-left" />{' '}
         <span className="d-none d-md-inline">
           <Translate contentKey="entity.action.back">Back</Translate>

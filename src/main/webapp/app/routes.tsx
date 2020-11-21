@@ -37,7 +37,7 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.SYSTEM]} />
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
-      <PrivateRoute path="/" exact component={Affectation} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+      <PrivateRoute path="/" exact component={Home} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN]} />
       <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>

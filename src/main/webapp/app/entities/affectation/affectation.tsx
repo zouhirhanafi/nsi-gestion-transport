@@ -139,12 +139,11 @@ export const Affectation = (props: IAffectationProps) => {
               <tbody>
                 {affectationList.map((affectation, i) => (
                   <tr className={classNames(
-                    { 'text-warning': StatutAffectation.N === affectation.statut }
+                    { 'text-warning': affectation.statut && 'N' === affectation.statut.toString() }
                   )} key={`entity-${i}`}>
                     <td className="text-right">
                       {
-                        StatutAffectation.C === affectation.statut && (
-
+                        !affectation.statut || 'C' === affectation.statut.toString() && (
                           <div className="btn-group flex-btn-group-container">
                             <Button tag={Link} to={`${match.url}/${affectation.id}/cancel`} color="warning" size="sm">
                               <FontAwesomeIcon icon="ban" />{' '}

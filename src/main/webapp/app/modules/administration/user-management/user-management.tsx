@@ -11,7 +11,7 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { getUsers, updateUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 
-export interface IUserManagementProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
+export interface IUserManagementProps extends StateProps, DispatchProps, RouteComponentProps<{}> { }
 
 export const UserManagement = (props: IUserManagementProps) => {
   const [pagination, setPagination] = useState(
@@ -72,10 +72,10 @@ export const UserManagement = (props: IUserManagementProps) => {
       <Table responsive striped>
         <thead>
           <tr>
-            <th className="hand" onClick={sort('id')}>
+            {/* <th className="hand" onClick={sort('id')}>
               <Translate contentKey="global.field.id">ID</Translate>
               <FontAwesomeIcon icon="sort" />
-            </th>
+            </th> */}
             <th className="hand" onClick={sort('login')}>
               <Translate contentKey="userManagement.login">Login</Translate>
               <FontAwesomeIcon icon="sort" />
@@ -110,11 +110,11 @@ export const UserManagement = (props: IUserManagementProps) => {
         <tbody>
           {users.map((user, i) => (
             <tr id={user.login} key={`user-${i}`}>
-              <td>
+              {/* <td>
                 <Button tag={Link} to={`${match.url}/${user.login}`} color="link" size="sm">
                   {user.id}
                 </Button>
-              </td>
+              </td> */}
               <td>{user.login}</td>
               <td>{user.email}</td>
               <td>
@@ -123,19 +123,19 @@ export const UserManagement = (props: IUserManagementProps) => {
                     <Translate contentKey="userManagement.activated">Activated</Translate>
                   </Button>
                 ) : (
-                  <Button color="danger" onClick={toggleActive(user)}>
-                    <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
-                  </Button>
-                )}
+                    <Button color="danger" onClick={toggleActive(user)}>
+                      <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                    </Button>
+                  )}
               </td>
               <td>{user.langKey}</td>
               <td>
                 {user.authorities
                   ? user.authorities.map((authority, j) => (
-                      <div key={`user-auth-${i}-${j}`}>
-                        <Badge color="info">{authority}</Badge>
-                      </div>
-                    ))
+                    <div key={`user-auth-${i}-${j}`}>
+                      <Badge color="info">{authority}</Badge>
+                    </div>
+                  ))
                   : null}
               </td>
               <td>
@@ -149,12 +149,12 @@ export const UserManagement = (props: IUserManagementProps) => {
               </td>
               <td className="text-right">
                 <div className="btn-group flex-btn-group-container">
-                  <Button tag={Link} to={`${match.url}/${user.login}`} color="info" size="sm">
+                  {/* <Button tag={Link} to={`${match.url}/${user.login}`} color="info" size="sm">
                     <FontAwesomeIcon icon="eye" />{' '}
                     <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.view">View</Translate>
                     </span>
-                  </Button>
+                  </Button> */}
                   <Button tag={Link} to={`${match.url}/${user.login}/edit`} color="primary" size="sm">
                     <FontAwesomeIcon icon="pencil-alt" />{' '}
                     <span className="d-none d-md-inline">
@@ -195,8 +195,8 @@ export const UserManagement = (props: IUserManagementProps) => {
           </Row>
         </div>
       ) : (
-        ''
-      )}
+          ''
+        )}
     </div>
   );
 };
