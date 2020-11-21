@@ -1,4 +1,4 @@
-version: '2'
+version: '3.8'
 services:
   gestiontransport-app:
     image: gestiontransport
@@ -12,5 +12,5 @@ services:
       - 8080:8080
   gestiontransport-mysql:
     extends:
-      file: mysql.yml
+      file: docker-compose-mysql.yml
       service: gestiontransport-mysql

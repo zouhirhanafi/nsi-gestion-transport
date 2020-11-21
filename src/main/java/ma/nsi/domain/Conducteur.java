@@ -2,17 +2,16 @@ package ma.nsi.domain;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,7 +22,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "conducteur")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Conducteur implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,9 +33,9 @@ public class Conducteur implements Serializable {
     private String nom;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@ElementCollection
-	@CollectionTable(name = "conducteur_affectations")
-	private Set<String> affectations;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "conducteur_affectations")
+    private Set<String> affectations;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -61,7 +59,7 @@ public class Conducteur implements Serializable {
         this.nom = nom;
     }
 
-    public Set<String> getAffectation() {
+    public Set<String> getAffectations() {
         return affectations;
     }
 
@@ -70,9 +68,10 @@ public class Conducteur implements Serializable {
         return this;
     }
 
-    public void setAffectation(Set<String> affectations) {
+    public void setAffectations(Set<String> affectations) {
         this.affectations = affectations;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -97,7 +96,7 @@ public class Conducteur implements Serializable {
         return "Conducteur{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
-            ", affectation=" + getAffectation() +
+            ", affectation=" + getAffectations() +
             "}";
     }
 }

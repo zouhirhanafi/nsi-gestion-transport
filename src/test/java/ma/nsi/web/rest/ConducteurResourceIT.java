@@ -11,9 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
+import ma.nsi.GestionTransportApp;
+import ma.nsi.domain.Conducteur;
+import ma.nsi.repository.ConducteurRepository;
+import ma.nsi.service.ConducteurQueryService;
+import ma.nsi.service.ConducteurService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +27,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import ma.nsi.GestionTransportApp;
-import ma.nsi.domain.Conducteur;
-import ma.nsi.repository.ConducteurRepository;
-import ma.nsi.service.ConducteurQueryService;
-import ma.nsi.service.ConducteurService;
-
 /**
  * Integration tests for the {@link ConducteurResource} REST controller.
  */
@@ -37,7 +34,6 @@ import ma.nsi.service.ConducteurService;
 @AutoConfigureMockMvc
 @WithMockUser
 public class ConducteurResourceIT {
-
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
@@ -69,11 +65,10 @@ public class ConducteurResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Conducteur createEntity(EntityManager em) {
-        Conducteur conducteur = new Conducteur()
-            .nom(DEFAULT_NOM)
-            ;
+        Conducteur conducteur = new Conducteur().nom(DEFAULT_NOM);
         return conducteur;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -81,9 +76,7 @@ public class ConducteurResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Conducteur createUpdatedEntity(EntityManager em) {
-        Conducteur conducteur = new Conducteur()
-            .nom(UPDATED_NOM)
-            ;
+        Conducteur conducteur = new Conducteur().nom(UPDATED_NOM);
         return conducteur;
     }
 
@@ -97,9 +90,10 @@ public class ConducteurResourceIT {
     public void createConducteur() throws Exception {
         int databaseSizeBeforeCreate = conducteurRepository.findAll().size();
         // Create the Conducteur
-        restConducteurMockMvc.perform(post("/api/conducteurs")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(conducteur)))
+        restConducteurMockMvc
+            .perform(
+                post("/api/conducteurs").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(conducteur))
+            )
             .andExpect(status().isCreated());
 
         // Validate the Conducteur in the database
@@ -107,7 +101,7 @@ public class ConducteurResourceIT {
         assertThat(conducteurList).hasSize(databaseSizeBeforeCreate + 1);
         Conducteur testConducteur = conducteurList.get(conducteurList.size() - 1);
         assertThat(testConducteur.getNom()).isEqualTo(DEFAULT_NOM);
-        assertThat(testConducteur.getAffectation()).isEqualTo(DEFAULT_AFFECTATION);
+        assertThat(testConducteur.getAffectations()).isEqualTo(DEFAULT_AFFECTATION);
     }
 
     @Test
@@ -119,16 +113,16 @@ public class ConducteurResourceIT {
         conducteur.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restConducteurMockMvc.perform(post("/api/conducteurs")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(conducteur)))
+        restConducteurMockMvc
+            .perform(
+                post("/api/conducteurs").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(conducteur))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Conducteur in the database
         List<Conducteur> conducteurList = conducteurRepository.findAll();
         assertThat(conducteurList).hasSize(databaseSizeBeforeCreate);
     }
-
 
     @Test
     @Transactional
@@ -139,10 +133,10 @@ public class ConducteurResourceIT {
 
         // Create the Conducteur, which fails.
 
-
-        restConducteurMockMvc.perform(post("/api/conducteurs")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(conducteur)))
+        restConducteurMockMvc
+            .perform(
+                post("/api/conducteurs").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(conducteur))
+            )
             .andExpect(status().isBadRequest());
 
         List<Conducteur> conducteurList = conducteurRepository.findAll();
@@ -156,14 +150,15 @@ public class ConducteurResourceIT {
         conducteurRepository.saveAndFlush(conducteur);
 
         // Get all the conducteurList
-        restConducteurMockMvc.perform(get("/api/conducteurs?sort=id,desc"))
+        restConducteurMockMvc
+            .perform(get("/api/conducteurs?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(conducteur.getId().intValue())))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].affectation").value(hasItem(DEFAULT_AFFECTATION)));
     }
-    
+
     @Test
     @Transactional
     public void getConducteur() throws Exception {
@@ -171,14 +166,14 @@ public class ConducteurResourceIT {
         conducteurRepository.saveAndFlush(conducteur);
 
         // Get the conducteur
-        restConducteurMockMvc.perform(get("/api/conducteurs/{id}", conducteur.getId()))
+        restConducteurMockMvc
+            .perform(get("/api/conducteurs/{id}", conducteur.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(conducteur.getId().intValue()))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.affectation").value(DEFAULT_AFFECTATION));
     }
-
 
     @Test
     @Transactional
@@ -197,7 +192,6 @@ public class ConducteurResourceIT {
         defaultConducteurShouldBeFound("id.lessThanOrEqual=" + id);
         defaultConducteurShouldNotBeFound("id.lessThan=" + id);
     }
-
 
     @Test
     @Transactional
@@ -250,7 +244,8 @@ public class ConducteurResourceIT {
         // Get all the conducteurList where nom is null
         defaultConducteurShouldNotBeFound("nom.specified=false");
     }
-                @Test
+
+    @Test
     @Transactional
     public void getAllConducteursByNomContainsSomething() throws Exception {
         // Initialize the database
@@ -275,7 +270,6 @@ public class ConducteurResourceIT {
         // Get all the conducteurList where nom does not contain UPDATED_NOM
         defaultConducteurShouldBeFound("nom.doesNotContain=" + UPDATED_NOM);
     }
-
 
     @Test
     @Transactional
@@ -385,7 +379,8 @@ public class ConducteurResourceIT {
      * Executes the search, and checks that the default entity is returned.
      */
     private void defaultConducteurShouldBeFound(String filter) throws Exception {
-        restConducteurMockMvc.perform(get("/api/conducteurs?sort=id,desc&" + filter))
+        restConducteurMockMvc
+            .perform(get("/api/conducteurs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(conducteur.getId().intValue())))
@@ -393,7 +388,8 @@ public class ConducteurResourceIT {
             .andExpect(jsonPath("$.[*].affectation").value(hasItem(DEFAULT_AFFECTATION)));
 
         // Check, that the count call also returns 1
-        restConducteurMockMvc.perform(get("/api/conducteurs/count?sort=id,desc&" + filter))
+        restConducteurMockMvc
+            .perform(get("/api/conducteurs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
@@ -403,14 +399,16 @@ public class ConducteurResourceIT {
      * Executes the search, and checks that the default entity is not returned.
      */
     private void defaultConducteurShouldNotBeFound(String filter) throws Exception {
-        restConducteurMockMvc.perform(get("/api/conducteurs?sort=id,desc&" + filter))
+        restConducteurMockMvc
+            .perform(get("/api/conducteurs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
-        restConducteurMockMvc.perform(get("/api/conducteurs/count?sort=id,desc&" + filter))
+        restConducteurMockMvc
+            .perform(get("/api/conducteurs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
@@ -420,8 +418,7 @@ public class ConducteurResourceIT {
     @Transactional
     public void getNonExistingConducteur() throws Exception {
         // Get the conducteur
-        restConducteurMockMvc.perform(get("/api/conducteurs/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restConducteurMockMvc.perform(get("/api/conducteurs/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -436,13 +433,14 @@ public class ConducteurResourceIT {
         Conducteur updatedConducteur = conducteurRepository.findById(conducteur.getId()).get();
         // Disconnect from session so that the updates on updatedConducteur are not directly saved in db
         em.detach(updatedConducteur);
-        updatedConducteur
-            .nom(UPDATED_NOM)
-            ;
+        updatedConducteur.nom(UPDATED_NOM);
 
-        restConducteurMockMvc.perform(put("/api/conducteurs")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedConducteur)))
+        restConducteurMockMvc
+            .perform(
+                put("/api/conducteurs")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedConducteur))
+            )
             .andExpect(status().isOk());
 
         // Validate the Conducteur in the database
@@ -450,7 +448,7 @@ public class ConducteurResourceIT {
         assertThat(conducteurList).hasSize(databaseSizeBeforeUpdate);
         Conducteur testConducteur = conducteurList.get(conducteurList.size() - 1);
         assertThat(testConducteur.getNom()).isEqualTo(UPDATED_NOM);
-        assertThat(testConducteur.getAffectation()).isEqualTo(UPDATED_AFFECTATION);
+        assertThat(testConducteur.getAffectations()).isEqualTo(UPDATED_AFFECTATION);
     }
 
     @Test
@@ -459,9 +457,8 @@ public class ConducteurResourceIT {
         int databaseSizeBeforeUpdate = conducteurRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restConducteurMockMvc.perform(put("/api/conducteurs")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(conducteur)))
+        restConducteurMockMvc
+            .perform(put("/api/conducteurs").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(conducteur)))
             .andExpect(status().isBadRequest());
 
         // Validate the Conducteur in the database
@@ -478,8 +475,8 @@ public class ConducteurResourceIT {
         int databaseSizeBeforeDelete = conducteurRepository.findAll().size();
 
         // Delete the conducteur
-        restConducteurMockMvc.perform(delete("/api/conducteurs/{id}", conducteur.getId())
-            .accept(MediaType.APPLICATION_JSON))
+        restConducteurMockMvc
+            .perform(delete("/api/conducteurs/{id}", conducteur.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

@@ -1,12 +1,22 @@
 package ma.nsi.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+import javax.persistence.EntityManager;
 import ma.nsi.GestionTransportApp;
 import ma.nsi.domain.Engin;
 import ma.nsi.repository.EnginRepository;
-import ma.nsi.service.EnginService;
-import ma.nsi.service.dto.EnginCriteria;
 import ma.nsi.service.EnginQueryService;
-
+import ma.nsi.service.EnginService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link EnginResource} REST controller.
@@ -31,13 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class EnginResourceIT {
-
     private static final Integer DEFAULT_TYPE = 1;
     private static final Integer UPDATED_TYPE = 2;
     private static final Integer SMALLER_TYPE = 1 - 1;
-
-    private static final String DEFAULT_REFERENCE = "AAAAAAAAAA";
-    private static final String UPDATED_REFERENCE = "BBBBBBBBBB";
 
     private static final String DEFAULT_LIBELLE = "AAAAAAAAAA";
     private static final String UPDATED_LIBELLE = "BBBBBBBBBB";
@@ -66,12 +65,10 @@ public class EnginResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Engin createEntity(EntityManager em) {
-        Engin engin = new Engin()
-            .type(DEFAULT_TYPE)
-            .reference(DEFAULT_REFERENCE)
-            .libelle(DEFAULT_LIBELLE);
+        Engin engin = new Engin().type(DEFAULT_TYPE).libelle(DEFAULT_LIBELLE);
         return engin;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -79,10 +76,7 @@ public class EnginResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Engin createUpdatedEntity(EntityManager em) {
-        Engin engin = new Engin()
-            .type(UPDATED_TYPE)
-            .reference(UPDATED_REFERENCE)
-            .libelle(UPDATED_LIBELLE);
+        Engin engin = new Engin().type(UPDATED_TYPE).libelle(UPDATED_LIBELLE);
         return engin;
     }
 
@@ -96,9 +90,8 @@ public class EnginResourceIT {
     public void createEngin() throws Exception {
         int databaseSizeBeforeCreate = enginRepository.findAll().size();
         // Create the Engin
-        restEnginMockMvc.perform(post("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(engin)))
+        restEnginMockMvc
+            .perform(post("/api/engins").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(engin)))
             .andExpect(status().isCreated());
 
         // Validate the Engin in the database
@@ -106,7 +99,6 @@ public class EnginResourceIT {
         assertThat(enginList).hasSize(databaseSizeBeforeCreate + 1);
         Engin testEngin = enginList.get(enginList.size() - 1);
         assertThat(testEngin.getType()).isEqualTo(DEFAULT_TYPE);
-        assertThat(testEngin.getReference()).isEqualTo(DEFAULT_REFERENCE);
         assertThat(testEngin.getLibelle()).isEqualTo(DEFAULT_LIBELLE);
     }
 
@@ -119,16 +111,14 @@ public class EnginResourceIT {
         engin.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restEnginMockMvc.perform(post("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(engin)))
+        restEnginMockMvc
+            .perform(post("/api/engins").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(engin)))
             .andExpect(status().isBadRequest());
 
         // Validate the Engin in the database
         List<Engin> enginList = enginRepository.findAll();
         assertThat(enginList).hasSize(databaseSizeBeforeCreate);
     }
-
 
     @Test
     @Transactional
@@ -139,29 +129,8 @@ public class EnginResourceIT {
 
         // Create the Engin, which fails.
 
-
-        restEnginMockMvc.perform(post("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(engin)))
-            .andExpect(status().isBadRequest());
-
-        List<Engin> enginList = enginRepository.findAll();
-        assertThat(enginList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkReferenceIsRequired() throws Exception {
-        int databaseSizeBeforeTest = enginRepository.findAll().size();
-        // set the field null
-        engin.setReference(null);
-
-        // Create the Engin, which fails.
-
-
-        restEnginMockMvc.perform(post("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(engin)))
+        restEnginMockMvc
+            .perform(post("/api/engins").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(engin)))
             .andExpect(status().isBadRequest());
 
         List<Engin> enginList = enginRepository.findAll();
@@ -177,10 +146,8 @@ public class EnginResourceIT {
 
         // Create the Engin, which fails.
 
-
-        restEnginMockMvc.perform(post("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(engin)))
+        restEnginMockMvc
+            .perform(post("/api/engins").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(engin)))
             .andExpect(status().isBadRequest());
 
         List<Engin> enginList = enginRepository.findAll();
@@ -194,15 +161,15 @@ public class EnginResourceIT {
         enginRepository.saveAndFlush(engin);
 
         // Get all the enginList
-        restEnginMockMvc.perform(get("/api/engins?sort=id,desc"))
+        restEnginMockMvc
+            .perform(get("/api/engins?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(engin.getId().intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE)))
-            .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE)))
             .andExpect(jsonPath("$.[*].libelle").value(hasItem(DEFAULT_LIBELLE)));
     }
-    
+
     @Test
     @Transactional
     public void getEngin() throws Exception {
@@ -210,15 +177,14 @@ public class EnginResourceIT {
         enginRepository.saveAndFlush(engin);
 
         // Get the engin
-        restEnginMockMvc.perform(get("/api/engins/{id}", engin.getId()))
+        restEnginMockMvc
+            .perform(get("/api/engins/{id}", engin.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(engin.getId().intValue()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE))
-            .andExpect(jsonPath("$.reference").value(DEFAULT_REFERENCE))
             .andExpect(jsonPath("$.libelle").value(DEFAULT_LIBELLE));
     }
-
 
     @Test
     @Transactional
@@ -237,7 +203,6 @@ public class EnginResourceIT {
         defaultEnginShouldBeFound("id.lessThanOrEqual=" + id);
         defaultEnginShouldNotBeFound("id.lessThan=" + id);
     }
-
 
     @Test
     @Transactional
@@ -343,85 +308,6 @@ public class EnginResourceIT {
         defaultEnginShouldBeFound("type.greaterThan=" + SMALLER_TYPE);
     }
 
-
-    @Test
-    @Transactional
-    public void getAllEnginsByReferenceIsEqualToSomething() throws Exception {
-        // Initialize the database
-        enginRepository.saveAndFlush(engin);
-
-        // Get all the enginList where reference equals to DEFAULT_REFERENCE
-        defaultEnginShouldBeFound("reference.equals=" + DEFAULT_REFERENCE);
-
-        // Get all the enginList where reference equals to UPDATED_REFERENCE
-        defaultEnginShouldNotBeFound("reference.equals=" + UPDATED_REFERENCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEnginsByReferenceIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        enginRepository.saveAndFlush(engin);
-
-        // Get all the enginList where reference not equals to DEFAULT_REFERENCE
-        defaultEnginShouldNotBeFound("reference.notEquals=" + DEFAULT_REFERENCE);
-
-        // Get all the enginList where reference not equals to UPDATED_REFERENCE
-        defaultEnginShouldBeFound("reference.notEquals=" + UPDATED_REFERENCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEnginsByReferenceIsInShouldWork() throws Exception {
-        // Initialize the database
-        enginRepository.saveAndFlush(engin);
-
-        // Get all the enginList where reference in DEFAULT_REFERENCE or UPDATED_REFERENCE
-        defaultEnginShouldBeFound("reference.in=" + DEFAULT_REFERENCE + "," + UPDATED_REFERENCE);
-
-        // Get all the enginList where reference equals to UPDATED_REFERENCE
-        defaultEnginShouldNotBeFound("reference.in=" + UPDATED_REFERENCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEnginsByReferenceIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        enginRepository.saveAndFlush(engin);
-
-        // Get all the enginList where reference is not null
-        defaultEnginShouldBeFound("reference.specified=true");
-
-        // Get all the enginList where reference is null
-        defaultEnginShouldNotBeFound("reference.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllEnginsByReferenceContainsSomething() throws Exception {
-        // Initialize the database
-        enginRepository.saveAndFlush(engin);
-
-        // Get all the enginList where reference contains DEFAULT_REFERENCE
-        defaultEnginShouldBeFound("reference.contains=" + DEFAULT_REFERENCE);
-
-        // Get all the enginList where reference contains UPDATED_REFERENCE
-        defaultEnginShouldNotBeFound("reference.contains=" + UPDATED_REFERENCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEnginsByReferenceNotContainsSomething() throws Exception {
-        // Initialize the database
-        enginRepository.saveAndFlush(engin);
-
-        // Get all the enginList where reference does not contain DEFAULT_REFERENCE
-        defaultEnginShouldNotBeFound("reference.doesNotContain=" + DEFAULT_REFERENCE);
-
-        // Get all the enginList where reference does not contain UPDATED_REFERENCE
-        defaultEnginShouldBeFound("reference.doesNotContain=" + UPDATED_REFERENCE);
-    }
-
-
     @Test
     @Transactional
     public void getAllEnginsByLibelleIsEqualToSomething() throws Exception {
@@ -473,7 +359,8 @@ public class EnginResourceIT {
         // Get all the enginList where libelle is null
         defaultEnginShouldNotBeFound("libelle.specified=false");
     }
-                @Test
+
+    @Test
     @Transactional
     public void getAllEnginsByLibelleContainsSomething() throws Exception {
         // Initialize the database
@@ -503,16 +390,17 @@ public class EnginResourceIT {
      * Executes the search, and checks that the default entity is returned.
      */
     private void defaultEnginShouldBeFound(String filter) throws Exception {
-        restEnginMockMvc.perform(get("/api/engins?sort=id,desc&" + filter))
+        restEnginMockMvc
+            .perform(get("/api/engins?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(engin.getId().intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE)))
-            .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE)))
             .andExpect(jsonPath("$.[*].libelle").value(hasItem(DEFAULT_LIBELLE)));
 
         // Check, that the count call also returns 1
-        restEnginMockMvc.perform(get("/api/engins/count?sort=id,desc&" + filter))
+        restEnginMockMvc
+            .perform(get("/api/engins/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
@@ -522,14 +410,16 @@ public class EnginResourceIT {
      * Executes the search, and checks that the default entity is not returned.
      */
     private void defaultEnginShouldNotBeFound(String filter) throws Exception {
-        restEnginMockMvc.perform(get("/api/engins?sort=id,desc&" + filter))
+        restEnginMockMvc
+            .perform(get("/api/engins?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
-        restEnginMockMvc.perform(get("/api/engins/count?sort=id,desc&" + filter))
+        restEnginMockMvc
+            .perform(get("/api/engins/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
@@ -539,8 +429,7 @@ public class EnginResourceIT {
     @Transactional
     public void getNonExistingEngin() throws Exception {
         // Get the engin
-        restEnginMockMvc.perform(get("/api/engins/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restEnginMockMvc.perform(get("/api/engins/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -555,14 +444,10 @@ public class EnginResourceIT {
         Engin updatedEngin = enginRepository.findById(engin.getId()).get();
         // Disconnect from session so that the updates on updatedEngin are not directly saved in db
         em.detach(updatedEngin);
-        updatedEngin
-            .type(UPDATED_TYPE)
-            .reference(UPDATED_REFERENCE)
-            .libelle(UPDATED_LIBELLE);
+        updatedEngin.type(UPDATED_TYPE).libelle(UPDATED_LIBELLE);
 
-        restEnginMockMvc.perform(put("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedEngin)))
+        restEnginMockMvc
+            .perform(put("/api/engins").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(updatedEngin)))
             .andExpect(status().isOk());
 
         // Validate the Engin in the database
@@ -570,7 +455,6 @@ public class EnginResourceIT {
         assertThat(enginList).hasSize(databaseSizeBeforeUpdate);
         Engin testEngin = enginList.get(enginList.size() - 1);
         assertThat(testEngin.getType()).isEqualTo(UPDATED_TYPE);
-        assertThat(testEngin.getReference()).isEqualTo(UPDATED_REFERENCE);
         assertThat(testEngin.getLibelle()).isEqualTo(UPDATED_LIBELLE);
     }
 
@@ -580,9 +464,8 @@ public class EnginResourceIT {
         int databaseSizeBeforeUpdate = enginRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restEnginMockMvc.perform(put("/api/engins")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(engin)))
+        restEnginMockMvc
+            .perform(put("/api/engins").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(engin)))
             .andExpect(status().isBadRequest());
 
         // Validate the Engin in the database
@@ -599,8 +482,8 @@ public class EnginResourceIT {
         int databaseSizeBeforeDelete = enginRepository.findAll().size();
 
         // Delete the engin
-        restEnginMockMvc.perform(delete("/api/engins/{id}", engin.getId())
-            .accept(MediaType.APPLICATION_JSON))
+        restEnginMockMvc
+            .perform(delete("/api/engins/{id}", engin.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

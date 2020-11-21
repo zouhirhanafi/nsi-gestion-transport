@@ -11,12 +11,12 @@
             <column name="conducteur_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="indications" type="varchar(25)">
+            <column name="affectations" type="varchar(25)">
                 <constraints nullable="false"/>
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <addPrimaryKey columnNames="conducteur_id, indications" tableName="conducteur_affectations"/>
+        <addPrimaryKey columnNames="conducteur_id, affectations" tableName="conducteur_affectations"/>
     </changeSet>
 
 

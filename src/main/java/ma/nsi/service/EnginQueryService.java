@@ -1,9 +1,12 @@
 package ma.nsi.service;
 
+import io.github.jhipster.service.QueryService;
 import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+// for static metamodels
+import ma.nsi.domain.Engin;
+import ma.nsi.domain.Engin_;
+import ma.nsi.repository.EnginRepository;
+import ma.nsi.service.dto.EnginCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,13 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.github.jhipster.service.QueryService;
-
-import ma.nsi.domain.Engin;
-import ma.nsi.domain.*; // for static metamodels
-import ma.nsi.repository.EnginRepository;
-import ma.nsi.service.dto.EnginCriteria;
 
 /**
  * Service for executing complex queries for {@link Engin} entities in the database.
@@ -28,7 +24,6 @@ import ma.nsi.service.dto.EnginCriteria;
 @Service
 @Transactional(readOnly = true)
 public class EnginQueryService extends QueryService<Engin> {
-
     private final Logger log = LoggerFactory.getLogger(EnginQueryService.class);
 
     private final EnginRepository enginRepository;
@@ -87,9 +82,6 @@ public class EnginQueryService extends QueryService<Engin> {
             }
             if (criteria.getType() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getType(), Engin_.type));
-            }
-            if (criteria.getReference() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getReference(), Engin_.reference));
             }
             if (criteria.getLibelle() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLibelle(), Engin_.libelle));

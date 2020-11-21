@@ -1,12 +1,15 @@
 package ma.nsi.domain;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import java.io.Serializable;
 
 /**
  * A Engin.
@@ -15,7 +18,6 @@ import java.io.Serializable;
 @Table(name = "engin")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Engin implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -25,10 +27,6 @@ public class Engin implements Serializable {
     @NotNull
     @Column(name = "type", nullable = false)
     private Integer type;
-
-    @NotNull
-    @Column(name = "reference", nullable = false, unique = true)
-    private String reference;
 
     @NotNull
     @Column(name = "libelle", nullable = false)
@@ -56,19 +54,6 @@ public class Engin implements Serializable {
         this.type = type;
     }
 
-    public String getReference() {
-        return reference;
-    }
-
-    public Engin reference(String reference) {
-        this.reference = reference;
-        return this;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
     public String getLibelle() {
         return libelle;
     }
@@ -81,6 +66,7 @@ public class Engin implements Serializable {
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -105,7 +91,6 @@ public class Engin implements Serializable {
         return "Engin{" +
             "id=" + getId() +
             ", type=" + getType() +
-            ", reference='" + getReference() + "'" +
             ", libelle='" + getLibelle() + "'" +
             "}";
     }

@@ -1,29 +1,34 @@
 package ma.nsi.web.rest;
 
-import ma.nsi.domain.Affectation;
-import ma.nsi.service.AffectationService;
-import ma.nsi.web.rest.errors.BadRequestAlertException;
-import ma.nsi.service.dto.AffectationCriteria;
-import ma.nsi.service.AffectationQueryService;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import ma.nsi.domain.Affectation;
+import ma.nsi.service.AffectationQueryService;
+import ma.nsi.service.AffectationService;
+import ma.nsi.service.dto.AffectationCriteria;
+import ma.nsi.service.dto.WrappedValue;
+import ma.nsi.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * REST controller for managing {@link ma.nsi.domain.Affectation}.
@@ -31,7 +36,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class AffectationResource {
-
     private final Logger log = LoggerFactory.getLogger(AffectationResource.class);
 
     private static final String ENTITY_NAME = "affectation";
@@ -62,7 +66,8 @@ public class AffectationResource {
             throw new BadRequestAlertException("A new affectation cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Affectation result = affectationService.save(affectation);
-        return ResponseEntity.created(new URI("/api/affectations/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/affectations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -83,9 +88,21 @@ public class AffectationResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Affectation result = affectationService.save(affectation);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, affectation.getId().toString()))
             .body(result);
+    }
+
+    @PutMapping("/affectations/{id}/cancel")
+    public ResponseEntity<Affectation> cancelAffectation(@PathVariable Long id, @RequestBody WrappedValue<String> motif)
+        throws URISyntaxException {
+        log.debug("REST request to cancel Affectation : {}", id);
+        affectationService.cancel(id, motif.getValue());
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     /**
@@ -138,6 +155,9 @@ public class AffectationResource {
     public ResponseEntity<Void> deleteAffectation(@PathVariable Long id) {
         log.debug("REST request to delete Affectation : {}", id);
         affectationService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

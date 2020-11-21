@@ -1,5 +1,6 @@
 id;label;lib_2;lib_3;type_id;val_1;val_2;val_3;ordre
-1001;Opération 1;;;1;;;;10
-1002;Opération 2;;;1;;;;20
-101;1;;;2;;;;10
-102;2;;;2;;;;20
+1001;Operation 1;;;1;;;;10
+1002;Operation 2;;;1;;;;20
+101;type engin 1;;;2;;;;10
+102;type engin 2;;;2;;;;20
+103;type engin 3;;;2;;;;30

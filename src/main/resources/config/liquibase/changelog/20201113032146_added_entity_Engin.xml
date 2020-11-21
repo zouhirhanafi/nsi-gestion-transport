@@ -19,9 +19,6 @@
             <column name="type" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="reference" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_engin_reference" />
-            </column>
             <column name="libelle" type="varchar(255)">
                 <constraints nullable="false" />
             </column>

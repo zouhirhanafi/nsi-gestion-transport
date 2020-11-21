@@ -1,15 +1,12 @@
 package ma.nsi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-
+import javax.persistence.*;
 import ma.nsi.domain.enumeration.StatutAffectation;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Affectation.
@@ -17,8 +14,7 @@ import ma.nsi.domain.enumeration.StatutAffectation;
 @Entity
 @Table(name = "affectation")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Affectation implements Serializable {
-
+public class Affectation extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -165,6 +161,7 @@ public class Affectation implements Serializable {
     public void setAgent(Conducteur conducteur) {
         this.agent = conducteur;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

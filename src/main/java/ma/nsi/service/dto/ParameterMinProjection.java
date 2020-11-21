@@ -1,9 +1,9 @@
 package ma.nsi.service.dto;
 
 public interface ParameterMinProjection {
+    String getId();
 
-	Integer getId();
+    String getLabel();
 
-	String getLabel();
-
+    String getLib2();
 }
