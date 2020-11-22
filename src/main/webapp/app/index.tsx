@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { PersistGate } from 'redux-persist/integration/react'
 
 import DevTools from './config/devtools';
 import initStore from './config/store';
@@ -15,7 +16,7 @@ import { loadEntities } from './entities/parameter/params.reducer';
 
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
 
-const store = initStore();
+const { store, persistor } = initStore();
 registerLocale(store);
 
 const actions = bindActionCreators({ clearAuthentication, loadEntities }, store.dispatch);
@@ -31,11 +32,13 @@ const render = Component =>
   ReactDOM.render(
     <ErrorBoundary>
       <Provider store={store}>
-        <div>
-          {/* If this slows down the app in dev disable it and enable when required  */}
-          {devTools}
-          <Component />
-        </div>
+        <PersistGate loading={null} persistor={persistor}>
+          <div>
+            {/* If this slows down the app in dev disable it and enable when required  */}
+            {devTools}
+            <Component />
+          </div>
+        </PersistGate>
       </Provider>
     </ErrorBoundary>,
     rootEl

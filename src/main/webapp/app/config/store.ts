@@ -1,6 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 import thunkMiddleware from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+
 import reducer, { IRootState } from 'app/shared/reducers';
 import DevTools from './devtools';
 import errorMiddleware from './error-middleware';
@@ -23,6 +26,15 @@ const composedMiddlewares = middlewares =>
     ? compose(applyMiddleware(...defaultMiddlewares, ...middlewares), DevTools.instrument())
     : compose(applyMiddleware(...defaultMiddlewares, ...middlewares));
 
-const initialize = (initialState?: IRootState, middlewares = []) => createStore(reducer, initialState, composedMiddlewares(middlewares));
+const persistConfig = {
+  key: 'n_s_i_20',
+  storage,
+};
 
-export default initialize;
+const persistedReducer = persistReducer(persistConfig, reducer);
+
+export default (initialState?: IRootState, middlewares = []) => {
+  const store = createStore(persistedReducer, initialState, composedMiddlewares(middlewares));
+  const persistor = persistStore(store);
+  return { store, persistor };
+};
