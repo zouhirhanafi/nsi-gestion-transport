@@ -96,7 +96,9 @@ export const ConducteurUpdate = (props: IConducteurUpdateProps) => {
                   <Label id="affectationLabel">
                     <Translate contentKey="gestionTransportApp.conducteur.affectations">Affectation</Translate>
                   </Label>
-                  <ParamsWidget name="affectations" paramName="typeEngin" />
+                  <ParamsWidget name="affectations" paramName="typeEngin" validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }} />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/conducteur" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />

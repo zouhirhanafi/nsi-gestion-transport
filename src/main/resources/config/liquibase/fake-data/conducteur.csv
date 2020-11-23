@@ -1,4 +1,4 @@
-id;nom
-1;cond 1
-2;cond 2
-3;cond 3
+id;nom;activated
+1;cond 1;true
+2;cond 2;true
+3;cond 3;true

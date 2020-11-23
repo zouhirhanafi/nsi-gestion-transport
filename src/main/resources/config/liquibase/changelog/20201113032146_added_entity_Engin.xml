@@ -22,6 +22,8 @@
             <column name="libelle" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="activated" type="boolean" valueBoolean="true">
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -46,8 +48,8 @@
                   tableName="engin">
             <column name="id" type="numeric"/>
             <column name="type" type="numeric"/>
-            <column name="reference" type="string"/>
             <column name="libelle" type="string"/>
+            <column name="activated" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

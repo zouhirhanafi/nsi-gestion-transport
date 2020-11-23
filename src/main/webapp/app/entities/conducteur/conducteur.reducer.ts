@@ -131,6 +131,7 @@ export const updateEntity: ICrudPutAction<IConducteur> = entity => async dispatc
     type: ACTION_TYPES.UPDATE_CONDUCTEUR,
     payload: axios.put(apiUrl, cleanEntity(entity)),
   });
+  dispatch(getEntities());
   return result;
 };
 

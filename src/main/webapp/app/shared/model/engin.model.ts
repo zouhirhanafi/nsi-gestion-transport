@@ -1,8 +1,8 @@
 export interface IEngin {
   id?: number;
   type?: number;
-  reference?: string;
+  activated?: boolean;
   libelle?: string;
 }
 
-export const defaultValue: Readonly<IEngin> = {};
+export const defaultValue: Readonly<IEngin> = { activated: true };

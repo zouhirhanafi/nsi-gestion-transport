@@ -78,7 +78,10 @@ export const EnginUpdate = (props: IEnginUpdateProps) => {
                     <AvInput id="engin-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
-                <ParamsSelectContainer id="engin-type" name="type" labelKey="gestionTransportApp.engin.type" paramName="typeEngin" />
+                <ParamsSelectContainer id="engin-type" name="type" labelKey="gestionTransportApp.engin.type" paramName="typeEngin" validate={{
+                  required: { value: true, errorMessage: translate('entity.validation.required') },
+                }}
+                />
                 <AvGroup>
                   <Label id="libelleLabel" for="engin-libelle">
                     <Translate contentKey="gestionTransportApp.engin.libelle">Libelle</Translate>

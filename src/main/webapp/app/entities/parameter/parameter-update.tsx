@@ -83,12 +83,16 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                     <AvInput id="parameter-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
-                <ParamsSelectContainer id="parameter-type" name="type.id" labelKey="gestionTransportApp.parameter.type" paramName="typeParametre" />
+                <ParamsSelectContainer id="parameter-type" name="type.id" labelKey="gestionTransportApp.parameter.type" paramName="typeParametre" validate={{
+                  required: { value: true, errorMessage: translate('entity.validation.required') },
+                }} />
                 <AvGroup>
                   <Label id="labelLabel" for="parameter-label">
                     <Translate contentKey="gestionTransportApp.parameter.label">Label</Translate>
                   </Label>
-                  <AvField id="parameter-label" type="text" name="label" />
+                  <AvField id="parameter-label" type="text" name="label" validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }} />
                 </AvGroup>
                 {/* <AvGroup>
                   <Label id="lib2Label" for="parameter-lib2">

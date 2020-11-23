@@ -6,7 +6,7 @@ import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './conducteur.reducer';
+import { getEntities, updateEntity } from './conducteur.reducer';
 import { IConducteur } from 'app/shared/model/conducteur.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
@@ -64,6 +64,11 @@ export const Conducteur = (props: IConducteurProps) => {
       ...paginationState,
       activePage: currentPage,
     });
+  const toggleActive = entity => () =>
+    props.updateEntity({
+      ...entity,
+      activated: !entity.activated,
+    });
 
   const { conducteurList, match, loading, totalItems } = props;
   return (
@@ -87,6 +92,7 @@ export const Conducteur = (props: IConducteurProps) => {
                 <th className="hand" onClick={sort('nom')}>
                   <Translate contentKey="gestionTransportApp.conducteur.nom">Nom</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th />
                 <th className="hand" onClick={sort('affectations')}>
                   <Translate contentKey="gestionTransportApp.conducteur.affectations">Affectation</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -102,6 +108,17 @@ export const Conducteur = (props: IConducteurProps) => {
                     </Button>
                   </td>
                   <td>{conducteur.nom}</td>
+                  <td>
+                    {conducteur.activated ? (
+                      <Button color="success" onClick={toggleActive(conducteur)}>
+                        <Translate contentKey="userManagement.activated">Activated</Translate>
+                      </Button>
+                    ) : (
+                        <Button color="danger" onClick={toggleActive(conducteur)}>
+                          <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                        </Button>
+                      )}
+                  </td>
                   <td><ParamsValues values={conducteur.affectations} /></td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
@@ -177,6 +194,7 @@ const mapStateToProps = ({ conducteur }: IRootState) => ({
 
 const mapDispatchToProps = {
   getEntities,
+  updateEntity,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

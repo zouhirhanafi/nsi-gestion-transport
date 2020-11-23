@@ -125,7 +125,9 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                   <Label for="affectation-agent">
                     <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate>
                   </Label>
-                  <AvInput id="affectation-agent" type="select" className="form-control" name="agent.id">
+                  <AvField id="affectation-agent" type="select" className="form-control" name="agent.id" validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}>
                     <option value="" key="0" />
                     {conducteurs
                       ? conducteurs.map(otherEntity => (
@@ -134,13 +136,15 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                         </option>
                       ))
                       : null}
-                  </AvInput>
+                  </AvField>
                 </AvGroup>
                 <AvGroup>
                   <Label for="affectation-engin">
                     <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
                   </Label>
-                  <AvInput id="affectation-engin" type="select" className="form-control" name="engin.id">
+                  <AvField id="affectation-engin" type="select" className="form-control" name="engin.id" validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}>
                     <option value="" key="0" />
                     {engins
                       ? engins.map(otherEntity => (
@@ -149,9 +153,11 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                         </option>
                       ))
                       : null}
-                  </AvInput>
+                  </AvField>
                 </AvGroup>
-                <ParamsSelectContainer id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" />
+                <ParamsSelectContainer id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" validate={{
+                  required: { value: true, errorMessage: translate('entity.validation.required') },
+                }} />
                 {/* <AvGroup>
                 <Label id="statutLabel" for="affectation-statut">
                   <Translate contentKey="gestionTransportApp.affectation.statut">Statut</Translate>

@@ -139,7 +139,10 @@ export const Affectation = (props: IAffectationProps) => {
               <tbody>
                 {affectationList.map((affectation, i) => (
                   <tr className={classNames(
-                    { 'text-warning': affectation.statut && 'N' === affectation.statut.toString() }
+                    {
+                      'text-warning': affectation.statut && 'N' === affectation.statut.toString(),
+                      'text-danger': affectation.statut && 'S' === affectation.statut.toString()
+                    }
                   )} key={`entity-${i}`}>
                     <td className="text-right">
                       {

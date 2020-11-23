@@ -23,7 +23,7 @@ import {
 } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvCheckboxGroup, AvCheckbox } from 'availity-reactstrap-validation';
+import { AvFeedback, AvForm, AvGroup, AvField, AvCheckboxGroup, AvCheckbox } from 'availity-reactstrap-validation';
 import { IRootState } from '../reducers';
 import { paramSelector, paramsSelector } from 'app/entities/parameter/params.reducer';
 import { connect } from 'react-redux';
@@ -113,7 +113,7 @@ export const CardDetail = ({ titleKey, title, editLink, children, links, cardCla
 );
 
 
-export const Input = ({ name, id = name, ...props }) => <AvInput type="text" className="form-control" {...props} name={name} id={id} />;
+export const Input = ({ name, id = name, ...props }) => <AvField type="text" className="form-control" {...props} name={name} id={id} />;
 
 export const LabeledInput = ({
   groupClassName = undefined,
@@ -150,12 +150,12 @@ export const Select = ({ options = [], labelKey = undefined, name, id = name, al
   );
   if (labelKey) {
     return (
-      <FormGroup>
+      <AvGroup>
         <Label for={id}>
           <Translate contentKey={labelKey} />
         </Label>
         {input}
-      </FormGroup>
+      </AvGroup>
     );
   } else {
     return input;
@@ -170,8 +170,8 @@ const paramsSelectMapStateToProps = (state: IRootState, { paramName }) => ({
 });
 export const ParamsSelectContainer = connect(paramsSelectMapStateToProps)(ParamsSelect);
 
-export const ParamsCheckboxGroup = ({ options = [], labelKey = undefined, name, inline = true }) => (
-  <AvCheckboxGroup inline={inline} name={name}>
+export const ParamsCheckboxGroup = ({ options = [], labelKey = undefined, name, inline = true, ...props }) => (
+  <AvCheckboxGroup inline={inline} name={name} {...props}>
     {options.map(option => (
       <ParamCheckbox value={option} key={option} />
     ))}

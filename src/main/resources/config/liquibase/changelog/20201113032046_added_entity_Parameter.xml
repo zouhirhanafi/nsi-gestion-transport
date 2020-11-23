@@ -19,6 +19,8 @@
             <column name="label" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="activated" type="boolean" valueBoolean="true">
+            </column>
             <column name="lib_2" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -65,6 +67,7 @@
                   tableName="parameter">
             <column name="id" type="numeric"/>
             <column name="label" type="string"/>
+            <column name="activated" type="boolean"/>
             <column name="lib_2" type="string"/>
             <column name="lib_3" type="string"/>
             <column name="type_id" type="numeric"/>

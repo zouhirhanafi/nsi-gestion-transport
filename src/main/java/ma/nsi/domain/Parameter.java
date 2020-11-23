@@ -1,8 +1,9 @@
 package ma.nsi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -11,14 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * A Parameter.
@@ -28,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @EntityListeners(AuditingEntityListener.class)
 public class Parameter implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -37,6 +33,8 @@ public class Parameter implements Serializable {
 
     @Column(name = "label")
     private String label;
+
+    private Boolean activated = true;
 
     @Column(name = "lib_2")
     private String lib2;
@@ -92,6 +90,14 @@ public class Parameter implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     public String getLib2() {
@@ -210,18 +216,18 @@ public class Parameter implements Serializable {
     public void setParaent(Parameter parameter) {
         this.paraent = parameter;
     }
-    
+
     public Instant getLastModifiedDate() {
-    	return lastModifiedDate;
+        return lastModifiedDate;
     }
-    
+
     public void setLastModifiedDate(Instant lastModifiedDate) {
-    	this.lastModifiedDate = lastModifiedDate;
+        this.lastModifiedDate = lastModifiedDate;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-
-	@Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

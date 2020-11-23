@@ -32,6 +32,8 @@ public class Engin implements Serializable {
     @Column(name = "libelle", nullable = false)
     private String libelle;
 
+    private Boolean activated = true;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -65,6 +67,14 @@ public class Engin implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

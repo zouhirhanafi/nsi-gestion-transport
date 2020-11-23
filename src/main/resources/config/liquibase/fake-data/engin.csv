@@ -1,6 +1,6 @@
-id;type;libelle
-1;101;Engin 1
-2;101;Engin 2
-3;101;Engin 3
-4;101;Engin 4
-5;102;Engin 5
+id;type;libelle;activated
+1;101;Engin 1;true
+2;101;Engin 2;true
+3;101;Engin 3;true
+4;101;Engin 4;true
+5;102;Engin 5;true

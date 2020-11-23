@@ -20,5 +20,5 @@ public interface ParameterRepository extends JpaRepository<Parameter, Long>, Jpa
     @Query("select p.id as id, p.label as label, p.lib2 as lib2 from Parameter p where p.lib3 = 'forms'")
     List<ParameterMinProjection> findParamFormList();
 
-    List<ParameterMinProjection> findByTypeIdOrderByOrdre(Long type);
+    List<ParameterMinProjection> findByTypeIdAndActivatedOrderByOrdre(Long type, Boolean activated);
 }

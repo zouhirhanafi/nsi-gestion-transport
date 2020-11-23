@@ -32,6 +32,8 @@ public class Conducteur implements Serializable {
     @Column(name = "nom", nullable = false)
     private String nom;
 
+    private Boolean activated = true;
+
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "conducteur_affectations")
@@ -57,6 +59,14 @@ public class Conducteur implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     public Set<String> getAffectations() {

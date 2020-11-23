@@ -6,7 +6,7 @@ import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './parameter.reducer';
+import { getEntities, updateEntity } from './parameter.reducer';
 import { IParameter } from 'app/shared/model/parameter.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
@@ -65,6 +65,13 @@ export const Parameter = (props: IParameterProps) => {
       activePage: currentPage,
     });
 
+  const toggleActive = entity => () =>
+    props.updateEntity({
+      ...entity,
+      activated: !entity.activated,
+    });
+
+
   const { parameterList, match, loading, totalItems } = props;
   return (
     <div>
@@ -90,6 +97,7 @@ export const Parameter = (props: IParameterProps) => {
                 <th className="hand" onClick={sort('label')}>
                   <Translate contentKey="gestionTransportApp.parameter.label">Label</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th />
                 {/* <th className="hand" onClick={sort('lib2')}>
                   <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -127,6 +135,17 @@ export const Parameter = (props: IParameterProps) => {
                   </td>
                   <td>{parameter.type ? parameter.type.label : ''}</td>
                   <td>{parameter.label}</td>
+                  <td>
+                    {parameter.activated ? (
+                      <Button color="success" onClick={toggleActive(parameter)}>
+                        <Translate contentKey="userManagement.activated">Activated</Translate>
+                      </Button>
+                    ) : (
+                        <Button color="danger" onClick={toggleActive(parameter)}>
+                          <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                        </Button>
+                      )}
+                  </td>
                   {/* <td>{parameter.lib2}</td>
                   <td>{parameter.lib3}</td> */}
                   {/* <td>{parameter.refExterne}</td>
@@ -209,6 +228,7 @@ const mapStateToProps = ({ parameter }: IRootState) => ({
 
 const mapDispatchToProps = {
   getEntities,
+  updateEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

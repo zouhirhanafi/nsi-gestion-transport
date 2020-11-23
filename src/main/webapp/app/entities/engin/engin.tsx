@@ -6,7 +6,7 @@ import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './engin.reducer';
+import { getEntities, updateEntity } from './engin.reducer';
 import { IEngin } from 'app/shared/model/engin.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
@@ -65,6 +65,12 @@ export const Engin = (props: IEnginProps) => {
       activePage: currentPage,
     });
 
+  const toggleActive = entity => () =>
+    props.updateEntity({
+      ...entity,
+      activated: !entity.activated,
+    });
+
   const { enginList, match, loading, totalItems } = props;
   return (
     <div>
@@ -91,6 +97,7 @@ export const Engin = (props: IEnginProps) => {
                   <Translate contentKey="gestionTransportApp.engin.libelle">Libelle</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -103,6 +110,17 @@ export const Engin = (props: IEnginProps) => {
                   </td>
                   <td><ParamValue value={engin.type} /></td>
                   <td>{engin.libelle}</td>
+                  <td>
+                    {engin.activated ? (
+                      <Button color="success" onClick={toggleActive(engin)}>
+                        <Translate contentKey="userManagement.activated">Activated</Translate>
+                      </Button>
+                    ) : (
+                        <Button color="danger" onClick={toggleActive(engin)}>
+                          <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                        </Button>
+                      )}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       {/* <Button tag={Link} to={`${match.url}/${engin.id}`} color="info" size="sm">
@@ -177,6 +195,7 @@ const mapStateToProps = ({ engin }: IRootState) => ({
 
 const mapDispatchToProps = {
   getEntities,
+  updateEntity,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

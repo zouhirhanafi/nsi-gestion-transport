@@ -80,7 +80,7 @@ public class ParameterService {
         paramFormList.forEach(
             param -> {
                 log.debug("search parameters for param : {}, {}, {}", param.getId(), param.getLabel(), param.getLib2());
-                params.put(param.getLib2(), parameterRepository.findByTypeIdOrderByOrdre(Long.valueOf(param.getId())));
+                params.put(param.getLib2(), parameterRepository.findByTypeIdAndActivatedOrderByOrdre(Long.valueOf(param.getId()), true));
             }
         );
         params.put("typeParametre", paramFormList);
