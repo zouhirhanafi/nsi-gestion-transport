@@ -47,15 +47,15 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         showModalLogin: true,
         loginError: true,
       };
-    case FAILURE(ACTION_TYPES.GET_SESSION):
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: false,
-        sessionHasBeenFetched: true,
-        showModalLogin: true,
-        errorMessage: action.payload,
-      };
+    // case FAILURE(ACTION_TYPES.GET_SESSION):
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     isAuthenticated: false,
+    //     sessionHasBeenFetched: true,
+    //     showModalLogin: true,
+    //     errorMessage: action.payload,
+    //   };
     case SUCCESS(ACTION_TYPES.LOGIN):
       return {
         ...state,
@@ -91,6 +91,7 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         loading: false,
         showModalLogin: true,
         isAuthenticated: false,
+        sessionHasBeenFetched: true,
       };
     default:
       return state;
