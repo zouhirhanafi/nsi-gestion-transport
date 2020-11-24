@@ -31,7 +31,7 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
   const { affectationEntity, users, engins, conducteurs, loading, updating, account } = props;
 
   const handleClose = () => {
-    props.history.push('/affectation');
+    props.history.goBack();
   };
 
   useEffect(() => {
@@ -189,7 +189,7 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                     : null}
                 </AvInput>
               </AvGroup> */}
-                <Button tag={Link} id="cancel-save" to="/affectation" replace color="info">
+                <Button id="cancel-save" onClick={() => handleClose()} replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">

@@ -9,7 +9,7 @@ import { IAffectation } from 'app/shared/model/affectation.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './affectation.reducer';
 
-export interface IAffectationDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IAffectationDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const AffectationDeleteDialog = (props: IAffectationDeleteDialogProps) => {
   useEffect(() => {
@@ -17,7 +17,7 @@ export const AffectationDeleteDialog = (props: IAffectationDeleteDialogProps) =>
   }, []);
 
   const handleClose = () => {
-    props.history.push('/affectation');
+    props.history.goBack();
   };
 
   useEffect(() => {

@@ -20,7 +20,7 @@ export const AffectationCancelDialog = (props: IAffectationCancelDialogProps) =>
   const motif = useFormInput();
 
   const handleClose = () => {
-    props.history.push('/affectation');
+    props.history.goBack();
   };
 
   useEffect(() => {
