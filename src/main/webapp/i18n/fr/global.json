@@ -1,6 +1,9 @@
 {
   "global": {
     "title": "Gestion Transport",
+    "network": {
+      "offline": "Oups ! La connexion internet semble défaillante."
+    },
     "browsehappy": "Vous utilisez un <strong>ancien</strong> navigateur. Veuillez <a href=\"http://browsehappy.com/?locale=fr\">mettre à jour votre navigateur</a> pour une meilleure expérience.",
     "menu": {
       "home": "Accueil",
@@ -23,7 +26,7 @@
         "register": "Créer un compte"
       },
       "admin": {
-        "main": "Administration",
+        "main": "Supervision",
         "userManagement": "Gestion des utilisateurs",
         "tracker": "Suivi des utilisateurs",
         "metrics": "Métriques",

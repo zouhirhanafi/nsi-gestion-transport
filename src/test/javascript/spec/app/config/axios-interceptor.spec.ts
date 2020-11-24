@@ -1,5 +1,8 @@
 import axios from 'axios';
 import sinon from 'sinon';
+import configureStore from 'redux-mock-store';
+import promiseMiddleware from 'redux-promise-middleware';
+import thunk from 'redux-thunk';
 
 import setupAxiosInterceptors from 'app/config/axios-interceptor';
 
@@ -7,7 +10,9 @@ describe('Axios Interceptor', () => {
   describe('setupAxiosInterceptors', () => {
     const client = axios;
     const onUnauthenticated = sinon.spy();
-    setupAxiosInterceptors(onUnauthenticated);
+    const mockStore = configureStore([thunk, promiseMiddleware]);
+    const store = mockStore({});
+    setupAxiosInterceptors(onUnauthenticated, store);
 
     it('onRequestSuccess is called on fulfilled request', () => {
       expect((client.interceptors.request as any).handlers[0].fulfilled({ data: 'foo', url: '/test' })).toMatchObject({

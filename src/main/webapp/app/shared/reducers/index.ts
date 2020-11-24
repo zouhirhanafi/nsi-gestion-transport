@@ -33,9 +33,11 @@ import conducteur, {
 import affectation, {
   AffectationState
 } from 'app/entities/affectation/affectation.reducer';
+import { NetworkState, networkReducer as network } from 'app/config/detectNetwork';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
+  readonly network: NetworkState;
   readonly entities: EntitiesState;
   readonly params: ParamsState;
   readonly authentication: AuthenticationState;
@@ -57,6 +59,7 @@ export interface IRootState {
 }
 
 const rootReducer = combineReducers<IRootState>({
+  network,
   entities,
   params,
   authentication,

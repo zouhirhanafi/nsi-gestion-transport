@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { translate, Translate } from 'react-jhipster';
+import { useSelector } from 'react-redux';
+import { Translate } from 'react-jhipster';
 import _ from 'lodash';
 
 import {
+  Alert,
   Row,
   Col,
   Label,
@@ -29,6 +31,7 @@ import { paramSelector, paramsSelector } from 'app/entities/parameter/params.red
 import { connect } from 'react-redux';
 import { useModal } from '../hooks';
 import { isObject, isString, uniqWith } from 'lodash';
+import { selectNetwork } from 'app/config/detectNetwork';
 
 export const RowForm = props => <Row form {...props} />;
 
@@ -335,3 +338,13 @@ export const FormSaveButton = props => (
     <Translate contentKey="entity.action.save">Save</Translate>
   </CButton>
 );
+
+export const ConnectionStatusBar = props => {
+  const network = useSelector(selectNetwork);
+
+  return network ? null : (
+    <Alert color="warning">
+      <Translate contentKey="global.network.offline">La connexion internet semble défaillante.</Translate>
+    </Alert>
+  );
+};
