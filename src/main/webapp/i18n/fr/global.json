@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Gestion Transport",
+    "title": "Transport",
     "network": {
       "offline": "Oups ! La connexion internet semble défaillante."
     },

@@ -3,21 +3,21 @@
     "engin": {
       "home": {
         "title": "Engins",
-        "createLabel": "Créer un nouveau Engin",
-        "createOrEditLabel": "Créer ou éditer un Engin",
-        "notFound": "Aucun Engin trouvé"
+        "createLabel": "Ajouter",
+        "createOrEditLabel": "Créer ou éditer un engin",
+        "notFound": "Aucun engin trouvé"
       },
-      "created": "Un nouveau Engin a été créé avec l'identifiant {{ param }}",
-      "updated": "Le Engin avec l'identifiant {{ param }} a été mis à jour",
-      "deleted": "Le Engin avec l'identifiant {{ param }} a été supprimé",
+      "created": "Un nouveau engin a été créé avec l'identifiant {{ param }}",
+      "updated": "L'engin avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "L'engin avec l'identifiant {{ param }} a été supprimé",
       "delete": {
-        "question": "Etes-vous certain de vouloir supprimer le Engin {{ id }} ?"
+        "question": "Etes-vous certain de vouloir supprimer l'engin {{ id }} ?"
       },
       "detail": {
         "title": "Engin"
       },
       "type": "Type",
-      "reference": "Reference",
+      "reference": "Référence",
       "libelle": "Libelle"
     }
   }

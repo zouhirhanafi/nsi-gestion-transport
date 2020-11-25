@@ -7,9 +7,9 @@
         "createOrEditLabel": "Créer une affectation",
         "notFound": "Aucune affectation trouvée"
       },
-      "created": "Un nouveau Affectation a été créé avec l'identifiant {{ param }}",
-      "updated": "Le Affectation avec l'identifiant {{ param }} a été mis à jour",
-      "deleted": "Le Affectation avec l'identifiant {{ param }} a été supprimé",
+      "created": "Une nouvelle affectation a été créé avec l'identifiant {{ param }}",
+      "updated": "L'affectation avec l'identifiant {{ param }} a été mise à jour",
+      "deleted": "L'affectation avec l'identifiant {{ param }} a été supprimé",
       "delete": {
         "question": "Etes-vous certain de vouloir supprimer cette affectation ?"
       },
@@ -19,11 +19,11 @@
       "detail": {
         "title": "Affectation"
       },
-      "dateAffectation": "Date Affectation",
-      "dateCreation": "Date Creation",
+      "dateAffectation": "Date",
+      "dateCreation": "Date Création",
       "statut": "Statut",
       "motifAnnulation": "Motif Annulation",
-      "operation": "Operation",
+      "operation": "Opération",
       "attributeur": "Attributeur",
       "engin": "Engin",
       "agent": "Conducteur"
