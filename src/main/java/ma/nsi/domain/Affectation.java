@@ -1,9 +1,15 @@
 package ma.nsi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 import java.time.ZonedDateTime;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import ma.nsi.domain.enumeration.StatutAffectation;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -14,7 +20,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "affectation")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Affectation extends AbstractAuditingEntity implements Serializable {
+public class Affectation extends AbstractAuditingEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -38,15 +44,15 @@ public class Affectation extends AbstractAuditingEntity implements Serializable 
     private Integer operation;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
+    private Session session;
+
+    @ManyToOne
     private User attributeur;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
     private Engin engin;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
     private Conducteur agent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -104,6 +110,14 @@ public class Affectation extends AbstractAuditingEntity implements Serializable 
     public Affectation motifAnnulation(String motifAnnulation) {
         this.motifAnnulation = motifAnnulation;
         return this;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public void setMotifAnnulation(String motifAnnulation) {

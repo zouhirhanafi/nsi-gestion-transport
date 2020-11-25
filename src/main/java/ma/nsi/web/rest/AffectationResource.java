@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import ma.nsi.domain.Affectation;
+import ma.nsi.security.AuthoritiesConstants;
 import ma.nsi.service.AffectationQueryService;
 import ma.nsi.service.AffectationService;
 import ma.nsi.service.dto.AffectationCriteria;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -112,12 +114,19 @@ public class AffectationResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of affectations in body.
      */
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     @GetMapping("/affectations")
     public ResponseEntity<List<Affectation>> getAllAffectations(AffectationCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Affectations by criteria: {}", criteria);
         Page<Affectation> page = affectationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/affectations/current")
+    public ResponseEntity<List<Affectation>> findAffectationListOfMyCurrentSession() {
+        log.debug("REST request to get all of Affectations of my current session");
+        return ResponseEntity.ok().body(affectationService.findAffectationListOfMyCurrentSession());
     }
 
     /**

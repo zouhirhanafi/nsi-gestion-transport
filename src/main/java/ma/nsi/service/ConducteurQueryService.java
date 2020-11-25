@@ -1,9 +1,12 @@
 package ma.nsi.service;
 
+import io.github.jhipster.service.QueryService;
 import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+// for static metamodels
+import ma.nsi.domain.Conducteur;
+import ma.nsi.domain.Conducteur_;
+import ma.nsi.repository.ConducteurRepository;
+import ma.nsi.service.dto.ConducteurCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,13 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.github.jhipster.service.QueryService;
-
-import ma.nsi.domain.Conducteur;
-import ma.nsi.domain.*; // for static metamodels
-import ma.nsi.repository.ConducteurRepository;
-import ma.nsi.service.dto.ConducteurCriteria;
 
 /**
  * Service for executing complex queries for {@link Conducteur} entities in the database.
@@ -28,7 +24,6 @@ import ma.nsi.service.dto.ConducteurCriteria;
 @Service
 @Transactional(readOnly = true)
 public class ConducteurQueryService extends QueryService<Conducteur> {
-
     private final Logger log = LoggerFactory.getLogger(ConducteurQueryService.class);
 
     private final ConducteurRepository conducteurRepository;
@@ -88,9 +83,12 @@ public class ConducteurQueryService extends QueryService<Conducteur> {
             if (criteria.getNom() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNom(), Conducteur_.nom));
             }
-//            if (criteria.getAffectation() != null) {
-//                specification = specification.and(buildRangeSpecification(criteria.getAffectation(), Conducteur_.affectation));
-//            }
+            if (criteria.getActivated() != null) {
+                specification = specification.and(buildSpecification(criteria.getActivated(), Conducteur_.activated));
+            }
+            //            if (criteria.getAffectation() != null) {
+            //                specification = specification.and(buildRangeSpecification(criteria.getAffectation(), Conducteur_.affectation));
+            //            }
         }
         return specification;
     }

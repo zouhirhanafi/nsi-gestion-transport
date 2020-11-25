@@ -1,15 +1,13 @@
 package ma.nsi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link ma.nsi.domain.Conducteur} entity. This class is used
@@ -21,21 +19,22 @@ import io.github.jhipster.service.filter.StringFilter;
  * fix type specific filters.
  */
 public class ConducteurCriteria implements Serializable, Criteria {
-
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
     private StringFilter nom;
 
+    private BooleanFilter activated;
+
     private IntegerFilter affectation;
 
-    public ConducteurCriteria() {
-    }
+    public ConducteurCriteria() {}
 
     public ConducteurCriteria(ConducteurCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.nom = other.nom == null ? null : other.nom.copy();
+        this.activated = other.activated == null ? null : other.activated.copy();
         this.affectation = other.affectation == null ? null : other.affectation.copy();
     }
 
@@ -60,6 +59,14 @@ public class ConducteurCriteria implements Serializable, Criteria {
         this.nom = nom;
     }
 
+    public BooleanFilter getActivated() {
+        return activated;
+    }
+
+    public void setActivated(BooleanFilter activated) {
+        this.activated = activated;
+    }
+
     public IntegerFilter getAffectation() {
         return affectation;
     }
@@ -67,7 +74,6 @@ public class ConducteurCriteria implements Serializable, Criteria {
     public void setAffectation(IntegerFilter affectation) {
         this.affectation = affectation;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -78,19 +84,17 @@ public class ConducteurCriteria implements Serializable, Criteria {
             return false;
         }
         final ConducteurCriteria that = (ConducteurCriteria) o;
-        return
+        return (
             Objects.equals(id, that.id) &&
             Objects.equals(nom, that.nom) &&
-            Objects.equals(affectation, that.affectation);
+            Objects.equals(activated, that.activated) &&
+            Objects.equals(affectation, that.affectation)
+        );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        nom,
-        affectation
-        );
+        return Objects.hash(id, nom, activated, affectation);
     }
 
     // prettier-ignore
@@ -99,8 +103,8 @@ public class ConducteurCriteria implements Serializable, Criteria {
         return "ConducteurCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (nom != null ? "nom=" + nom + ", " : "") +
+                (activated != null ? "activated=" + activated + ", " : "") +
                 (affectation != null ? "affectation=" + affectation + ", " : "") +
             "}";
     }
-
 }

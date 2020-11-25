@@ -1,15 +1,13 @@
 package ma.nsi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link ma.nsi.domain.Engin} entity. This class is used
@@ -21,24 +19,22 @@ import io.github.jhipster.service.filter.StringFilter;
  * fix type specific filters.
  */
 public class EnginCriteria implements Serializable, Criteria {
-
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
     private IntegerFilter type;
 
-    private StringFilter reference;
+    private BooleanFilter activated;
 
     private StringFilter libelle;
 
-    public EnginCriteria() {
-    }
+    public EnginCriteria() {}
 
     public EnginCriteria(EnginCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.type = other.type == null ? null : other.type.copy();
-        this.reference = other.reference == null ? null : other.reference.copy();
+        this.activated = other.activated == null ? null : other.activated.copy();
         this.libelle = other.libelle == null ? null : other.libelle.copy();
     }
 
@@ -63,12 +59,12 @@ public class EnginCriteria implements Serializable, Criteria {
         this.type = type;
     }
 
-    public StringFilter getReference() {
-        return reference;
+    public BooleanFilter getActivated() {
+        return activated;
     }
 
-    public void setReference(StringFilter reference) {
-        this.reference = reference;
+    public void setActivated(BooleanFilter activated) {
+        this.activated = activated;
     }
 
     public StringFilter getLibelle() {
@@ -79,7 +75,6 @@ public class EnginCriteria implements Serializable, Criteria {
         this.libelle = libelle;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -89,21 +84,17 @@ public class EnginCriteria implements Serializable, Criteria {
             return false;
         }
         final EnginCriteria that = (EnginCriteria) o;
-        return
+        return (
             Objects.equals(id, that.id) &&
             Objects.equals(type, that.type) &&
-            Objects.equals(reference, that.reference) &&
-            Objects.equals(libelle, that.libelle);
+            Objects.equals(activated, that.activated) &&
+            Objects.equals(libelle, that.libelle)
+        );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-        id,
-        type,
-        reference,
-        libelle
-        );
+        return Objects.hash(id, type, activated, libelle);
     }
 
     // prettier-ignore
@@ -112,9 +103,8 @@ public class EnginCriteria implements Serializable, Criteria {
         return "EnginCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
-                (reference != null ? "reference=" + reference + ", " : "") +
+                (activated != null ? "activated=" + activated + ", " : "") +
                 (libelle != null ? "libelle=" + libelle + ", " : "") +
             "}";
     }
-
 }

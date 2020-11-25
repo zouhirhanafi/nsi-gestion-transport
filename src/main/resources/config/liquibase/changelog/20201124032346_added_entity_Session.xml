@@ -9,54 +9,26 @@
         <property name="autoIncrement" value="true"/>
 
     <!--
-        Added the entity Affectation.
+        Added the entity Session.
     -->
-    <changeSet id="20201113032346-1" author="jhipster">
-        <createTable tableName="affectation">
+    <changeSet id="20201124032346-1" author="jhipster">
+        <createTable tableName="session">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="date" type="date"/>
             <column name="created_date" type="timestamp"/>
-            <column name="date_affectation" type="datetime">
-                <constraints nullable="true" />
-            </column>
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="date_creation" type="datetime">
-                <constraints nullable="true" />
+            <column name="shift" type="integer">
+                <constraints nullable="false" />
             </column>
-            <column name="statut" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="motif_annulation" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="operation" type="integer">
-                <constraints nullable="true" />
-            </column>
-            <column name="session_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="attributeur_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="engin_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="agent_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
+            <column name="closed" type="boolean" valueBoolean="false" />
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="affectation" columnName="date_affectation" columnDataType="datetime"/>
-        <dropDefaultValue tableName="affectation" columnName="date_creation" columnDataType="datetime"/>
-    </changeSet>
-
-    <changeSet id="20201113032346-1-relations" author="jhipster">
-
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 

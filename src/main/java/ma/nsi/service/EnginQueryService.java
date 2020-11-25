@@ -86,6 +86,9 @@ public class EnginQueryService extends QueryService<Engin> {
             if (criteria.getLibelle() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLibelle(), Engin_.libelle));
             }
+            if (criteria.getActivated() != null) {
+                specification = specification.and(buildSpecification(criteria.getActivated(), Engin_.activated));
+            }
         }
         return specification;
     }

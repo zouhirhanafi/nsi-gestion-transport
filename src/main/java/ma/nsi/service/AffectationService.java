@@ -1,7 +1,10 @@
 package ma.nsi.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import ma.nsi.domain.Affectation;
+import ma.nsi.domain.Session;
 import ma.nsi.domain.enumeration.StatutAffectation;
 import ma.nsi.repository.AffectationRepository;
 import org.slf4j.Logger;
@@ -20,9 +23,11 @@ public class AffectationService {
     private final Logger log = LoggerFactory.getLogger(AffectationService.class);
 
     private final AffectationRepository affectationRepository;
+    private final SessionManager sessionManager;
 
-    public AffectationService(AffectationRepository affectationRepository) {
+    public AffectationService(AffectationRepository affectationRepository, SessionManager sessionManager) {
         this.affectationRepository = affectationRepository;
+        this.sessionManager = sessionManager;
     }
 
     /**
@@ -34,6 +39,19 @@ public class AffectationService {
     public Affectation save(Affectation affectation) {
         log.debug("Request to save Affectation : {}", affectation);
         return affectationRepository.save(affectation);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Affectation> findAffectationListOfMyCurrentSession() {
+        log.debug("Request to get all Affectations of my current session");
+        Session session = sessionManager.findCurrentSession().orElse(null);
+        List<Affectation> list;
+        if (session != null) {
+            list = affectationRepository.findBySession(session.getId());
+        } else {
+            list = new ArrayList<Affectation>();
+        }
+        return list;
     }
 
     /**
