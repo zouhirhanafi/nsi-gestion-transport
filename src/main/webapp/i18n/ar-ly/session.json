@@ -1,0 +1,22 @@
+{
+  "gestionTransportApp": {
+    "session": {
+      "home": {
+        "title": "Sessions",
+        "createLabel": "Créer une nouvelle session",
+        "notFound": "Aucune session trouvée"
+      },
+      "created": "Une nouvelle session a été créé avec l'identifiant {{ param }}",
+      "updated": "La session avec l'identifiant {{ param }} a été clôturée avec succès",
+      "close": {
+        "question": "Etes-vous certain de vouloir clôturer la session en cours ?"
+      },
+      "detail": {
+        "title": "Session"
+      },
+      "shift": "Shift",
+      "date": "Date",
+      "closed": "Clôturé"
+    }
+  }
+}

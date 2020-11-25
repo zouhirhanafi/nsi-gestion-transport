@@ -105,7 +105,9 @@
       "delete": "Supprimer",
       "open": "Ouvrir",
       "save": "Sauvegarder",
+      "create": "Créer",
       "validate": "Valider",
+      "close": "Clôturer",
       "view": "Voir"
     },
     "detail": {

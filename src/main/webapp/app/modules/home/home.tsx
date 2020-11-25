@@ -14,7 +14,7 @@ export const Home = (props: IHomeProp) => {
   const { account } = props;
 
   return (
-    <Redirect to="affectation" />
+    <Redirect to="session" />
   );
 };
 

@@ -104,6 +104,7 @@ export const getSession: () => void = () => async (dispatch, getState) => {
   await dispatch({
     type: ACTION_TYPES.GET_SESSION,
     payload: axios.get('api/account'),
+    meta: { ignoreError: true },
   });
 
   const { account } = getState().authentication;

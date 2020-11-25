@@ -30,9 +30,10 @@ import conducteur, {
   ConducteurState
 } from 'app/entities/conducteur/conducteur.reducer';
 // prettier-ignore
-import affectation, {
-  AffectationState
-} from 'app/entities/affectation/affectation.reducer';
+import session, {
+  SessionState
+} from 'app/entities/session/session.reducer';
+import affectation, { AffectationState } from 'app/entities/affectation/affectation.reducer';
 import { NetworkState, networkReducer as network } from 'app/config/detectNetwork';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
@@ -53,6 +54,7 @@ export interface IRootState {
   readonly parameter: ParameterState;
   readonly engin: EnginState;
   readonly conducteur: ConducteurState;
+  readonly session: SessionState;
   readonly affectation: AffectationState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
@@ -75,6 +77,7 @@ const rootReducer = combineReducers<IRootState>({
   parameter,
   engin,
   conducteur,
+  session,
   affectation,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,

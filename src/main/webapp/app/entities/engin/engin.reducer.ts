@@ -1,12 +1,15 @@
 import axios from 'axios';
+import { createSelector } from 'reselect';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IEngin, defaultValue } from 'app/shared/model/engin.model';
+import { IRootState } from 'app/shared/reducers';
 
 export const ACTION_TYPES = {
+  FETCH_ENGIN_PARAM_LIST: 'engin/FETCH_ENGIN_PARAM_LIST',
   FETCH_ENGIN_LIST: 'engin/FETCH_ENGIN_LIST',
   FETCH_ENGIN: 'engin/FETCH_ENGIN',
   CREATE_ENGIN: 'engin/CREATE_ENGIN',
@@ -19,6 +22,7 @@ const initialState = {
   loading: false,
   errorMessage: null,
   entities: [] as ReadonlyArray<IEngin>,
+  engins: [] as ReadonlyArray<IEngin>,
   entity: defaultValue,
   updating: false,
   totalItems: 0,
@@ -31,6 +35,7 @@ export type EnginState = Readonly<typeof initialState>;
 
 export default (state: EnginState = initialState, action): EnginState => {
   switch (action.type) {
+    case REQUEST(ACTION_TYPES.FETCH_ENGIN_PARAM_LIST):
     case REQUEST(ACTION_TYPES.FETCH_ENGIN_LIST):
     case REQUEST(ACTION_TYPES.FETCH_ENGIN):
       return {
@@ -48,6 +53,7 @@ export default (state: EnginState = initialState, action): EnginState => {
         updateSuccess: false,
         updating: true,
       };
+    case FAILURE(ACTION_TYPES.FETCH_ENGIN_PARAM_LIST):
     case FAILURE(ACTION_TYPES.FETCH_ENGIN_LIST):
     case FAILURE(ACTION_TYPES.FETCH_ENGIN):
     case FAILURE(ACTION_TYPES.CREATE_ENGIN):
@@ -59,6 +65,12 @@ export default (state: EnginState = initialState, action): EnginState => {
         updating: false,
         updateSuccess: false,
         errorMessage: action.payload,
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_ENGIN_PARAM_LIST):
+      return {
+        ...state,
+        loading: false,
+        engins: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_ENGIN_LIST):
       return {
@@ -100,6 +112,14 @@ export default (state: EnginState = initialState, action): EnginState => {
 const apiUrl = 'api/engins';
 
 // Actions
+
+export const getEngins: ICrudGetAllAction<IEngin> = () => {
+  return {
+    type: ACTION_TYPES.FETCH_ENGIN_PARAM_LIST,
+    payload: axios.get<IEngin>(`${apiUrl}?page=0&size=1000&activated.equals=true&cacheBuster=${new Date().getTime()}`),
+    meta: { ignoreError: true },
+  };
+};
 
 export const getEntities: ICrudGetAllAction<IEngin> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
@@ -148,3 +168,21 @@ export const deleteEntity: ICrudDeleteAction<IEngin> = id => async dispatch => {
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
 });
+
+export const selectEngins = (state: IRootState) => state.engin.engins;
+
+export const selectEngin = createSelector(
+  selectEngins,
+  (_, id) => id,
+  (engins, id) => {
+    return engins.find(it => `${it.id}` === `${id}`);
+  }
+);
+
+export const selectEnginsInTypes = createSelector(
+  selectEngins,
+  (_, types) => types,
+  (engins, types = []) => {
+    return engins.filter(it => types.some(elt => `${elt}` === `${it.type}`));
+  }
+);

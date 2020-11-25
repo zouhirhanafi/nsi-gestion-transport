@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row } from 'reactstrap';
 import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities, updateEntity } from './conducteur.reducer';
+import { getEntities, selectConducteur, updateEntity } from './conducteur.reducer';
 import { IConducteur } from 'app/shared/model/conducteur.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
@@ -201,3 +201,9 @@ type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conducteur);
+
+export const NomConducteur = ({ id, ...props }) => {
+  const conducteur = useSelector(state => selectConducteur(state, id)) || {};
+  return <span {...props}>{conducteur.nom || id}</span>
+
+}

@@ -14,7 +14,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
-import Affectation from './entities/affectation';
+import Session from './entities/session/session';
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -37,7 +37,7 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.SYSTEM]} />
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
-      <PrivateRoute path="/affectation" component={Affectation} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+      <PrivateRoute path="/session" component={Session} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <PrivateRoute path="/" exact component={Home} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN]} />
       <ErrorBoundaryRoute component={PageNotFound} />

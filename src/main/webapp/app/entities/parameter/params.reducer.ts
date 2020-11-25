@@ -94,5 +94,6 @@ export const loadEntities = () => {
       const { entities, result } = normalize(data, parameterValuesSchema);
       return { entities, data: result };
     }),
+    meta: { ignoreError: true },
   };
 };

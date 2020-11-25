@@ -30,6 +30,7 @@ describe('Entities reducer tests', () => {
     loading: false,
     errorMessage: null,
     entities: [] as ReadonlyArray<IConducteur>,
+    conducteurs: [] as ReadonlyArray<IConducteur>,
     entity: defaultValue,
     totalItems: 0,
     updating: false,

@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { createSelector } from 'reselect';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IConducteur, defaultValue } from 'app/shared/model/conducteur.model';
+import { IRootState } from 'app/shared/reducers';
 
 export const ACTION_TYPES = {
+  FETCH_CONDUCTEUR_PARAM_LIST: 'conducteur/FETCH_CONDUCTEUR_PARAM_LIST',
   FETCH_CONDUCTEUR_LIST: 'conducteur/FETCH_CONDUCTEUR_LIST',
   FETCH_CONDUCTEUR: 'conducteur/FETCH_CONDUCTEUR',
   CREATE_CONDUCTEUR: 'conducteur/CREATE_CONDUCTEUR',
@@ -19,6 +22,7 @@ const initialState = {
   loading: false,
   errorMessage: null,
   entities: [] as ReadonlyArray<IConducteur>,
+  conducteurs: [] as ReadonlyArray<IConducteur>,
   entity: defaultValue,
   updating: false,
   totalItems: 0,
@@ -31,6 +35,7 @@ export type ConducteurState = Readonly<typeof initialState>;
 
 export default (state: ConducteurState = initialState, action): ConducteurState => {
   switch (action.type) {
+    case REQUEST(ACTION_TYPES.FETCH_CONDUCTEUR_PARAM_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CONDUCTEUR_LIST):
     case REQUEST(ACTION_TYPES.FETCH_CONDUCTEUR):
       return {
@@ -48,6 +53,7 @@ export default (state: ConducteurState = initialState, action): ConducteurState 
         updateSuccess: false,
         updating: true,
       };
+    case FAILURE(ACTION_TYPES.FETCH_CONDUCTEUR_PARAM_LIST):
     case FAILURE(ACTION_TYPES.FETCH_CONDUCTEUR_LIST):
     case FAILURE(ACTION_TYPES.FETCH_CONDUCTEUR):
     case FAILURE(ACTION_TYPES.CREATE_CONDUCTEUR):
@@ -59,6 +65,12 @@ export default (state: ConducteurState = initialState, action): ConducteurState 
         updating: false,
         updateSuccess: false,
         errorMessage: action.payload,
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_CONDUCTEUR_PARAM_LIST):
+      return {
+        ...state,
+        loading: false,
+        conducteurs: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_CONDUCTEUR_LIST):
       return {
@@ -100,6 +112,14 @@ export default (state: ConducteurState = initialState, action): ConducteurState 
 const apiUrl = 'api/conducteurs';
 
 // Actions
+
+export const getConducteurs: ICrudGetAllAction<IConducteur> = (page, size, sort) => {
+  return {
+    type: ACTION_TYPES.FETCH_CONDUCTEUR_PARAM_LIST,
+    payload: axios.get<IConducteur>(`${apiUrl}?page=0&size=1000&activated.equals=true&cacheBuster=${new Date().getTime()}`),
+    meta: { ignoreError: true },
+  };
+};
 
 export const getEntities: ICrudGetAllAction<IConducteur> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
@@ -148,3 +168,13 @@ export const deleteEntity: ICrudDeleteAction<IConducteur> = id => async dispatch
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
 });
+
+export const selectConducteurs = (state: IRootState) => state.conducteur.conducteurs;
+
+export const selectConducteur = createSelector(
+  selectConducteurs,
+  (_, id) => id,
+  (conducteurs, id) => {
+    return conducteurs.find(c => `${c.id}` === `${id}`);
+  }
+);
