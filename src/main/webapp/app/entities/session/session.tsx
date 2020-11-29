@@ -23,8 +23,8 @@ export const Home = (props: IHomeProp) => {
   return (
     <>
       <SessionUpdate />
-      <hr />
-      {/* <div className="m-2" /> */}
+      {/* <hr /> */}
+      <div className="m-1" />
       {session && <Affectation {...props} />}
     </>
   );

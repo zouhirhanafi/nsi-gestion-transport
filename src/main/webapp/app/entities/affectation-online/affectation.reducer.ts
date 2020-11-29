@@ -154,10 +154,7 @@ export const getCurrentAffectations = () => {
   };
 };
 
-export const searchEntities: ISearchAction<IAffectation> = ({ filters = {}, page = 0, size = 5, sort = 'dateAffectation,desc' }) => (
-  dispatch,
-  getState
-) => {
+export const searchEntities = ({ filters = {}, page = 0, size = 20, sort = 'dateAffectation,desc' }) => (dispatch, getState) => {
   const account = getState().authentication.account;
   const isAdmin = hasAnyAuthority(account.authorities, [AUTHORITIES.ADMIN]);
   const _filters = { ...filters };
@@ -187,7 +184,7 @@ export const searchEntities: ISearchAction<IAffectation> = ({ filters = {}, page
   });
 };
 
-export const getEntities: ISearchAction<IAffectation> = ({ filters = {}, page = 0, size = 20, sort }) => {
+export const getEntities = ({ filters = {}, page = 0, size = 20, sort = undefined }) => {
   return searchEntities({ filters, page, size, sort });
 };
 
