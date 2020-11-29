@@ -18,13 +18,6 @@ export const SessionUpdate = (props: ISessionUpdateProps) => {
   const { sessionEntity, updating, affectations } = props;
   const { width = 600 } = useWindowSize();
 
-
-  useEffect(() => {
-    if (props.updateSuccess) {
-      console.warn('maj avec succes');
-    }
-  }, [props.updateSuccess]);
-
   const saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       if (!sessionEntity) {
