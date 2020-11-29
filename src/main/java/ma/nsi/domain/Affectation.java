@@ -1,6 +1,5 @@
 package ma.nsi.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import ma.nsi.config.Constants;
 import ma.nsi.domain.enumeration.StatutAffectation;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
