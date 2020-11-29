@@ -1,11 +1,10 @@
 // Override Boostrap variables
-// Import Bootstrap source files from node_modules
 @import '~bootswatch/dist/cosmo/variables';
+// Import Bootstrap source files from node_modules
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import '~bootswatch/dist/cosmo/bootswatch';
 @import 'rtl.scss';
 body {
-  background: #fafafa;
   margin: 0;
 }
 

@@ -31,7 +31,7 @@ const composedMiddlewares = middlewares =>
     : compose(applyMiddleware(...defaultMiddlewares, ...middlewares));
 
 const persistConfig = {
-  key: 'sosomalev-_1',
+  key: 'sosomalev-_2',
   storage,
 };
 

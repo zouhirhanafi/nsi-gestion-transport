@@ -1,7 +1,8 @@
 package ma.nsi.config;
 
-import ma.nsi.security.*;
-import ma.nsi.security.jwt.*;
+import ma.nsi.security.AuthoritiesConstants;
+import ma.nsi.security.jwt.JWTConfigurer;
+import ma.nsi.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;

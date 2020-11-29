@@ -175,7 +175,7 @@ export const searchEntities: ISearchAction<IAffectation> = ({ filters = {}, page
   // console.warn('from date ?', fromDate);
   // console.warn('to date ?', toDate);
   // console.warn('values apres ?', _filters);
-  dispatch({
+  return dispatch({
     type: ACTION_TYPES.FETCH_AFFECTATION_LIST,
     payload: axios.get<IAffectation>(apiUrl, {
       params: { ...convertFilterDashToPoint(_filters), page, size, sort, cacheBuster: new Date().getTime() },
