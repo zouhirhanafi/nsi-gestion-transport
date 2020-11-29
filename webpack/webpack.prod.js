@@ -105,31 +105,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
-      runtimeCaching: [
-        {
-          urlPattern: /\.(?:css|js|html)$/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'myCache',
-            expiration: {
-              maxAgeSeconds: 60 * 60 * 24,
-            },
-            broadcastUpdate: {
-              channelName: 'update-myCache',
-            },
-          },
-        },
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|eot|ttf|woff|woff2)$/,
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'assetCache',
-            broadcastUpdate: {
-              channelName: 'update-assetCache',
-            },
-          },
-        },
-      ],
       exclude: [/swagger-ui/],
     }),
   ],
