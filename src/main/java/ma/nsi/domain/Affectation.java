@@ -1,6 +1,7 @@
 package ma.nsi.domain;
 
-import java.time.ZonedDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import ma.nsi.config.Constants;
 import ma.nsi.domain.enumeration.StatutAffectation;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -27,11 +29,13 @@ public class Affectation extends AbstractAuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //	@JsonFormat(pattern = Constants.DATE_TIME_FORMAT, shape = JsonFormat.Shape.STRING)
     @Column(name = "date_affectation")
-    private ZonedDateTime dateAffectation;
+    private Instant dateAffectation;
 
+    //	@JsonFormat(pattern = Constants.DATE_TIME_FORMAT, shape = JsonFormat.Shape.STRING)
     @Column(name = "date_creation")
-    private ZonedDateTime dateCreation;
+    private Instant dateCreation;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "statut")
@@ -42,6 +46,12 @@ public class Affectation extends AbstractAuditingEntity {
 
     @Column(name = "operation")
     private Integer operation;
+
+    @Column(name = "reference")
+    private String reference;
+
+    @Column(name = "commentaire", length = 1000)
+    private String commentaire;
 
     @ManyToOne
     private Session session;
@@ -64,29 +74,29 @@ public class Affectation extends AbstractAuditingEntity {
         this.id = id;
     }
 
-    public ZonedDateTime getDateAffectation() {
+    public Instant getDateAffectation() {
         return dateAffectation;
     }
 
-    public Affectation dateAffectation(ZonedDateTime dateAffectation) {
+    public Affectation dateAffectation(Instant dateAffectation) {
         this.dateAffectation = dateAffectation;
         return this;
     }
 
-    public void setDateAffectation(ZonedDateTime dateAffectation) {
+    public void setDateAffectation(Instant dateAffectation) {
         this.dateAffectation = dateAffectation;
     }
 
-    public ZonedDateTime getDateCreation() {
+    public Instant getDateCreation() {
         return dateCreation;
     }
 
-    public Affectation dateCreation(ZonedDateTime dateCreation) {
+    public Affectation dateCreation(Instant dateCreation) {
         this.dateCreation = dateCreation;
         return this;
     }
 
-    public void setDateCreation(ZonedDateTime dateCreation) {
+    public void setDateCreation(Instant dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -135,6 +145,22 @@ public class Affectation extends AbstractAuditingEntity {
 
     public void setOperation(Integer operation) {
         this.operation = operation;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
     public User getAttributeur() {
@@ -194,16 +220,34 @@ public class Affectation extends AbstractAuditingEntity {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "Affectation{" +
-            "id=" + getId() +
-            ", dateAffectation='" + getDateAffectation() + "'" +
-            ", dateCreation='" + getDateCreation() + "'" +
-            ", statut='" + getStatut() + "'" +
-            ", motifAnnulation='" + getMotifAnnulation() + "'" +
-            ", operation=" + getOperation() +
-            "}";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Affectation [id=");
+        builder.append(id);
+        builder.append(", dateAffectation=");
+        builder.append(dateAffectation);
+        builder.append(", dateCreation=");
+        builder.append(dateCreation);
+        builder.append(", statut=");
+        builder.append(statut);
+        builder.append(", motifAnnulation=");
+        builder.append(motifAnnulation);
+        builder.append(", operation=");
+        builder.append(operation);
+        builder.append(", reference=");
+        builder.append(reference);
+        builder.append(", commentaire=");
+        builder.append(commentaire);
+        builder.append(", session=");
+        builder.append(session);
+        builder.append(", attributeur=");
+        builder.append(attributeur);
+        builder.append(", engin=");
+        builder.append(engin);
+        builder.append(", agent=");
+        builder.append(agent);
+        builder.append("]");
+        return builder.toString();
     }
 }

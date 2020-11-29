@@ -20,12 +20,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="created_date" type="timestamp"/>
-            <column name="date_affectation" type="datetime">
+            <column name="date_affectation" type="timestamp">
                 <constraints nullable="true" />
             </column>
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="date_creation" type="datetime">
+            <column name="date_creation" type="timestamp">
                 <constraints nullable="true" />
             </column>
             <column name="statut" type="varchar(255)">
@@ -35,6 +35,12 @@
                 <constraints nullable="true" />
             </column>
             <column name="operation" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="reference" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="commentaire" type="varchar(1000)">
                 <constraints nullable="true" />
             </column>
             <column name="session_id" type="bigint">
@@ -51,8 +57,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="affectation" columnName="date_affectation" columnDataType="datetime"/>
-        <dropDefaultValue tableName="affectation" columnName="date_creation" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20201113032346-1-relations" author="jhipster">

@@ -1,17 +1,14 @@
 package ma.nsi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import ma.nsi.domain.enumeration.StatutAffectation;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.ZonedDateTimeFilter;
+import java.io.Serializable;
+import java.util.Objects;
+import ma.nsi.domain.enumeration.StatutAffectation;
 
 /**
  * Criteria class for the {@link ma.nsi.domain.Affectation} entity. This class is used
@@ -23,13 +20,13 @@ import io.github.jhipster.service.filter.ZonedDateTimeFilter;
  * fix type specific filters.
  */
 public class AffectationCriteria implements Serializable, Criteria {
+
     /**
      * Class for filtering StatutAffectation
      */
     public static class StatutAffectationFilter extends Filter<StatutAffectation> {
 
-        public StatutAffectationFilter() {
-        }
+        public StatutAffectationFilter() {}
 
         public StatutAffectationFilter(StatutAffectationFilter filter) {
             super(filter);
@@ -39,16 +36,15 @@ public class AffectationCriteria implements Serializable, Criteria {
         public StatutAffectationFilter copy() {
             return new StatutAffectationFilter(this);
         }
-
     }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
-    private ZonedDateTimeFilter dateAffectation;
+    private InstantFilter dateAffectation;
 
-    private ZonedDateTimeFilter dateCreation;
+    private InstantFilter dateCreation;
 
     private StatutAffectationFilter statut;
 
@@ -56,14 +52,17 @@ public class AffectationCriteria implements Serializable, Criteria {
 
     private IntegerFilter operation;
 
+    private StringFilter reference;
+
+    private StringFilter commentaire;
+
     private LongFilter attributeurId;
 
     private LongFilter enginId;
 
     private LongFilter agentId;
 
-    public AffectationCriteria() {
-    }
+    public AffectationCriteria() {}
 
     public AffectationCriteria(AffectationCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
@@ -72,6 +71,8 @@ public class AffectationCriteria implements Serializable, Criteria {
         this.statut = other.statut == null ? null : other.statut.copy();
         this.motifAnnulation = other.motifAnnulation == null ? null : other.motifAnnulation.copy();
         this.operation = other.operation == null ? null : other.operation.copy();
+        this.reference = other.reference == null ? null : other.reference.copy();
+        this.commentaire = other.commentaire == null ? null : other.commentaire.copy();
         this.attributeurId = other.attributeurId == null ? null : other.attributeurId.copy();
         this.enginId = other.enginId == null ? null : other.enginId.copy();
         this.agentId = other.agentId == null ? null : other.agentId.copy();
@@ -90,19 +91,19 @@ public class AffectationCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public ZonedDateTimeFilter getDateAffectation() {
+    public InstantFilter getDateAffectation() {
         return dateAffectation;
     }
 
-    public void setDateAffectation(ZonedDateTimeFilter dateAffectation) {
+    public void setDateAffectation(InstantFilter dateAffectation) {
         this.dateAffectation = dateAffectation;
     }
 
-    public ZonedDateTimeFilter getDateCreation() {
+    public InstantFilter getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(ZonedDateTimeFilter dateCreation) {
+    public void setDateCreation(InstantFilter dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -130,6 +131,22 @@ public class AffectationCriteria implements Serializable, Criteria {
         this.operation = operation;
     }
 
+    public StringFilter getReference() {
+        return reference;
+    }
+
+    public void setReference(StringFilter reference) {
+        this.reference = reference;
+    }
+
+    public StringFilter getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(StringFilter commentaire) {
+        this.commentaire = commentaire;
+    }
+
     public LongFilter getAttributeurId() {
         return attributeurId;
     }
@@ -154,7 +171,6 @@ public class AffectationCriteria implements Serializable, Criteria {
         this.agentId = agentId;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -164,30 +180,35 @@ public class AffectationCriteria implements Serializable, Criteria {
             return false;
         }
         final AffectationCriteria that = (AffectationCriteria) o;
-        return
+        return (
             Objects.equals(id, that.id) &&
             Objects.equals(dateAffectation, that.dateAffectation) &&
             Objects.equals(dateCreation, that.dateCreation) &&
             Objects.equals(statut, that.statut) &&
             Objects.equals(motifAnnulation, that.motifAnnulation) &&
             Objects.equals(operation, that.operation) &&
+            Objects.equals(reference, that.reference) &&
+            Objects.equals(commentaire, that.commentaire) &&
             Objects.equals(attributeurId, that.attributeurId) &&
             Objects.equals(enginId, that.enginId) &&
-            Objects.equals(agentId, that.agentId);
+            Objects.equals(agentId, that.agentId)
+        );
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-        id,
-        dateAffectation,
-        dateCreation,
-        statut,
-        motifAnnulation,
-        operation,
-        attributeurId,
-        enginId,
-        agentId
+            id,
+            dateAffectation,
+            dateCreation,
+            statut,
+            motifAnnulation,
+            operation,
+            reference,
+            commentaire,
+            attributeurId,
+            enginId,
+            agentId
         );
     }
 
@@ -201,10 +222,11 @@ public class AffectationCriteria implements Serializable, Criteria {
                 (statut != null ? "statut=" + statut + ", " : "") +
                 (motifAnnulation != null ? "motifAnnulation=" + motifAnnulation + ", " : "") +
                 (operation != null ? "operation=" + operation + ", " : "") +
+                (reference != null ? "reference=" + reference + ", " : "") +
+                (commentaire != null ? "commentaire=" + commentaire + ", " : "") +
                 (attributeurId != null ? "attributeurId=" + attributeurId + ", " : "") +
                 (enginId != null ? "enginId=" + enginId + ", " : "") +
                 (agentId != null ? "agentId=" + agentId + ", " : "") +
             "}";
     }
-
 }

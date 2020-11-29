@@ -7,6 +7,7 @@
     "browsehappy": "Vous utilisez un <strong>ancien</strong> navigateur. Veuillez <a href=\"http://browsehappy.com/?locale=fr\">mettre à jour votre navigateur</a> pour une meilleure expérience.",
     "menu": {
       "home": "Accueil",
+      "consultation": "Consultation",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Aministration",
@@ -109,6 +110,10 @@
       "validate": "Valider",
       "close": "Clôturer",
       "view": "Voir"
+    },
+    "filter": {
+      "fromDate": "Date du",
+      "toDate": "Au"
     },
     "detail": {
       "field": "Champs",

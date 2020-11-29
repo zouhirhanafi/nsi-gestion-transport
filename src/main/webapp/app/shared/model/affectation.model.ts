@@ -12,6 +12,8 @@ export interface IAffectation {
   statut?: string;
   motifAnnulation?: string;
   operation?: number;
+  reference?: string;
+  commentaire?: string;
   session?: ISession;
   attributeur?: IUser;
   engin?: IEngin;

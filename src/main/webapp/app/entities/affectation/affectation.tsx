@@ -32,103 +32,108 @@ export const Affectation = (props: IAffectationProps) => {
           <Translate contentKey="gestionTransportApp.affectation.home.createLabel">Create new Affectation</Translate>
         </Link>
       </h2>
-      <div className="table-responsive">
-        {affectationList && affectationList.length > 0 ? (
-          <CTable>
-            <thead>
-              <tr>
-                <th className="hand" onClick={sort('id')}>
-                  #
+      {affectationList && affectationList.length > 0 ? (
+        <CTable className="text-nowrap">
+          <thead>
+            <tr>
+              <th />
+              <th className="hand" onClick={sort('id')}>
+                #
                 </th>
-                <th>
-                  <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
-                </th>
-                <th className="hand" onClick={sort('operation')}>
-                  <Translate contentKey="gestionTransportApp.affectation.operation">Operation</Translate>
-                </th>
-                <th className="hand" onClick={sort('dateAffectation')}>
-                  <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>{' '}
-
-                </th>
-                {/* <th className="hand" onClick={sort('dateCreation')}>
+              <th>
+                <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate>
+              </th>
+              <th>
+                <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
+              </th>
+              <th className="hand" onClick={sort('operation')}>
+                <Translate contentKey="gestionTransportApp.affectation.operation">Operation</Translate>
+              </th>
+              <th className="hand" onClick={sort('reference')}>
+                <Translate contentKey="gestionTransportApp.affectation.reference">Reference</Translate>
+              </th>
+              <th className="hand" onClick={sort('dateAffectation')}>
+                <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>{' '}
+              </th>
+              <th className="hand" onClick={sort('commentaire')}>
+                <Translate contentKey="gestionTransportApp.affectation.commentaire">Commentaire</Translate>{' '}
+              </th>
+              {/* <th className="hand" onClick={sort('dateCreation')}>
                     <Translate contentKey="gestionTransportApp.affectation.dateCreation">Date Creation</Translate>{' '}
                    
                   </th> */}
-                {/* <th className="hand" onClick={sort('statut')}>
+              {/* <th className="hand" onClick={sort('statut')}>
                     <Translate contentKey="gestionTransportApp.affectation.statut">Statut</Translate>
                   </th>
                   <th className="hand" onClick={sort('motifAnnulation')}>
                     <Translate contentKey="gestionTransportApp.affectation.motifAnnulation">Motif Annulation</Translate>{' '}
                    
                   </th> */}
-                {/* <th>
+              {/* <th>
                     <Translate contentKey="gestionTransportApp.affectation.attributeur">Attributeur</Translate>{' '}
                    
                   </th> */}
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {affectationList.map((affectation, i) => (
-                <tr className={classNames(
+            </tr>
+          </thead>
+          <tbody>
+            {affectationList.map((affectation, i) => (
+              <tr className={classNames(
+                {
+                  'text-warning': affectation.statut && 'N' === affectation.statut.toString(),
+                  'text-danger': affectation.statut && 'S' === affectation.statut.toString()
+                }
+              )} key={`entity-${i}`}>
+                <td className="text-left">
                   {
-                    'text-warning': affectation.statut && 'N' === affectation.statut.toString(),
-                    'text-danger': affectation.statut && 'S' === affectation.statut.toString()
-                  }
-                )} key={`entity-${i}`}>
-                  <td>
-                    {i + 1}
-                  </td>
-                  <td>{affectation.agent ? <NomConducteur id={affectation.agent.id} /> : ''}</td>
-                  <td>{affectation.engin ? <NomEngin id={affectation.engin.id} /> : ''}</td>
-                  <td><ParamValue value={affectation.operation} /></td>
-                  <td>
-                    {affectation.dateAffectation ? (
-                      <TextFormat type="date" value={affectation.dateAffectation} format={APP_DATE_FORMAT} />
-                    ) : null}
-                  </td>
-                  {/* <td>
+                    !affectation.statut || 'C' === affectation.statut.toString() && (
+                      <div className="btn-group flex-btn-group-container">
+                        <Button tag={Link} to={`${match.url}/${i}/cancel`} color="warning" size="sm">
+                          <FontAwesomeIcon icon="ban" />{' '}
+                          <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.cancel">Cancel</Translate>
+                          </span>
+                        </Button>
+                        <Button tag={Link} to={`${match.url}/${i}/delete`} color="danger" size="sm">
+                          <FontAwesomeIcon icon="trash" />{' '}
+                          <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.delete">Delete</Translate>
+                          </span>
+                        </Button>
+                      </div>
+                    )}
+                </td>
+                <td>
+                  {i + 1}
+                </td>
+                <td className="text-nowrap">{affectation.agent ? <NomConducteur id={affectation.agent.id} /> : ''}</td>
+                <td className="text-nowrap">{affectation.engin ? <NomEngin id={affectation.engin.id} /> : ''}</td>
+                <td className="text-nowrap"><ParamValue value={affectation.operation} /></td>
+                <td>{affectation.reference}</td>
+                <td className="text-nowrap">
+                  {affectation.dateAffectation ? (
+                    <TextFormat type="date" value={affectation.dateAffectation} format={APP_DATE_FORMAT} />
+                  ) : null}
+                </td>
+                <td>{affectation.commentaire}</td>
+                {/* <td>
                       {affectation.dateCreation ? (
                         <TextFormat type="date" value={affectation.dateCreation} format={APP_DATE_FORMAT} />
                       ) : null}
                     </td> */}
-                  {/* <td>
+                {/* <td>
                       <Translate contentKey={`gestionTransportApp.StatutAffectation.${affectation.statut}`} />
                     </td>
                     <td>{affectation.motifAnnulation}</td> */}
-                  {/* <td>{affectation.attributeur ? affectation.attributeur.id : ''}</td> */}
-                  <td className="text-right">
-                    {
-                      !affectation.statut || 'C' === affectation.statut.toString() && (
-                        <div className="btn-group flex-btn-group-container">
-                          <Button tag={Link} to={`${match.url}/${i}/cancel`} color="warning" size="sm">
-                            <FontAwesomeIcon icon="ban" />{' '}
-                            <span className="d-none d-md-inline">
-                              <Translate contentKey="entity.action.cancel">Cancel</Translate>
-                            </span>
-                          </Button>
-                          <Button tag={Link} to={`${match.url}/${i}/delete`} color="danger" size="sm">
-                            <FontAwesomeIcon icon="trash" />{' '}
-                            <span className="d-none d-md-inline">
-                              <Translate contentKey="entity.action.delete">Delete</Translate>
-                            </span>
-                          </Button>
-                        </div>
-                      )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </CTable>
-        ) : (
-            <div className="alert alert-warning">
-              <Translate contentKey="gestionTransportApp.affectation.home.notFound">No Affectations found</Translate>
-            </div>
-          )}
-      </div>
+                {/* <td>{affectation.attributeur ? affectation.attributeur.id : ''}</td> */}
+              </tr>
+            ))}
+          </tbody>
+        </CTable>
+      ) : (
+          <div className="alert alert-warning">
+            <Translate contentKey="gestionTransportApp.affectation.home.notFound">No Affectations found</Translate>
+          </div>
+        )}
     </div>
   );
 };

@@ -12,6 +12,8 @@ export default class AffectationUpdatePage {
   statutSelect: ElementFinder = element(by.css('select#affectation-statut'));
   motifAnnulationInput: ElementFinder = element(by.css('input#affectation-motifAnnulation'));
   operationInput: ElementFinder = element(by.css('input#affectation-operation'));
+  referenceInput: ElementFinder = element(by.css('input#affectation-reference'));
+  commentaireInput: ElementFinder = element(by.css('input#affectation-commentaire'));
   attributeurSelect: ElementFinder = element(by.css('select#affectation-attributeur'));
   enginSelect: ElementFinder = element(by.css('select#affectation-engin'));
   agentSelect: ElementFinder = element(by.css('select#affectation-agent'));
@@ -61,6 +63,22 @@ export default class AffectationUpdatePage {
 
   async getOperationInput() {
     return this.operationInput.getAttribute('value');
+  }
+
+  async setReferenceInput(reference) {
+    await this.referenceInput.sendKeys(reference);
+  }
+
+  async getReferenceInput() {
+    return this.referenceInput.getAttribute('value');
+  }
+
+  async setCommentaireInput(commentaire) {
+    await this.commentaireInput.sendKeys(commentaire);
+  }
+
+  async getCommentaireInput() {
+    return this.commentaireInput.getAttribute('value');
   }
 
   async attributeurSelectLastOption() {
@@ -138,6 +156,12 @@ export default class AffectationUpdatePage {
     await waitUntilDisplayed(this.saveButton);
     await this.setOperationInput('5');
     expect(await this.getOperationInput()).to.eq('5');
+    await waitUntilDisplayed(this.saveButton);
+    await this.setReferenceInput('reference');
+    expect(await this.getReferenceInput()).to.match(/reference/);
+    await waitUntilDisplayed(this.saveButton);
+    await this.setCommentaireInput('commentaire');
+    expect(await this.getCommentaireInput()).to.match(/commentaire/);
     await this.attributeurSelectLastOption();
     await this.enginSelectLastOption();
     await this.agentSelectLastOption();

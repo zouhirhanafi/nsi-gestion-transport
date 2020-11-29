@@ -1,7 +1,7 @@
 {
-  "name": "gestion-transport",
-  "version": "0.0.1-SNAPSHOT",
-  "description": "Description for gestionTransport",
+  "name": "so-somalev",
+  "version": "1.0.0",
+  "description": "Description for SO SOMALEV",
   "private": true,
   "license": "UNLICENSED",
   "cacheDirectories": [
@@ -15,7 +15,9 @@
     "availity-reactstrap-validation": "2.6.1",
     "axios": "0.19.2",
     "bootstrap": "4.4.1",
+    "bootswatch": "^4.5.3",
     "classnames": "^2.2.6",
+    "formik": "^2.2.5",
     "loaders.css": "0.1.2",
     "localforage": "^1.9.0",
     "lodash": "4.17.15",

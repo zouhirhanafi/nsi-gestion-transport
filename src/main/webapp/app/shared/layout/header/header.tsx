@@ -10,7 +10,7 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import { isRTL } from 'app/config/translation';
 
-import { Home, Brand } from './header-components';
+import { Home, Brand, Consultation } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 
 export interface IHeaderProps {
@@ -58,6 +58,7 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             {props.isAuthenticated && <Home />}
+            {props.isAuthenticated && <Consultation />}
             {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isSystem && (
               <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />

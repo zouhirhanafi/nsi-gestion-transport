@@ -15,6 +15,7 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import Session from './entities/session/session';
+import AffectationOnline from './entities/affectation-online/affectation';
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -38,6 +39,7 @@ const Routes = () => (
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.SYSTEM]} />
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/session" component={Session} hasAnyAuthorities={[AUTHORITIES.USER]} />
+      <PrivateRoute path="/consultation" component={AffectationOnline} hasAnyAuthorities={[AUTHORITIES.USER, AUTHORITIES.ADMIN]} />
       <PrivateRoute path="/" exact component={Home} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.SYSTEM, AUTHORITIES.ADMIN]} />
       <ErrorBoundaryRoute component={PageNotFound} />

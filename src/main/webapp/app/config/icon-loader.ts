@@ -44,6 +44,10 @@ import {
   faUserCog,
   faTruckMoving,
   faCheckCircle,
+  faArrowDown,
+  faArrowUp,
+  faChevronUp,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
@@ -94,6 +98,10 @@ export const loadIcons = () => {
     faUserCog,
     faUsers,
     faCheckCircle,
+    faArrowUp,
+    faArrowDown,
+    faChevronUp,
+    faChevronDown,
     faTruckMoving
   );
 };

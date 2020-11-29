@@ -11,5 +11,9 @@ public final class Constants {
     public static final String DEFAULT_LANGUAGE = "fr";
     public static final String ANONYMOUS_USER = "anonymoususer";
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final String DATE_TIME_FORMAT = DATE_FORMAT + "'T'" + TIME_FORMAT;
+
     private Constants() {}
 }

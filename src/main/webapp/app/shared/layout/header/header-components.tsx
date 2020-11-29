@@ -9,7 +9,7 @@ import appConfig from 'app/config/constants';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
-    <img src="content/images/logo-jhipster.png" alt="Logo" />
+    <img src="content/images/logo.png" alt="Logo" />
   </div>
 );
 
@@ -29,6 +29,17 @@ export const Home = props => (
       <FontAwesomeIcon icon="home" />
       <span>
         <Translate contentKey="global.menu.home">Home</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Consultation = props => (
+  <NavItem>
+    <NavLink tag={Link} to="/consultation" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.consultation">Consultation</Translate>
       </span>
     </NavLink>
   </NavItem>

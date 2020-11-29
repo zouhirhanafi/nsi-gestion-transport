@@ -21,6 +21,14 @@
     {
       "fieldName": "operation",
       "fieldType": "Integer"
+    },
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "commentaire",
+      "fieldType": "String"
     }
   ],
   "relationships": [

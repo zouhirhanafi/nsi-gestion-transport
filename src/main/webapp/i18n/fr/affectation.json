@@ -24,6 +24,8 @@
       "statut": "Statut",
       "motifAnnulation": "Motif Annulation",
       "operation": "Opération",
+      "reference": "Référence",
+      "commentaire": "Commentaire",
       "attributeur": "Attributeur",
       "engin": "Engin",
       "agent": "Conducteur"

@@ -35,6 +35,7 @@ import session, {
 } from 'app/entities/session/session.reducer';
 import affectation, { AffectationState } from 'app/entities/affectation/affectation.reducer';
 import { NetworkState, networkReducer as network } from 'app/config/detectNetwork';
+import affectationOnline, { AffectationOnlineState } from 'app/entities/affectation-online/affectation.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -56,6 +57,7 @@ export interface IRootState {
   readonly conducteur: ConducteurState;
   readonly session: SessionState;
   readonly affectation: AffectationState;
+  readonly affectationOnline?: AffectationOnlineState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -79,6 +81,7 @@ const rootReducer = combineReducers<IRootState>({
   conducteur,
   session,
   affectation,
+  affectationOnline,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

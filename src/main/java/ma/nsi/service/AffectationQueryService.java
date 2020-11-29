@@ -1,9 +1,12 @@
 package ma.nsi.service;
 
+import io.github.jhipster.service.QueryService;
 import java.util.List;
-
 import javax.persistence.criteria.JoinType;
-
+import ma.nsi.domain.*; // for static metamodels
+import ma.nsi.domain.Affectation;
+import ma.nsi.repository.AffectationRepository;
+import ma.nsi.service.dto.AffectationCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,13 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.github.jhipster.service.QueryService;
-
-import ma.nsi.domain.Affectation;
-import ma.nsi.domain.*; // for static metamodels
-import ma.nsi.repository.AffectationRepository;
-import ma.nsi.service.dto.AffectationCriteria;
 
 /**
  * Service for executing complex queries for {@link Affectation} entities in the database.
@@ -28,7 +24,6 @@ import ma.nsi.service.dto.AffectationCriteria;
 @Service
 @Transactional(readOnly = true)
 public class AffectationQueryService extends QueryService<Affectation> {
-
     private final Logger log = LoggerFactory.getLogger(AffectationQueryService.class);
 
     private final AffectationRepository affectationRepository;
@@ -100,17 +95,32 @@ public class AffectationQueryService extends QueryService<Affectation> {
             if (criteria.getOperation() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getOperation(), Affectation_.operation));
             }
+            if (criteria.getReference() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getReference(), Affectation_.reference));
+            }
+            if (criteria.getCommentaire() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCommentaire(), Affectation_.commentaire));
+            }
             if (criteria.getAttributeurId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAttributeurId(),
-                    root -> root.join(Affectation_.attributeur, JoinType.LEFT).get(User_.id)));
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getAttributeurId(),
+                            root -> root.join(Affectation_.attributeur, JoinType.LEFT).get(User_.id)
+                        )
+                    );
             }
             if (criteria.getEnginId() != null) {
-                specification = specification.and(buildSpecification(criteria.getEnginId(),
-                    root -> root.join(Affectation_.engin, JoinType.LEFT).get(Engin_.id)));
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getEnginId(), root -> root.join(Affectation_.engin, JoinType.LEFT).get(Engin_.id))
+                    );
             }
             if (criteria.getAgentId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAgentId(),
-                    root -> root.join(Affectation_.agent, JoinType.LEFT).get(Conducteur_.id)));
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getAgentId(), root -> root.join(Affectation_.agent, JoinType.LEFT).get(Conducteur_.id))
+                    );
             }
         }
         return specification;

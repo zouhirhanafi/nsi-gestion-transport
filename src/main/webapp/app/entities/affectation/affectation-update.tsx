@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { AvFeedback, AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
@@ -19,11 +19,11 @@ const EnginInput = ({ conducteurId }) => {
   const conducteur = useSelector(state => selectConducteur(state, conducteurId)) || {};
   const engins = useSelector(state => selectEnginsInTypes(state, conducteur.affectations)) || [];
 
-  return (<AvGroup>
-    <Label for="affectation-engin">
+  return (<AvGroup row>
+    <Label className="col-4 col-md-3" for="affectation-engin">
       <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
     </Label>
-    <AvField id="affectation-engin" type="select" className="form-control" name="engin.id" validate={{
+    <AvInput id="affectation-engin" type="select" className="form-control col-8 col-md-9" name="engin.id" validate={{
       required: { value: true, errorMessage: translate('entity.validation.required') },
     }}>
       <option value="" key="0" />
@@ -34,7 +34,8 @@ const EnginInput = ({ conducteurId }) => {
           </option>
         ))
         : null}
-    </AvField>
+    </AvInput>
+    <AvFeedback />
   </AvGroup>)
 }
 export interface IAffectationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
@@ -85,24 +86,25 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
               name="statut"
               value="C"
             />
-            <AvGroup>
-              <Label id="dateAffectationLabel" for="affectation-dateAffectation">
+            <AvGroup row>
+              <Label className="col-4 col-md-3" for="affectation-dateAffectation">
                 <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>
               </Label>
               <AvInput
                 id="affectation-dateAffectation"
                 type="datetime-local"
-                className="form-control"
+                className="form-control col-8  col-md-9"
                 name="dateAffectation"
                 placeholder={'YYYY-MM-DD HH:mm'}
                 value={displayDefaultDateTime()}
               />
+              <AvFeedback />
             </AvGroup>
-            <AvGroup>
-              <Label for="affectation-agent">
+            <AvGroup row>
+              <Label className="col-4 col-md-3" for="affectation-agent">
                 <Translate contentKey="gestionTransportApp.affectation.agent">Agent</Translate>
               </Label>
-              <AvField id="affectation-agent" type="select" className="form-control" name="agent.id" {...conducteur} validate={{
+              <AvInput id="affectation-agent" type="select" className="form-control col-8 col-md-9" name="agent.id" {...conducteur} validate={{
                 required: { value: true, errorMessage: translate('entity.validation.required') },
               }}>
                 <option value="" key="0" />
@@ -113,12 +115,37 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
                     </option>
                   ))
                   : null}
-              </AvField>
+              </AvInput>
+              <AvFeedback />
             </AvGroup>
             <EnginInput conducteurId={conducteur.value} />
-            <ParamsSelectContainer id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" validate={{
+            <ParamsSelectContainer inline id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" validate={{
               required: { value: true, errorMessage: translate('entity.validation.required') },
             }} />
+            <AvGroup row>
+              <Label for="affectation-reference" className="col-4 col-md-3">
+                <Translate contentKey="gestionTransportApp.affectation.reference">Reference</Translate>
+              </Label>
+              <AvInput
+                id="affectation-reference"
+                type="text"
+                className="form-control col-8 col-md-9"
+                name="reference"
+              />
+              <AvFeedback />
+            </AvGroup>
+            <AvGroup row>
+              <Label className="col-4 col-md-3" for="affectation-commentaire">
+                <Translate contentKey="gestionTransportApp.affectation.commentaire">commentaire</Translate>
+              </Label>
+              <AvInput
+                id="affectation-commentaire"
+                type="text"
+                className="form-control col-8 col-md-9"
+                name="commentaire"
+              />
+              <AvFeedback />
+            </AvGroup>
             {/* <AvGroup>
                 <Label id="statutLabel" for="affectation-statut">
                   <Translate contentKey="gestionTransportApp.affectation.statut">Statut</Translate>

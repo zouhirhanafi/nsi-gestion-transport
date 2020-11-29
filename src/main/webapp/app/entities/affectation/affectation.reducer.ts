@@ -1,15 +1,10 @@
+import { ACTION_TYPES as SESSION_ACTION_TYPES } from 'app/entities/session/session.reducer';
+import { defaultValue, IAffectation } from 'app/shared/model/affectation.model';
+import { SUCCESS } from 'app/shared/reducers/action-type.util';
 import { cleanEntity } from 'app/shared/util/entity-utils';
 
-import { IAffectation, defaultValue } from 'app/shared/model/affectation.model';
-import { ACTION_TYPES as SESSION_ACTION_TYPES } from 'app/entities/session/session.reducer';
-import { SUCCESS } from 'app/shared/reducers/action-type.util';
-
 export const ACTION_TYPES = {
-  FETCH_CURRENT_AFFECTATION_LIST: 'affectation/FETCH_CURRENT_AFFECTATION_LIST',
-  FETCH_AFFECTATION_LIST: 'affectation/FETCH_AFFECTATION_LIST',
-  FETCH_AFFECTATION: 'affectation/FETCH_AFFECTATION',
   CREATE_AFFECTATION: 'affectation/CREATE_AFFECTATION',
-  UPDATE_AFFECTATION: 'affectation/UPDATE_AFFECTATION',
   DELETE_AFFECTATION: 'affectation/DELETE_AFFECTATION',
   CANCEL_AFFECTATION: 'affectation/CANCEL_AFFECTATION',
   RESET: 'affectation/RESET',
@@ -31,11 +26,8 @@ export type AffectationState = Readonly<typeof initialState>;
 // Reducer
 
 export default (state: AffectationState = initialState, action): AffectationState => {
-  /* eslint no-console: off */
-  console.log(action);
   switch (action.type) {
     case ACTION_TYPES.CREATE_AFFECTATION: {
-      console.log('create affectation ? ', [action.payload].concat(state.entities));
       return {
         ...state,
         entity: defaultValue,
@@ -69,8 +61,6 @@ export default (state: AffectationState = initialState, action): AffectationStat
       return state;
   }
 };
-
-const apiUrl = 'api/affectations';
 
 // Actions
 

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames/bind';
 import { Translate } from 'react-jhipster';
 import _ from 'lodash';
 
+import { Field } from 'formik';
 import {
   Alert,
   Row,
@@ -22,10 +24,12 @@ import {
   ModalFooter,
   Table,
   FormGroup,
+  Collapse,
+  NavbarToggler,
 } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AvFeedback, AvForm, AvGroup, AvField, AvCheckboxGroup, AvCheckbox } from 'availity-reactstrap-validation';
+import { AvInput, AvGroup, AvCheckboxGroup, AvCheckbox, AvFeedback } from 'availity-reactstrap-validation';
 import { IRootState } from '../reducers';
 import { paramSelector, paramsSelector } from 'app/entities/parameter/params.reducer';
 import { connect } from 'react-redux';
@@ -79,14 +83,16 @@ export const CardHeaderLink = ({ labelKey = undefined, icon = undefined, link })
 );
 export const HistoriqueLink = ({ link }) => <CardHeaderLink labelKey="entity.actio.history" icon="history" link={link} />;
 
-export const CardNavbar = ({ titleKey = undefined, title = titleKey, editLink = undefined, links = undefined }) => (
-  <Navbar>
+export const CardNavbar = ({ titleKey = undefined, title = titleKey, collapsible = false, toggle, isOpen, links = undefined }) => (
+  <>
     {titleKey ? (<Translate contentKey={titleKey}>{title}</Translate>) : title}
-    <Nav className="ml-auto" navbar>
+    <div className="ml-auto float-right">
+      {collapsible && <NavbarToggler className="float-right card-link toggler" onClick={toggle}>
+        <FontAwesomeIcon icon={isOpen ? 'chevron-down' : 'chevron-up'} />
+      </NavbarToggler>}
       {links}
-      {editLink && <CardHeaderLink labelKey="entity.action.edit" icon="pencil-alt" link={editLink} />}
-    </Nav>
-  </Navbar>
+    </div>
+  </>
 );
 
 export interface ICardDetailProps {
@@ -97,26 +103,87 @@ export interface ICardDetailProps {
   children: any;
   cardClassName?: string;
   cardHeaderClassName?: string;
+  collapsible?: boolean;
+  defaultOpen?: boolean;
 }
 
-export const CardDetail = ({ titleKey, title, editLink, children, links, cardClassName = "", cardHeaderClassName = "table-light" }: ICardDetailProps) => (
-  <Card className={cardClassName}>
-    <CardHeader className={cardHeaderClassName} >
-      {/* <Translate contentKey="chuApp.diagnostic.detail.title">Diagnostic</Translate> */}
-      {/* <Button tag={Link} to={`/diagnostic/${diagnosticEntity.id}/edit`} replace color="primary" className="ml-auto">
+export const CardDetail = ({ titleKey, title, editLink, children, links, collapsible = false, defaultOpen = true, cardClassName = "", cardHeaderClassName = "table-light" }: ICardDetailProps) => {
+  const [isOpen, setOpen] = useState(defaultOpen);
+  const toggle = () => setOpen(!isOpen);
+  let content = <CardBody>{children}</CardBody>;
+  if (collapsible) {
+    content = (
+      <Collapse isOpen={isOpen}>{content}</Collapse>
+    );
+  }
+  return (
+    <Card className={cardClassName}>
+      <CardHeader className={cardHeaderClassName} >
+        {/* <Translate contentKey="chuApp.diagnostic.detail.title">Diagnostic</Translate> */}
+        {/* <Button tag={Link} to={`/diagnostic/${diagnosticEntity.id}/edit`} replace color="primary" className="ml-auto">
           <FontAwesomeIcon icon="pencil-alt" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.edit">Edit</Translate>
           </span>
         </Button> */}
-      <CardNavbar titleKey={titleKey} title={title} editLink={editLink} links={links} />
-    </CardHeader>
-    <CardBody>{children}</CardBody>
-  </Card>
-);
+        <CardNavbar titleKey={titleKey} title={title} collapsible={collapsible} isOpen={isOpen} toggle={toggle} links={links} />
+      </CardHeader>
+      {content}
+    </Card>
+  );
+};
 
 
-export const Input = ({ name, id = name, ...props }) => <AvField type="text" className="form-control" {...props} name={name} id={id} />;
+export const FInput = ({ name, id = name, ...props }) => <Field type="text" className="form-control" {...props} name={name} id={id} />;
+
+export const FLabeledInput = ({
+  groupClassName = undefined,
+  labelKey = undefined,
+  label = labelKey,
+  name,
+  id = name,
+  groupProps = {},
+  ...props
+}) => (
+    <FormGroup className={groupClassName} {...groupProps}>
+      <Label for={id}>{labelKey ? <Translate contentKey={labelKey}>{label}</Translate> : label}</Label>
+      <FInput {...props} name={name} id={id} />
+    </FormGroup>
+    // </FormGroup>
+  );
+
+export const FSelect = ({ options = [], labelKey = undefined, name, id = name, allowEmpty = true, renderOption = undefined, ...props }) => {
+  const input = (
+    <FInput component="select" name={name} id={id} {...props}>
+      {allowEmpty ? <option value="" /> : null}
+      {options.map(option => {
+        if (renderOption) return renderOption(option);
+        let value = option;
+        let label = option;
+        if (!(_.isString(option) || _.isNumber(option))) {
+          value = option.value;
+          label = option.label || value;
+        }
+        return (
+          <option key={value} value={value}>{label}</option>);
+      })}
+    </FInput>
+  );
+  if (labelKey) {
+    return (
+      <FormGroup>
+        <Label for={id}>
+          <Translate contentKey={labelKey} />
+        </Label>
+        {input}
+      </FormGroup>
+    );
+  } else {
+    return input;
+  }
+};
+
+export const Input = ({ name, id = name, ...props }) => <AvInput type="text" className="form-control" {...props} name={name} id={id} />;
 
 export const LabeledInput = ({
   groupClassName = undefined,
@@ -134,10 +201,14 @@ export const LabeledInput = ({
     // </FormGroup>
   );
 
-export const Select = ({ options = [], labelKey = undefined, name, id = name, allowEmpty = true, renderOption = undefined, ...props }) => {
+export const Select = ({ options = [], labelKey = undefined, name, id = name, allowEmpty = true, emptyText = '', inline = false, renderOption = undefined, ...props }) => {
   const input = (
-    <Input type="select" name={name} id={id} {...props}>
-      {allowEmpty ? <option value="" /> : null}
+    <Input type="select" name={name} id={id} className={classNames(
+      {
+        'col-8 col-md-9': inline,
+      }
+    )} {...props}>
+      {allowEmpty ? <option value="">{emptyText}</option> : null}
       {options.map(option => {
         if (renderOption) return renderOption(option);
         let value = option;
@@ -153,11 +224,16 @@ export const Select = ({ options = [], labelKey = undefined, name, id = name, al
   );
   if (labelKey) {
     return (
-      <AvGroup>
-        <Label for={id}>
+      <AvGroup row={inline}>
+        <Label for={id} className={classNames(
+          {
+            'col-4 col-md-3': inline,
+          }
+        )}>
           <Translate contentKey={labelKey} />
         </Label>
         {input}
+        <AvFeedback />
       </AvGroup>
     );
   } else {
@@ -279,9 +355,9 @@ export const TableDeleteButton = props => (
   </CButton>
 );
 export const TableResetButton = props => (
-  <CButton type="reset" color="secondary" title="" size="sm" {...props}>
+  <Button type="reset" color="secondary" title="" size="sm" {...props}>
     <FontAwesomeIcon icon="times" />
-  </CButton>
+  </Button>
 );
 export const TableCancelButton = props => (
   <CButton color="warning" title="Annuler" size="sm" {...props}>

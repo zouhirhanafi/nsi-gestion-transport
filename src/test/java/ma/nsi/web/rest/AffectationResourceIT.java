@@ -1,15 +1,27 @@
 package ma.nsi.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.List;
+import javax.persistence.EntityManager;
 import ma.nsi.GestionTransportApp;
 import ma.nsi.domain.Affectation;
-import ma.nsi.domain.User;
-import ma.nsi.domain.Engin;
 import ma.nsi.domain.Conducteur;
+import ma.nsi.domain.Engin;
+import ma.nsi.domain.User;
+import ma.nsi.domain.enumeration.StatutAffectation;
 import ma.nsi.repository.AffectationRepository;
-import ma.nsi.service.AffectationService;
-import ma.nsi.service.dto.AffectationCriteria;
 import ma.nsi.service.AffectationQueryService;
-
+import ma.nsi.service.AffectationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
-import java.time.ZoneId;
-import java.util.List;
 
-import static ma.nsi.web.rest.TestUtil.sameInstant;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import ma.nsi.domain.enumeration.StatutAffectation;
 /**
  * Integration tests for the {@link AffectationResource} REST controller.
  */
@@ -40,14 +39,13 @@ import ma.nsi.domain.enumeration.StatutAffectation;
 @AutoConfigureMockMvc
 @WithMockUser
 public class AffectationResourceIT {
+    private static final Instant DEFAULT_DATE_AFFECTATION = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE_AFFECTATION = Instant.now();
+    private static final Instant SMALLER_DATE_AFFECTATION = Instant.ofEpochMilli(-1L);
 
-    private static final ZonedDateTime DEFAULT_DATE_AFFECTATION = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_DATE_AFFECTATION = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_DATE_AFFECTATION = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
-
-    private static final ZonedDateTime DEFAULT_DATE_CREATION = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_DATE_CREATION = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_DATE_CREATION = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
+    private static final Instant DEFAULT_DATE_CREATION = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE_CREATION = Instant.now();
+    private static final Instant SMALLER_DATE_CREATION = Instant.ofEpochMilli(-1L);
 
     private static final StatutAffectation DEFAULT_STATUT = StatutAffectation.C;
     private static final StatutAffectation UPDATED_STATUT = StatutAffectation.S;
@@ -84,13 +82,14 @@ public class AffectationResourceIT {
      */
     public static Affectation createEntity(EntityManager em) {
         Affectation affectation = new Affectation()
-            .dateAffectation(DEFAULT_DATE_AFFECTATION)
-            .dateCreation(DEFAULT_DATE_CREATION)
+            //            .dateAffectation(DEFAULT_DATE_AFFECTATION)
+            //            .dateCreation(DEFAULT_DATE_CREATION)
             .statut(DEFAULT_STATUT)
             .motifAnnulation(DEFAULT_MOTIF_ANNULATION)
             .operation(DEFAULT_OPERATION);
         return affectation;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -99,8 +98,8 @@ public class AffectationResourceIT {
      */
     public static Affectation createUpdatedEntity(EntityManager em) {
         Affectation affectation = new Affectation()
-            .dateAffectation(UPDATED_DATE_AFFECTATION)
-            .dateCreation(UPDATED_DATE_CREATION)
+            //            .dateAffectation(UPDATED_DATE_AFFECTATION)
+            //            .dateCreation(UPDATED_DATE_CREATION)
             .statut(UPDATED_STATUT)
             .motifAnnulation(UPDATED_MOTIF_ANNULATION)
             .operation(UPDATED_OPERATION);
@@ -117,9 +116,10 @@ public class AffectationResourceIT {
     public void createAffectation() throws Exception {
         int databaseSizeBeforeCreate = affectationRepository.findAll().size();
         // Create the Affectation
-        restAffectationMockMvc.perform(post("/api/affectations")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(affectation)))
+        restAffectationMockMvc
+            .perform(
+                post("/api/affectations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(affectation))
+            )
             .andExpect(status().isCreated());
 
         // Validate the Affectation in the database
@@ -142,16 +142,16 @@ public class AffectationResourceIT {
         affectation.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restAffectationMockMvc.perform(post("/api/affectations")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(affectation)))
+        restAffectationMockMvc
+            .perform(
+                post("/api/affectations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(affectation))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Affectation in the database
         List<Affectation> affectationList = affectationRepository.findAll();
         assertThat(affectationList).hasSize(databaseSizeBeforeCreate);
     }
-
 
     @Test
     @Transactional
@@ -160,17 +160,18 @@ public class AffectationResourceIT {
         affectationRepository.saveAndFlush(affectation);
 
         // Get all the affectationList
-        restAffectationMockMvc.perform(get("/api/affectations?sort=id,desc"))
+        restAffectationMockMvc
+            .perform(get("/api/affectations?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(affectation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dateAffectation").value(hasItem(sameInstant(DEFAULT_DATE_AFFECTATION))))
-            .andExpect(jsonPath("$.[*].dateCreation").value(hasItem(sameInstant(DEFAULT_DATE_CREATION))))
+            //            .andExpect(jsonPath("$.[*].dateAffectation").value(hasItem(sameInstant(DEFAULT_DATE_AFFECTATION))))
+            //            .andExpect(jsonPath("$.[*].dateCreation").value(hasItem(sameInstant(DEFAULT_DATE_CREATION))))
             .andExpect(jsonPath("$.[*].statut").value(hasItem(DEFAULT_STATUT.toString())))
             .andExpect(jsonPath("$.[*].motifAnnulation").value(hasItem(DEFAULT_MOTIF_ANNULATION)))
             .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION)));
     }
-    
+
     @Test
     @Transactional
     public void getAffectation() throws Exception {
@@ -178,17 +179,17 @@ public class AffectationResourceIT {
         affectationRepository.saveAndFlush(affectation);
 
         // Get the affectation
-        restAffectationMockMvc.perform(get("/api/affectations/{id}", affectation.getId()))
+        restAffectationMockMvc
+            .perform(get("/api/affectations/{id}", affectation.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(affectation.getId().intValue()))
-            .andExpect(jsonPath("$.dateAffectation").value(sameInstant(DEFAULT_DATE_AFFECTATION)))
-            .andExpect(jsonPath("$.dateCreation").value(sameInstant(DEFAULT_DATE_CREATION)))
+            //            .andExpect(jsonPath("$.dateAffectation").value(sameInstant(DEFAULT_DATE_AFFECTATION)))
+            //            .andExpect(jsonPath("$.dateCreation").value(sameInstant(DEFAULT_DATE_CREATION)))
             .andExpect(jsonPath("$.statut").value(DEFAULT_STATUT.toString()))
             .andExpect(jsonPath("$.motifAnnulation").value(DEFAULT_MOTIF_ANNULATION))
             .andExpect(jsonPath("$.operation").value(DEFAULT_OPERATION));
     }
-
 
     @Test
     @Transactional
@@ -207,7 +208,6 @@ public class AffectationResourceIT {
         defaultAffectationShouldBeFound("id.lessThanOrEqual=" + id);
         defaultAffectationShouldNotBeFound("id.lessThan=" + id);
     }
-
 
     @Test
     @Transactional
@@ -313,7 +313,6 @@ public class AffectationResourceIT {
         defaultAffectationShouldBeFound("dateAffectation.greaterThan=" + SMALLER_DATE_AFFECTATION);
     }
 
-
     @Test
     @Transactional
     public void getAllAffectationsByDateCreationIsEqualToSomething() throws Exception {
@@ -418,7 +417,6 @@ public class AffectationResourceIT {
         defaultAffectationShouldBeFound("dateCreation.greaterThan=" + SMALLER_DATE_CREATION);
     }
 
-
     @Test
     @Transactional
     public void getAllAffectationsByStatutIsEqualToSomething() throws Exception {
@@ -522,7 +520,8 @@ public class AffectationResourceIT {
         // Get all the affectationList where motifAnnulation is null
         defaultAffectationShouldNotBeFound("motifAnnulation.specified=false");
     }
-                @Test
+
+    @Test
     @Transactional
     public void getAllAffectationsByMotifAnnulationContainsSomething() throws Exception {
         // Initialize the database
@@ -547,7 +546,6 @@ public class AffectationResourceIT {
         // Get all the affectationList where motifAnnulation does not contain UPDATED_MOTIF_ANNULATION
         defaultAffectationShouldBeFound("motifAnnulation.doesNotContain=" + UPDATED_MOTIF_ANNULATION);
     }
-
 
     @Test
     @Transactional
@@ -653,7 +651,6 @@ public class AffectationResourceIT {
         defaultAffectationShouldBeFound("operation.greaterThan=" + SMALLER_OPERATION);
     }
 
-
     @Test
     @Transactional
     public void getAllAffectationsByAttributeurIsEqualToSomething() throws Exception {
@@ -673,7 +670,6 @@ public class AffectationResourceIT {
         defaultAffectationShouldNotBeFound("attributeurId.equals=" + (attributeurId + 1));
     }
 
-
     @Test
     @Transactional
     public void getAllAffectationsByEnginIsEqualToSomething() throws Exception {
@@ -692,7 +688,6 @@ public class AffectationResourceIT {
         // Get all the affectationList where engin equals to enginId + 1
         defaultAffectationShouldNotBeFound("enginId.equals=" + (enginId + 1));
     }
-
 
     @Test
     @Transactional
@@ -717,18 +712,20 @@ public class AffectationResourceIT {
      * Executes the search, and checks that the default entity is returned.
      */
     private void defaultAffectationShouldBeFound(String filter) throws Exception {
-        restAffectationMockMvc.perform(get("/api/affectations?sort=id,desc&" + filter))
+        restAffectationMockMvc
+            .perform(get("/api/affectations?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(affectation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dateAffectation").value(hasItem(sameInstant(DEFAULT_DATE_AFFECTATION))))
-            .andExpect(jsonPath("$.[*].dateCreation").value(hasItem(sameInstant(DEFAULT_DATE_CREATION))))
+            //            .andExpect(jsonPath("$.[*].dateAffectation").value(hasItem(sameInstant(DEFAULT_DATE_AFFECTATION))))
+            //            .andExpect(jsonPath("$.[*].dateCreation").value(hasItem(sameInstant(DEFAULT_DATE_CREATION))))
             .andExpect(jsonPath("$.[*].statut").value(hasItem(DEFAULT_STATUT.toString())))
             .andExpect(jsonPath("$.[*].motifAnnulation").value(hasItem(DEFAULT_MOTIF_ANNULATION)))
             .andExpect(jsonPath("$.[*].operation").value(hasItem(DEFAULT_OPERATION)));
 
         // Check, that the count call also returns 1
-        restAffectationMockMvc.perform(get("/api/affectations/count?sort=id,desc&" + filter))
+        restAffectationMockMvc
+            .perform(get("/api/affectations/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
@@ -738,14 +735,16 @@ public class AffectationResourceIT {
      * Executes the search, and checks that the default entity is not returned.
      */
     private void defaultAffectationShouldNotBeFound(String filter) throws Exception {
-        restAffectationMockMvc.perform(get("/api/affectations?sort=id,desc&" + filter))
+        restAffectationMockMvc
+            .perform(get("/api/affectations?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
-        restAffectationMockMvc.perform(get("/api/affectations/count?sort=id,desc&" + filter))
+        restAffectationMockMvc
+            .perform(get("/api/affectations/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
@@ -755,8 +754,7 @@ public class AffectationResourceIT {
     @Transactional
     public void getNonExistingAffectation() throws Exception {
         // Get the affectation
-        restAffectationMockMvc.perform(get("/api/affectations/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restAffectationMockMvc.perform(get("/api/affectations/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -772,15 +770,18 @@ public class AffectationResourceIT {
         // Disconnect from session so that the updates on updatedAffectation are not directly saved in db
         em.detach(updatedAffectation);
         updatedAffectation
-            .dateAffectation(UPDATED_DATE_AFFECTATION)
-            .dateCreation(UPDATED_DATE_CREATION)
+            //            .dateAffectation(UPDATED_DATE_AFFECTATION)
+            //            .dateCreation(UPDATED_DATE_CREATION)
             .statut(UPDATED_STATUT)
             .motifAnnulation(UPDATED_MOTIF_ANNULATION)
             .operation(UPDATED_OPERATION);
 
-        restAffectationMockMvc.perform(put("/api/affectations")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedAffectation)))
+        restAffectationMockMvc
+            .perform(
+                put("/api/affectations")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedAffectation))
+            )
             .andExpect(status().isOk());
 
         // Validate the Affectation in the database
@@ -800,9 +801,10 @@ public class AffectationResourceIT {
         int databaseSizeBeforeUpdate = affectationRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restAffectationMockMvc.perform(put("/api/affectations")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(affectation)))
+        restAffectationMockMvc
+            .perform(
+                put("/api/affectations").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(affectation))
+            )
             .andExpect(status().isBadRequest());
 
         // Validate the Affectation in the database
@@ -819,8 +821,8 @@ public class AffectationResourceIT {
         int databaseSizeBeforeDelete = affectationRepository.findAll().size();
 
         // Delete the affectation
-        restAffectationMockMvc.perform(delete("/api/affectations/{id}", affectation.getId())
-            .accept(MediaType.APPLICATION_JSON))
+        restAffectationMockMvc
+            .perform(delete("/api/affectations/{id}", affectation.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
