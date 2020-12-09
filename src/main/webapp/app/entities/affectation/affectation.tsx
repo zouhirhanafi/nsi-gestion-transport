@@ -26,7 +26,7 @@ export const Affectation = (props: IAffectationProps) => {
     <div>
       <h2 id="affectation-heading">
         <Translate contentKey="gestionTransportApp.affectation.home.title">Affectations</Translate>
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
           <FontAwesomeIcon icon="plus" />
           &nbsp;
           <Translate contentKey="gestionTransportApp.affectation.home.createLabel">Create new Affectation</Translate>

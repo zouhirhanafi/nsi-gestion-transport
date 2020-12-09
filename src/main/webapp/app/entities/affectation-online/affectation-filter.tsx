@@ -66,8 +66,8 @@ const AffectationFilter = props => {
                                 </div>
                             </>
                         )}
-                        <div className="col-auto">
-                            <HeaderSearchButton type="submit" className="m-1" />
+                        <div className="col-auto mt-3">
+                            <HeaderSearchButton type="submit" className="mr-1" />
                             <TableResetButton />
                         </div>
                     </div>

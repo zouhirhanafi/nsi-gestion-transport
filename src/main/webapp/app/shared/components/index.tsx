@@ -88,7 +88,7 @@ export const CardNavbar = ({ titleKey = undefined, title = titleKey, collapsible
     {titleKey ? (<Translate contentKey={titleKey}>{title}</Translate>) : title}
     <div className="ml-auto float-right">
       {collapsible && <NavbarToggler className="float-right card-link toggler" onClick={toggle}>
-        <FontAwesomeIcon icon={isOpen ? 'chevron-down' : 'chevron-up'} />
+        <FontAwesomeIcon icon={isOpen ? 'chevron-down' : 'chevron-right'} />
       </NavbarToggler>}
       {links}
     </div>
@@ -355,7 +355,7 @@ export const TableDeleteButton = props => (
   </CButton>
 );
 export const TableResetButton = props => (
-  <Button type="reset" color="secondary" title="" size="sm" {...props}>
+  <Button type="reset" color="secondary" title="" {...props}>
     <FontAwesomeIcon icon="times" />
   </Button>
 );
@@ -366,7 +366,7 @@ export const TableCancelButton = props => (
 );
 
 export const HeaderAddButton = props => (
-  <Button color="primary" title="Ajouter" size="sm" {...props}>
+  <Button color="primary" title="Ajouter" {...props}>
     <FontAwesomeIcon icon="plus" />
     &nbsp;
     <Translate contentKey="entity.action.add">Ajouter</Translate>
@@ -374,13 +374,13 @@ export const HeaderAddButton = props => (
 );
 
 export const HeaderSearchButton = props => (
-  <Button color="dark" title="Rechercher" size="sm" {...props}>
+  <Button color="dark" title="Rechercher" {...props}>
     <FontAwesomeIcon icon="search" />
   </Button>
 );
 
 export const PrintButton = props => (
-  <Button color="secondary" title="Imprimer" size="sm" className=" float-right" onClick={() => window.print()} {...props}>
+  <Button color="secondary" title="Imprimer" className=" float-right" onClick={() => window.print()} {...props}>
     <FontAwesomeIcon icon="print" />
     &nbsp;
     <Translate contentKey="entity.action.print">Imprimer</Translate>

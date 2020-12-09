@@ -15,7 +15,7 @@ export const BrandIcon = props => (
 
 export const Brand = props => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
+    <BrandIcon />&nbsp;
     <span className="brand-title">
       <Translate contentKey="global.title">GestionTransport</Translate>
     </span>
@@ -26,7 +26,7 @@ export const Brand = props => (
 export const Home = props => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
+      <FontAwesomeIcon icon="home" />&nbsp;
       <span>
         <Translate contentKey="global.menu.home">Home</Translate>
       </span>
@@ -37,7 +37,7 @@ export const Home = props => (
 export const Consultation = props => (
   <NavItem>
     <NavLink tag={Link} to="/consultation" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
+      <FontAwesomeIcon icon="history" />&nbsp;
       <span>
         <Translate contentKey="global.menu.consultation">Consultation</Translate>
       </span>

@@ -6,4 +6,5 @@ public interface ParameterMinProjection {
     String getLabel();
 
     String getLib2();
+    //    String getParent();
 }
