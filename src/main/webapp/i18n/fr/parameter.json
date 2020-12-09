@@ -16,6 +16,8 @@
       "detail": {
         "title": "Paramètre"
       },
+      "navireASaisir": "Navire à saisir",
+      "typeEngin": "Type Engin",
       "label": "Libelle",
       "lib2": "Lib 2",
       "lib3": "Lib 3",

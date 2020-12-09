@@ -14,6 +14,8 @@ import { IParameter } from 'app/shared/model/parameter.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { ParamsSelectContainer } from 'app/shared/components';
+import { useFormInput } from 'app/shared/hooks';
+import { PARAM_OPERATION, PARAM_TYPE_ENGIN } from 'app/config/constants';
 
 export interface IParameterUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
@@ -21,6 +23,8 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
   const [typeId, setTypeId] = useState('0');
   const [paraentId, setParaentId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+
+  const type = useFormInput('');
 
   const { parameterEntity, parameters, loading, updating } = props;
 
@@ -38,6 +42,12 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
     props.getParameters();
     props.loadEntities();
   }, []);
+
+  useEffect(() => {
+    if (parameterEntity && parameterEntity.type) {
+      type.setValue(`${parameterEntity.type.id}`)
+    }
+  }, [parameterEntity]);
 
   useEffect(() => {
     if (props.updateSuccess) {
@@ -59,6 +69,20 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
       }
     }
   };
+
+  const buildLib2Comp = t => {
+    let c = null;
+    if (t === PARAM_TYPE_ENGIN) {
+      c = (
+        <ParamsSelectContainer id="parameter-lib2" name="lib2" labelKey="gestionTransportApp.parameter.navireASaisir" paramName="ouiNon" />
+      );
+    } else if (type.value === PARAM_OPERATION) {
+      c = (
+        <ParamsSelectContainer id="parameter-lib2" name="lib2" labelKey="gestionTransportApp.parameter.typeEngin" paramName="typeEngin" />
+      );
+    }
+    return c;
+  }
 
   return (
     <div>
@@ -83,7 +107,7 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                     <AvInput id="parameter-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
-                <ParamsSelectContainer id="parameter-type" name="type.id" labelKey="gestionTransportApp.parameter.type" paramName="typeParametre" validate={{
+                <ParamsSelectContainer {...type} id="parameter-type" name="type.id" labelKey="gestionTransportApp.parameter.type" paramName="typeParametre" validate={{
                   required: { value: true, errorMessage: translate('entity.validation.required') },
                 }} />
                 <AvGroup>
@@ -94,7 +118,9 @@ export const ParameterUpdate = (props: IParameterUpdateProps) => {
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }} />
                 </AvGroup>
-                {/* <AvGroup>
+                {buildLib2Comp(type.value)}
+                {/* 
+                <AvGroup>
                   <Label id="lib2Label" for="parameter-lib2">
                     <Translate contentKey="gestionTransportApp.parameter.lib2">Lib 2</Translate>
                   </Label>

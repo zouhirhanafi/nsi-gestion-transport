@@ -23,3 +23,8 @@ export const APP_LOCAL_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm';
 export const APP_LOCAL_DATETIME_FORMAT_Z = 'YYYY-MM-DDTHH:mm Z';
 export const APP_WHOLE_NUMBER_FORMAT = '0,0';
 export const APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT = '0,0.[00]';
+
+export const PARAM_OPERATION = '1';
+export const PARAM_TYPE_ENGIN = '2';
+export const PARAM_SHIFT = '3';
+export const PARAM_NAVIRE = '4';

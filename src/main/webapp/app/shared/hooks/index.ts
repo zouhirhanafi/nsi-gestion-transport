@@ -86,6 +86,7 @@ export const useFormInput = (initialValue = undefined) => {
 
   return {
     value,
+    setValue,
     onChange,
   };
 };

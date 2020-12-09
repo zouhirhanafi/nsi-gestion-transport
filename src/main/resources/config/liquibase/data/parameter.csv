@@ -2,6 +2,11 @@ id;label;activated;lib_2;lib_3;type_id;val_1;val_2;val_3;ordre
 1;Operation;true;operation;forms;;;;;10
 2;Type engin;true;typeEngin;forms;;;;;20
 3;Shift;true;shift;forms;;;;;30
+4;Navire;true;navire;forms;;;;;40
+5;Oui / Non;true;ouiNon;forms;;;;;40
 10;1;true;;;3;;;;10
 20;2;true;;;3;;;;20
 30;3;true;;;3;;;;30
+-1;Oui;true;O;;5;;;;1000
+0;Non;true;N;;5;;;;1001
+;;;;;;;;;
