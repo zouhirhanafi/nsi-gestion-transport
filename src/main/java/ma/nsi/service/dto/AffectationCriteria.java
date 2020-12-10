@@ -56,6 +56,10 @@ public class AffectationCriteria implements Serializable, Criteria {
 
     private StringFilter commentaire;
 
+    private StringFilter client;
+
+    private IntegerFilter navire;
+
     private LongFilter attributeurId;
 
     private LongFilter enginId;
@@ -73,6 +77,8 @@ public class AffectationCriteria implements Serializable, Criteria {
         this.operation = other.operation == null ? null : other.operation.copy();
         this.reference = other.reference == null ? null : other.reference.copy();
         this.commentaire = other.commentaire == null ? null : other.commentaire.copy();
+        this.client = other.client == null ? null : other.client.copy();
+        this.navire = other.navire == null ? null : other.navire.copy();
         this.attributeurId = other.attributeurId == null ? null : other.attributeurId.copy();
         this.enginId = other.enginId == null ? null : other.enginId.copy();
         this.agentId = other.agentId == null ? null : other.agentId.copy();
@@ -147,6 +153,22 @@ public class AffectationCriteria implements Serializable, Criteria {
         this.commentaire = commentaire;
     }
 
+    public StringFilter getClient() {
+        return client;
+    }
+
+    public void setClient(StringFilter client) {
+        this.client = client;
+    }
+
+    public IntegerFilter getNavire() {
+        return navire;
+    }
+
+    public void setNavire(IntegerFilter navire) {
+        this.navire = navire;
+    }
+
     public LongFilter getAttributeurId() {
         return attributeurId;
     }
@@ -189,6 +211,8 @@ public class AffectationCriteria implements Serializable, Criteria {
             Objects.equals(operation, that.operation) &&
             Objects.equals(reference, that.reference) &&
             Objects.equals(commentaire, that.commentaire) &&
+            Objects.equals(client, that.client) &&
+            Objects.equals(navire, that.navire) &&
             Objects.equals(attributeurId, that.attributeurId) &&
             Objects.equals(enginId, that.enginId) &&
             Objects.equals(agentId, that.agentId)
@@ -206,6 +230,8 @@ public class AffectationCriteria implements Serializable, Criteria {
             operation,
             reference,
             commentaire,
+            client,
+            navire,
             attributeurId,
             enginId,
             agentId
@@ -224,6 +250,8 @@ public class AffectationCriteria implements Serializable, Criteria {
                 (operation != null ? "operation=" + operation + ", " : "") +
                 (reference != null ? "reference=" + reference + ", " : "") +
                 (commentaire != null ? "commentaire=" + commentaire + ", " : "") +
+                (client != null ? "client=" + client + ", " : "") +
+                (navire != null ? "navire=" + navire + ", " : "") +
                 (attributeurId != null ? "attributeurId=" + attributeurId + ", " : "") +
                 (enginId != null ? "enginId=" + enginId + ", " : "") +
                 (agentId != null ? "agentId=" + agentId + ", " : "") +

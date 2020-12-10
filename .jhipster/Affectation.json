@@ -29,6 +29,15 @@
     {
       "fieldName": "commentaire",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "client",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "navire",
+      "fieldType": "Integer"
     }
   ],
   "relationships": [
@@ -64,5 +73,7 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*"
+  "applications": "*",
+  "searchEngine": false,
+  "databaseType": "sql"
 }

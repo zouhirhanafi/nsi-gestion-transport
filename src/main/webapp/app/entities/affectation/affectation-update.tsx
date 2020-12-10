@@ -7,15 +7,15 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { selectEnginsInTypes } from 'app/entities/engin/engin.reducer';
+import { selectEngin, selectEnginsInTypes } from 'app/entities/engin/engin.reducer';
 import { selectConducteur } from 'app/entities/conducteur/conducteur.reducer';
 import { createEntity } from './affectation.reducer';
 import { convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { ParamsSelectContainer } from 'app/shared/components';
 import { useFormInput } from 'app/shared/hooks';
+import { paramSelector, selectParamsDeno } from '../parameter/params.reducer';
 
-
-const EnginInput = ({ conducteurId }) => {
+const EnginInput = ({ conducteurId, engin }) => {
   const conducteur = useSelector(state => selectConducteur(state, conducteurId)) || {};
   const engins = useSelector(state => selectEnginsInTypes(state, conducteur.affectations)) || [];
 
@@ -23,7 +23,7 @@ const EnginInput = ({ conducteurId }) => {
     <Label className="col-4 col-md-3" for="affectation-engin">
       <Translate contentKey="gestionTransportApp.affectation.engin">Engin</Translate>
     </Label>
-    <AvInput id="affectation-engin" type="select" className="form-control col-8 col-md-9" name="engin.id" validate={{
+    <AvInput {...engin} id="affectation-engin" type="select" className="form-control col-8 col-md-9" name="engin.id" validate={{
       required: { value: true, errorMessage: translate('entity.validation.required') },
     }}>
       <option value="" key="0" />
@@ -38,12 +38,55 @@ const EnginInput = ({ conducteurId }) => {
     <AvFeedback />
   </AvGroup>)
 }
+
+const NavireInput = ({ enginId }) => {
+  const engin = useSelector(state => selectEngin(state, enginId)) || {};
+  const typeEngin = useSelector(state => paramSelector(engin.type)(state)) || {};
+  if (typeEngin.lib2 === '-1') {
+    return (
+      <ParamsSelectContainer inline id="affectation-navire" name="navire" labelKey="gestionTransportApp.affectation.navire" paramName="navire" />
+    );
+  }
+  return null;
+}
+
+const OperationInput = ({ enginId }) => {
+  const engin = useSelector(state => selectEngin(state, enginId)) || {};
+  // const typeEngin = useSelector(state => paramSelector(engin.type)(state)) || {};
+  const operations = useSelector(state => selectParamsDeno(state, 'operation')) || [];
+  // <ParamsSelectContainer inline id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" validate={{
+  //   required: { value: true, errorMessage: translate('entity.validation.required') },
+  // }} />
+  return (
+    <AvGroup row>
+      <Label className="col-4 col-md-3" for="affectation-operation">
+        <Translate contentKey="gestionTransportApp.affectation.operation">Operation</Translate>
+      </Label>
+      <AvInput id="affectation-operation" type="select" className="form-control col-8 col-md-9" name="operation" validate={{
+        required: { value: true, errorMessage: translate('entity.validation.required') },
+      }}>
+        <option value="" key="" />
+        {operations
+          ? operations.filter(it => it.lib2 === `${engin.type}`).map(otherEntity => (
+            <option value={otherEntity.id} key={otherEntity.id}>
+              {otherEntity.label}
+            </option>
+          ))
+          : null}
+      </AvInput>
+      <AvFeedback />
+    </AvGroup>
+  );
+
+}
+
 export interface IAffectationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
 export const AffectationUpdate = (props: IAffectationUpdateProps) => {
   const { conducteurs, updating, account } = props;
 
   const conducteur = useFormInput('');
+  const engin = useFormInput('');
 
   const handleClose = () => {
     props.history.goBack();
@@ -87,6 +130,21 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
               value="C"
             />
             <AvGroup row>
+              <Label className="col-4 col-md-3" for="affectation-client">
+                <Translate contentKey="gestionTransportApp.affectation.client">Client</Translate>
+              </Label>
+              <AvInput
+                id="affectation-client"
+                type="text"
+                className="form-control col-8 col-md-9"
+                name="client"
+                validate={{
+                  required: { value: true, errorMessage: translate('entity.validation.required') },
+                }}
+              />
+              <AvFeedback />
+            </AvGroup>
+            <AvGroup row>
               <Label className="col-4 col-md-3" for="affectation-dateAffectation">
                 <Translate contentKey="gestionTransportApp.affectation.dateAffectation">Date Affectation</Translate>
               </Label>
@@ -118,10 +176,10 @@ export const AffectationUpdate = (props: IAffectationUpdateProps) => {
               </AvInput>
               <AvFeedback />
             </AvGroup>
-            <EnginInput conducteurId={conducteur.value} />
-            <ParamsSelectContainer inline id="affectation-operation" name="operation" labelKey="gestionTransportApp.affectation.operation" paramName="operation" validate={{
-              required: { value: true, errorMessage: translate('entity.validation.required') },
-            }} />
+            <EnginInput conducteurId={conducteur.value} engin={engin} />
+            <NavireInput enginId={engin.value} />
+            <OperationInput enginId={engin.value} />
+
             <AvGroup row>
               <Label for="affectation-reference" className="col-4 col-md-3">
                 <Translate contentKey="gestionTransportApp.affectation.reference">Reference</Translate>

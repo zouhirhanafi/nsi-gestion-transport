@@ -1,5 +1,6 @@
 package ma.nsi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import ma.nsi.domain.enumeration.StatutAffectation;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -27,11 +29,9 @@ public class Affectation extends AbstractAuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //	@JsonFormat(pattern = Constants.DATE_TIME_FORMAT, shape = JsonFormat.Shape.STRING)
     @Column(name = "date_affectation")
     private Instant dateAffectation;
 
-    //	@JsonFormat(pattern = Constants.DATE_TIME_FORMAT, shape = JsonFormat.Shape.STRING)
     @Column(name = "date_creation")
     private Instant dateCreation;
 
@@ -51,16 +51,27 @@ public class Affectation extends AbstractAuditingEntity {
     @Column(name = "commentaire", length = 1000)
     private String commentaire;
 
+    @NotNull
+    @Column(name = "client", nullable = false)
+    private String client;
+
+    @Column(name = "navire")
+    private Integer navire;
+
     @ManyToOne
+    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
     private Session session;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
     private User attributeur;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
     private Engin engin;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = "affectations", allowSetters = true)
     private Conducteur agent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -111,6 +122,14 @@ public class Affectation extends AbstractAuditingEntity {
         this.statut = statut;
     }
 
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     public String getMotifAnnulation() {
         return motifAnnulation;
     }
@@ -118,14 +137,6 @@ public class Affectation extends AbstractAuditingEntity {
     public Affectation motifAnnulation(String motifAnnulation) {
         this.motifAnnulation = motifAnnulation;
         return this;
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
     }
 
     public void setMotifAnnulation(String motifAnnulation) {
@@ -149,6 +160,11 @@ public class Affectation extends AbstractAuditingEntity {
         return reference;
     }
 
+    public Affectation reference(String reference) {
+        this.reference = reference;
+        return this;
+    }
+
     public void setReference(String reference) {
         this.reference = reference;
     }
@@ -157,8 +173,39 @@ public class Affectation extends AbstractAuditingEntity {
         return commentaire;
     }
 
+    public Affectation commentaire(String commentaire) {
+        this.commentaire = commentaire;
+        return this;
+    }
+
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public Affectation client(String client) {
+        this.client = client;
+        return this;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public Integer getNavire() {
+        return navire;
+    }
+
+    public Affectation navire(Integer navire) {
+        this.navire = navire;
+        return this;
+    }
+
+    public void setNavire(Integer navire) {
+        this.navire = navire;
     }
 
     public User getAttributeur() {
@@ -218,34 +265,39 @@ public class Affectation extends AbstractAuditingEntity {
         return 31;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Affectation [id=");
-        builder.append(id);
-        builder.append(", dateAffectation=");
-        builder.append(dateAffectation);
-        builder.append(", dateCreation=");
-        builder.append(dateCreation);
-        builder.append(", statut=");
-        builder.append(statut);
-        builder.append(", motifAnnulation=");
-        builder.append(motifAnnulation);
-        builder.append(", operation=");
-        builder.append(operation);
-        builder.append(", reference=");
-        builder.append(reference);
-        builder.append(", commentaire=");
-        builder.append(commentaire);
-        builder.append(", session=");
-        builder.append(session);
-        builder.append(", attributeur=");
-        builder.append(attributeur);
-        builder.append(", engin=");
-        builder.append(engin);
-        builder.append(", agent=");
-        builder.append(agent);
-        builder.append("]");
-        return builder.toString();
-    }
+    // prettier-ignore
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Affectation [id=");
+		builder.append(id);
+		builder.append(", dateAffectation=");
+		builder.append(dateAffectation);
+		builder.append(", dateCreation=");
+		builder.append(dateCreation);
+		builder.append(", statut=");
+		builder.append(statut);
+		builder.append(", motifAnnulation=");
+		builder.append(motifAnnulation);
+		builder.append(", operation=");
+		builder.append(operation);
+		builder.append(", reference=");
+		builder.append(reference);
+		builder.append(", commentaire=");
+		builder.append(commentaire);
+		builder.append(", client=");
+		builder.append(client);
+		builder.append(", navire=");
+		builder.append(navire);
+		builder.append(", session=");
+		builder.append(session);
+		builder.append(", attributeur=");
+		builder.append(attributeur);
+		builder.append(", engin=");
+		builder.append(engin);
+		builder.append(", agent=");
+		builder.append(agent);
+		builder.append("]");
+		return builder.toString();
+	}
 }

@@ -101,6 +101,12 @@ public class AffectationQueryService extends QueryService<Affectation> {
             if (criteria.getCommentaire() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCommentaire(), Affectation_.commentaire));
             }
+            if (criteria.getClient() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getClient(), Affectation_.client));
+            }
+            if (criteria.getNavire() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getNavire(), Affectation_.navire));
+            }
             if (criteria.getAttributeurId() != null) {
                 specification =
                     specification.and(

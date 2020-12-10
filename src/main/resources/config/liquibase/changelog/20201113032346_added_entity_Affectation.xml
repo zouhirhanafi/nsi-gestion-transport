@@ -46,6 +46,12 @@
             <column name="session_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="client" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="navire" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="attributeur_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -1,12 +1,14 @@
 import axios from 'axios';
+import { createSelector } from 'reselect';
+import { normalize, schema, denormalize } from 'normalizr';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, IPayload } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IParameter, defaultValue } from 'app/shared/model/parameter.model';
-import { normalize, schema } from 'normalizr';
-import { entitySelector } from 'app/shared/reducers/entities.reducer';
+import { entitiesSelector, entitySelector } from 'app/shared/reducers/entities.reducer';
+import { IRootState } from 'app/shared/reducers';
 
 export const ACTION_TYPES = {
   FETCH_PARAMETER_FORM_LIST: 'parameter/FETCH_PARAMETER_FORM_LIST',
@@ -97,3 +99,17 @@ export const loadEntities = () => {
     meta: { ignoreError: true },
   };
 };
+
+export const selectAllParams = (state: IRootState) => state.params.entities;
+
+export const selectParams = createSelector(
+  selectAllParams,
+  (_, name) => name,
+  (entities, name) => {
+    return entities && entities[name] ? entities[name] : [];
+  }
+);
+
+export const selectParamsDeno = createSelector(selectParams, entitiesSelector, (params, entities) => {
+  return denormalize(params, parameterListSchema, entities);
+});
